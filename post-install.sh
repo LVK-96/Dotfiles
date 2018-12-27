@@ -18,7 +18,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install packages
-sudo apt-get install build-essential chromium-browser vim git-core zsh cmake qemu libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme
+sudo apt-get install build-essential chromium-browser vim git-core zsh cmake libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme
 
 # Install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -37,6 +37,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 # Replace default .zshrc with my config
 cat .zshrc > ~/.zshrc
 source ~/.zshrc
+
 # solArc theme
 git clone https://github.com/apheleia/solarc-theme --depth 1 && cd solarc-theme
 ./autogen.sh --prefix=/usr
