@@ -36,7 +36,7 @@ sudo make install
 dconf load /org/gnome/ < gnome.txt
 
 # ubuntu login screen colors 
-cat ubuntu.css > /usr/share/gnome-shell/theme/ubuntu.css 
+sudo cat ubuntu.css > /usr/share/gnome-shell/theme/ubuntu.css 
 
 # Install oh my zsh 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) | sed 's:env zsh -l::g' | sed 's:chsh -s .*$::g')"
@@ -45,7 +45,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # Replace default .zshrc with my config
-cat .zshrc > ~/.zshrc
+sudo cat .zshrc > ~/.zshrc
 source ~/.zshrc
 
 
