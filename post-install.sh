@@ -41,11 +41,10 @@ sudo cat ubuntu.css > /usr/share/gnome-shell/theme/ubuntu.css
 # Install oh my zsh 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) | sed 's:env zsh -l::g' | sed 's:chsh -s .*$::g')"
 
-# zsh syntax highlighting 
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
 # Replace default .zshrc with my config
 sudo cat .zshrc > ~/.zshrc
 source ~/.zshrc
 
+# zsh syntax highlighting 
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
