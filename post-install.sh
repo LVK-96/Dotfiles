@@ -18,7 +18,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install packages
-sudo apt-get install build-essential chromium-browser vim zsh cmake libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch
+sudo apt-get install build-essential chromium-browser vim zsh cmake libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch code spotify 
 
 # Install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -27,16 +27,6 @@ sudo python get-pip.py
 # Make zsh default shell
 chsh -s $(which zsh)
 sudo chsh -s $(which zsh)
-
-# Install oh my zsh 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# zsh syntax highlighting 
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-# Replace default .zshrc with my config
-cat .zshrc > ~/.zshrc
-source ~/.zshrc
 
 # solArc theme
 git clone https://github.com/apheleia/solarc-theme --depth 1 && cd solarc-theme
@@ -48,3 +38,15 @@ dconf load /org/gnome/ < gnome.txt
 
 # ubuntu login screen colors 
 cat ubuntu.css > /usr/share/gnome-shell/theme/ubuntu.css 
+
+# Install oh my zsh 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# zsh syntax highlighting 
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# Replace default .zshrc with my config
+cat .zshrc > ~/.zshrc
+source ~/.zshrc
+
+
