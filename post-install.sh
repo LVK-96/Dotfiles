@@ -18,8 +18,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install packages
-sudo apt-get install build-essential chromium-browser vim zsh cmake libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch code spotify 
-
+sudo apt-get install build-essential chromium-browser vim zsh cmake libreoffice gnome-tweak-tool htop tlp tlp-rdw python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch code spotify qemu-kvm qemu virt-manager virt-viewer libvirt-bin
 # Install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python get-pip.py
