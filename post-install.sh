@@ -1,6 +1,3 @@
-# Install curl and git
-sudo apt-get install curl
-
 # Add keyrings and sources for spotify
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
@@ -14,7 +11,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install packages
-sudo apt-get install build-essential tilix  chromium-browser vim zsh cmake libreoffice gnome-tweak-tool gnome-session htop python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch spotify
+sudo apt-get install build-essential tilix curl chromium-browser vim zsh cmake libreoffice gnome-tweak-tool gnome-session htop python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch spotify
 
 # Install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
