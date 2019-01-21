@@ -16,10 +16,6 @@ sudo snap install spotify
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python get-pip.py
 
-# Make zsh default shell
-chsh -s $(which zsh)
-sudo chsh -s $(which zsh)
-
 # solArc theme
 git clone https://github.com/apheleia/solarc-theme --depth 1 && cd solarc-theme
 ./autogen.sh --prefix=/usr
@@ -29,7 +25,7 @@ sudo make install
 dconf load /org/gnome/ < gnome.txt
 
 # Install oh my zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) | sed 's:env zsh -l::g' | sed 's:chsh -s .*$::g')"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed 's:env zsh -l::g' | sed 's:chsh -s .*$::g')"
 
 # Replace default .zshrc with my config
 sudo cat .zshrc > ~/.zshrc
@@ -37,4 +33,8 @@ source ~/.zshrc
 
 # zsh syntax highlighting
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# Make zsh default shell
+chsh -s $(which zsh)
+sudo chsh -s $(which zsh)
 
