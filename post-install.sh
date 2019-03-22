@@ -14,6 +14,9 @@ sudo snap install telegram-desktop
 sudo snap install spotify
 sudo snap install vscode --classic
 
+# Copy my vimrc
+sudo cp .vimrc ~
+
 # Install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python get-pip.py
