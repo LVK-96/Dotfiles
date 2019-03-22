@@ -9,7 +9,7 @@ sudo apt-get upgrade
 # Install packages
 sudo apt-get install curl build-essential vim zsh cmake libreoffice gnome-tweak-tool gnome-session htop python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch
 
-# snaps for telegram, spotify and vscode
+# Snaps for telegram, spotify and vscode
 sudo snap install telegram-desktop
 sudo snap install spotify
 sudo snap install vscode --classic
@@ -24,4 +24,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 # Make zsh default shell
 chsh -s $(which zsh)
 sudo chsh -s $(which zsh)
+
+# Replace default .zshrc with my config
+sudo cat .zshrc > ~/.zshrc
+source ~/.zshrc
 
