@@ -7,7 +7,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # Install packages
-sudo apt-get install curl build-essential vim zsh cmake libreoffice gnome-tweak-tool gnome-session htop python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch
+sudo apt-get install curl tilix build-essential vim zsh cmake libreoffice gnome-tweak-tool gnome-session htop python python3 fonts-powerline autoconf automake libgtk-3-dev papirus-icon-theme neofetch
 
 # Snaps for telegram, spotify and vscode
 sudo snap install telegram-desktop
@@ -34,5 +34,3 @@ sudo chsh -s $(which zsh)
 
 # Replace default .zshrc with my config
 sudo cat .zshrc > ~/.zshrc
-source ~/.zshrc
-
