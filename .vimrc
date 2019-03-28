@@ -13,4 +13,4 @@ set autoindent
 set smartindent 
 highlight Comment ctermfg=grey
 highlight LineNr ctermfg=grey
-highlight CursorLineNr ctermfg=grey
+highlight CursorLineNr ctermfg=lightgrey
