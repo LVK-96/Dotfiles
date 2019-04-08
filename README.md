@@ -1,3 +1,3 @@
 # Dotfiles
 
-My configuration files for various programs i use.
+My configuration files for various programs I use.
