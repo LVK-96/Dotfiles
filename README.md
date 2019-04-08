@@ -1,10 +1,3 @@
-# Ubuntu post-install script
+# Dotfiles
 
-Script that automates my initial setup for a fresh Ubuntu 18.04 installation. 
-
-To run the script use the following commands: 
-
-```console
-sudo chmod +x post-install.sh
-sudo ./post-install.sh
-```
+My configuration files for various programs i use.
