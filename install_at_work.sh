@@ -1,6 +1,3 @@
-# Change to home directory
-cd ~
-
 sudo apt-get update
 sudo apt-get upgrade
 
