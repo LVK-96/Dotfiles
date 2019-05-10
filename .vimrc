@@ -12,3 +12,5 @@ set autoindent
 set smartindent 
 set background=dark
 color desert
+highlight ColorColumn ctermbg=red
+call matchadd('ColorColumn', '\%81v\S', 100)
