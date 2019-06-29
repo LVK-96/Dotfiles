@@ -2,7 +2,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 sudo apt-get install git vim zsh tmux curl lxterminal net-tools \
-    -- build-essential snapd i3 nitrogen pcmanfm 
+    -- build-essential snapd i3 nitrogen pcmanfm lxappearance
 
 sudo snap install spotify
 sudo snap install code --classic
