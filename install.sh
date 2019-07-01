@@ -1,9 +1,10 @@
 sudo apt-get update
 sudo apt-get upgrade
 
-sudo apt-get install git vim zsh tmux curl lxterminal net-tools \
-    -- build-essential snapd i3 nitrogen pcmanfm lxappearance
+sudo apt-get install git vim vim-gtk3 zsh tmux curl lxterminal net-tools \
+    -- build-essential snapd i3 nitrogen pcmanfm lxappearance redshift arandr
 
+sudo snap install telegram-desktop
 sudo snap install spotify
 sudo snap install code --classic
 
