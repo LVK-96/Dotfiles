@@ -11,10 +11,12 @@ set ruler
 set autoindent
 set smartindent 
 set background=dark
-color desert
+set t_Co=256
+color evening
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
 let g:airline_theme='simple'
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic'
