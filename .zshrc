@@ -63,8 +63,8 @@ ZSH_THEME="risto"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    gitfast, git-extras, git-flow, git-autofetch, dotenv, docker, 
-    docker-compose npm, pip, python
+    gitfast git-extras git-flow dotenv docker 
+    docker-compose npm pip python
 )
 
 source $ZSH/oh-my-zsh.sh
