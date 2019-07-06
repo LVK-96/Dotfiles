@@ -66,3 +66,21 @@ sudo python3 get-pip.py
 
 # Run docker without sudo
 sudo usermod -aG docker $USER
+
+# Change default shell to zsh
+echo "Change default shell to zsh"
+chsh -s /usr/bin/zsh
+
+# Make snap desktop entries work with zsh
+sudo cp zprofile /etc/zsh/
+
+# Copy config files
+cp .vimrc ~
+cp .xinitrc ~
+cp .zshrc ~
+cp .tmux.conf ~
+cp .Xresources ~
+cp -r .config/* ~/.config/
+if [ $1 == "laptop" ]; then
+    sudo cp 70-synaptics.conf /usr/share/X11/xorg.conf.d/
+fi
