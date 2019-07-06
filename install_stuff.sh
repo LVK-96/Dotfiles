@@ -84,4 +84,5 @@ cp .Xresources ~
 cp -r .config/* ~/.config/
 if [ $1 == "laptop" ]; then
     sudo cp 70-synaptics.conf /usr/share/X11/xorg.conf.d/
+    sudo cp xorg.conf /etc/X11/
 fi
