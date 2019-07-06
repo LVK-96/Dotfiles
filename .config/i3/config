@@ -169,5 +169,6 @@ bar {
         status_command i3status
 }
 
-exec --no-startup-id ~/.config/screenlayout.sh
 exec --no-startup-id redshift
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet # Only if bluetooth is available
