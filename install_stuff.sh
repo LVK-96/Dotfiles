@@ -25,9 +25,9 @@ sudo apt-get upgrade
 sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 	build-essential snapd i3 nitrogen pcmanfm lxappearance redshift arandr \
  	blueman network-manager fonts-noto pavucontrol xfce4-screenshooter \
-        gnome-calculator j4-dmenu-desktop python3 python3-dev gitk cmake \
-        cmake-curses-gui nmap docker-ce docker-ce-cli containerd.io nordvpn \
-        firefox python3-distutils libllvm-7-ocaml-dev libllvm7 llvm-7 \
+    gnome-calculator j4-dmenu-desktop python3 python3-dev gitk cmake \
+    cmake-curses-gui nmap docker-ce docker-ce-cli containerd.io nordvpn \
+    firefox python3-distutils libllvm-7-ocaml-dev libllvm7 llvm-7 \
 	llvm-7-dev llvm-7-doc llvm-7-examples llvm-7-runtime clang-7 \
 	clang-tools-7 clang-7-doc libclang-common-7-dev libclang-7-dev \
 	libclang1-7 clang-format-7 python-clang-7 libfuzzer-7-dev lldb-7 \
@@ -36,7 +36,8 @@ sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 
 if [ $1 == "laptop" ]; then
     echo "Installing laptop utils"
-    sudo apt-get install -y xserver-xorg-input-synaptics tlp
+    sudo apt-get install -y xserver-xorg-input-synaptics tlp \
+        xserver-xorg-video-intel xbacklight
 fi
 
 # Chrome
