@@ -30,7 +30,7 @@ sudo apt-get install git vim vim-gtk3 zsh tmux lxterminal net-tools \
     -- clang-7-doc libclang-common-7-dev libclang-7-dev libclang1-7 \
     -- clang-format-7 python-clang-7 apt-get install libfuzzer-7-dev \
     -- lldb-7 install lld-7 libc++-7-dev libc++abi-7-dev libomp-7-dev \
-    -- nmap install docker-ce docker-ce-cli containerd.io nordvpn
+    -- nmap install docker-ce docker-ce-cli containerd.io nordvpn firefox
 
 if ["$0" == "--laptop"]; then
     echo "Installing laptop utils"
