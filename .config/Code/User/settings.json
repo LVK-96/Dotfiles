@@ -1,9 +1,9 @@
 {
     "C_Cpp.updateChannel": "Insiders",
-    "workbench.colorTheme": "1337",
+    "workbench.colorTheme": "Gruvbox Dark (Hard)",
     "editor.minimap.enabled": false,
     "editor.lineNumbers": "relative",
-    "workbench.activityBar.visible": false,
+    "workbench.activityBar.visible": true,
     "editor.fontSize": 15,
     "editor.rulers": [80],
     "workbench.startupEditor": "newUntitledFile",
@@ -137,5 +137,13 @@
           "background": "red",
           "opacity": 40
       }
-  }
+  },
+  "keyboard.dispatch": "keyCode",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.parameterHints.enabled": false,
+  "gitlens.views.repositories.location": "scm",
+  "gitlens.views.fileHistory.location": "scm",
+  "gitlens.views.lineHistory.location": "scm",
+  "gitlens.views.compare.location": "scm",
+  "gitlens.views.search.location": "scm"
 }
