@@ -5,10 +5,9 @@ general {
         interval = 5
 }
 
-order += "cpu_usage"
-order += "battery all" # Only for laptops
-order += "volume master"
 order += "tztime local"
+order += "cpu_usage"
+order += "volume master"
 
 cpu_usage {
         format = "CPU %usage "
@@ -20,17 +19,8 @@ tztime local {
 
 volume master {
         format = "♪: %volume"
-        format_muted = "♪: muted (%volume)"
+        format_muted = "♪: 0%"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
 }
-
-# Only for laptops
-battery all {
-    threshold_type = "time"
-    integer_battery_capacity = "true"
-    low_threshold = "15"
-    format = "BAT %percentage "
-}
-

@@ -37,7 +37,7 @@ sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 if [ $1 == "laptop" ]; then
     echo "Installing laptop utils"
     sudo apt-get install -y xserver-xorg-input-synaptics tlp \
-        xserver-xorg-video-intel xbacklight
+        xserver-xorg-video-intel xbacklight xfce4-power-manager
 fi
 
 # Chrome
