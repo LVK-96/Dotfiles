@@ -15,7 +15,7 @@ set t_Co=256
 color desert
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
-let g:airline_theme='minimalist'
+let g:airline_theme='raven'
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 call plug#begin('~/.vim/plugged')
