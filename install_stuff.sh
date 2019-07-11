@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install stuff that is required to install other stuff
 sudo apt-get install wget curl apt-transport-https ca-certificates gnupg-agent \
-    -- software-properties-common
+	software-properties-common
 
 # LLVM
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
