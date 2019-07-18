@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/leo/.oh-my-zsh"
+export ZSH="/home/kivikunn/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -63,8 +63,7 @@ ZSH_THEME="simple"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    gitfast git-extras git-flow dotenv docker 
-    docker-compose npm pip python
+    gitfast docker docker-compose npm pip python
 )
 
 source $ZSH/oh-my-zsh.sh
