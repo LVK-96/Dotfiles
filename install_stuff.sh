@@ -34,7 +34,7 @@ sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 	lld-7 libc++-7-dev libc++abi-7-dev libomp-7-dev python3-testresources \
 	htop neofetch
 
-if [ $1 == "laptop" ]; then
+if [[ $1 == "laptop" ]]; then
     echo "Installing laptop utils"
     sudo apt-get install -y xserver-xorg-input-synaptics tlp \
         xserver-xorg-core xserver-xorg-video-intel xbacklight \
@@ -82,8 +82,13 @@ cp .xinitrc ~
 cp .zshrc ~
 cp .tmux.conf ~
 cp .Xresources ~
+
+if [ ! -d "/path/to/dir" ]; then
+    mkdir ~/.config
+fi
 cp -r .config/* ~/.config/
-if [ $1 == "laptop" ]; then
+
+if [[ $1 == "laptop" ]]; then
     sudo cp 70-synaptics.conf /usr/share/X11/xorg.conf.d/
     sudo cp xorg.conf /etc/X11/
 fi
