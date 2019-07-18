@@ -32,7 +32,7 @@ sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 	clang-tools-7 clang-7-doc libclang-common-7-dev libclang-7-dev \
 	libclang1-7 clang-format-7 python-clang-7 libfuzzer-7-dev lldb-7 \
 	lld-7 libc++-7-dev libc++abi-7-dev libomp-7-dev python3-testresources \
-	 htop neofetch
+	htop neofetch
 
 if [ $1 == "laptop" ]; then
     echo "Installing laptop utils"
