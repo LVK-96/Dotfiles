@@ -79,8 +79,8 @@ export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export CC=/usr/bin/clang7
-export CXX=/usr/bin/clang++-7
+export CC='/usr/bin/clang-7'
+export CXX='/usr/bin/clang++-7'
 
 # Se tpersonal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
