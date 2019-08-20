@@ -17,10 +17,12 @@ highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
 let g:airline_theme='raven'
 au BufNewFile,BufRead Jenkinsfile setf groovy
+let g:slime_target = "tmux"
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'jpalardy/vim-slime'
 call plug#end()
