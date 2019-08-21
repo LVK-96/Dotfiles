@@ -6,7 +6,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
          gnome-calculator cmake firefox tk irssi chromium xorg-xinit python \
          dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
          telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
-         openvpn networkmanager-openvpn pcmanfm tlp blueman
+         openvpn networkmanager-openvpn pcmanfm
 
 # Flatpaks
 flatpak install flathub com.spotify.Client
