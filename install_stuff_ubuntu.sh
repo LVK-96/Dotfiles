@@ -83,7 +83,7 @@ cp .zshrc ~
 cp .tmux.conf ~
 cp .Xresources ~
 
-if [ ! -d "/path/to/dir" ]; then
+if [ ! -d "~/.config" ]; then
     mkdir ~/.config
 fi
 cp -r .config/* ~/.config/
