@@ -1,11 +1,4 @@
 #!/bin/bash
-# I prob already did this to make networking work
-# Also don't forget to edit config file: 
-# https://wiki.archlinux.org/index.php/Systemd-networkd#Basic_usage
-sudo systemctl enable systemd-networkd.service
-sudo systemctl enable systemd-resolved.service
-sudo systemctl enable NetworkManager.service
-
 sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
 		 lxterminal htop neofetch xorg-server gvim flatpak code \
 		 lxappearance i3-wm i3blocks i3lock i3status nitrogen pcmanfm arandr \
@@ -58,7 +51,14 @@ cp .zshrc ~
 cp .tmux.conf ~
 cp .Xresources ~
 
-if [ ! -d "/path/to/dir" ]; then
+if [ ! -d "~/.config" ]; then
     mkdir ~/.config
 fi
 cp -r .config/* ~/.config/
+
+# I prob already did this to make networking work
+# Also don't forget to edit config file: 
+# https://wiki.archlinux.org/index.php/Systemd-networkd#Basic_usage
+sudo systemctl enable systemd-networkd.service
+sudo systemctl enable systemd-resolved.service
+sudo systemctl enable NetworkManager.service
