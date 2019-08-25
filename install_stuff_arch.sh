@@ -6,7 +6,8 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
          gnome-calculator cmake firefox tk irssi chromium xorg-xinit python \
          dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
          telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
-         openvpn networkmanager-openvpn pcmanfm
+         openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
+         docker-compose python-pip python-setuptools xss-lock
 
 # Flatpaks
 flatpak install flathub com.spotify.Client
@@ -50,10 +51,6 @@ cp .xinitrc ~
 cp .zshrc ~
 cp .tmux.conf ~
 cp .Xresources ~
-
-if [ ! -d "~/.config" ]; then
-    mkdir ~/.config
-fi
 cp -r .config/* ~/.config/
 
 # I prob already did this to make networking work
