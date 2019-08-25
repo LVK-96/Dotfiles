@@ -13,13 +13,6 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
 flatpak install flathub com.spotify.Client
 flatpak install flathub com.getpostman.Postman
 
-# Heroku AUR
-git clone https://aur.archlinux.org/heroku-cli.git
-cd heroku-cli
-makepkg -si
-cd .. 
-sudo rm -rf heroku-cli
-
 # vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
