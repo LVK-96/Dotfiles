@@ -16,8 +16,21 @@ color desert
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
 let g:airline_theme='raven'
-au BufNewFile,BufRead Jenkinsfile setf groovy
+
 let g:slime_target = "tmux"
+
+au BufNewFile,BufRead Jenkinsfile setf groovy
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe = 'npm run lint --'
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/syntastic'
