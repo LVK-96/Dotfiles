@@ -15,6 +15,7 @@ set t_Co=256
 color desert
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 let g:airline_theme='raven'
 
 let g:slime_target = "tmux"
