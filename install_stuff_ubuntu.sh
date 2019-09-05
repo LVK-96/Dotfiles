@@ -5,7 +5,7 @@ sudo apt-get install wget curl apt-transport-https ca-certificates gnupg-agent \
 
 # LLVM
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" 
+sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main"
 
 # Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -21,7 +21,7 @@ sudo dpkg -i nordvpn-release_1.0.0_all.deb
 sudo apt-get update
 sudo apt-get upgrade
 
-# Install stuff 
+# Install stuff
 sudo apt-get install -y git vim vim-gtk3 zsh tmux lxterminal net-tools \
 	build-essential snapd i3 nitrogen pcmanfm lxappearance redshift arandr \
  	blueman network-manager fonts-noto pavucontrol xfce4-screenshooter \

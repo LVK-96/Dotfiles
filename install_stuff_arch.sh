@@ -7,7 +7,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
          dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
          telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
          openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
-         docker-compose python-pip python-setuptools xss-lock alacritty
+         docker-compose python-pip python-setuptools xss-lock alacritty fzf
 
 # Flatpaks
 flatpak install flathub com.spotify.Client
