@@ -17,9 +17,7 @@ highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 let g:airline_theme='raven'
-
 let g:slime_target = "tmux"
-
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 call plug#begin('~/.vim/plugged')
