@@ -1,13 +1,15 @@
 #!/bin/bash
 sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
-     lxterminal htop neofetch xorg-server gvim flatpak code \
-     lxappearance i3-wm i3blocks i3lock i3status nitrogen pcmanfm arandr \
-     networkmanager noto-fonts pavucontrol xfce4-screenshooter \
-     gnome-calculator cmake firefox tk irssi chromium xorg-xinit python \
-     dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
-     telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
-     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
-     docker-compose python-pip python-setuptools xss-lock alacritty fzf ctags
+    lxterminal htop neofetch xorg-server gvim flatpak code \
+    lxappearance i3-wm i3blocks i3lock i3status nitrogen pcmanfm arandr \
+    networkmanager noto-fonts pavucontrol xfce4-screenshooter \
+    gnome-calculator cmake firefox tk irssi chromium xorg-xinit python \
+    dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
+    telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
+    openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
+    docker-compose python-pip python-setuptools xss-lock alacritty fzf ctags
+    neovim
+
 
 # Flatpaks
 flatpak install flathub com.spotify.Client
