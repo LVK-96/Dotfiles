@@ -8,6 +8,7 @@ set number
 set hlsearch
 set hidden
 set background=dark
+set encoding=utf-8
 au BufNewFile,BufRead Jenkinsfile setf groovy
 let g:slime_target = "tmux"
 
@@ -15,7 +16,8 @@ color desert
 let g:airline_theme='raven'
 highlight ColorColumn ctermbg=red
 call matchadd('ColorColumn', '\%81v\S', 100)
-let g:netrw_banner=0
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=0
 
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
