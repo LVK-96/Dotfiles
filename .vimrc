@@ -28,4 +28,5 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jpalardy/vim-slime'
+Plug 'ekalinin/dockerfile.vim'
 call plug#end()
