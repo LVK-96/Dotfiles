@@ -44,17 +44,25 @@ set hidden
 set background=dark
 set encoding=utf-8
 set updatetime=100
+set timeoutlen=1000
+set ttimeoutlen=0
 set t_Co=256
-:set guicursor=
-:autocmd OptionSet guicursor noautocmd set guicursor=
+set guicursor=
+autocmd OptionSet guicursor noautocmd set guicursor=
+set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 au BufNewFile,BufRead Jenkinsfile setf groovy
 let g:slime_target = "tmux"
 
 color desert
 let g:airline_theme='raven'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
+let NERDTreeShowHidden=1
+let g:vim_json_syntax_conceal=0
 highlight clear SignColumn
 highlight GitGutterAdd    guifg=#009900 guibg=#000000 ctermfg=Green ctermbg=Black
 highlight GitGutterChange guifg=#bbbb00 guibg=#000000 ctermfg=Yellow ctermbg=Black

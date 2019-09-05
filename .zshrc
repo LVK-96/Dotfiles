@@ -74,9 +74,9 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
+export LANG=en_US.UTF-8
 export EDITOR='vim'
+export KEYTIMEOUT=1
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
