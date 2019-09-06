@@ -63,6 +63,7 @@ let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeShowHidden=1
 let g:vim_json_syntax_conceal=0
+let g:vim_markdown_folding_disabled=1
 highlight clear SignColumn
 highlight GitGutterAdd    guifg=#009900 guibg=#000000 ctermfg=Green ctermbg=Black
 highlight GitGutterChange guifg=#bbbb00 guibg=#000000 ctermfg=Yellow ctermbg=Black
@@ -74,6 +75,7 @@ let g:gitgutter_sign_modified_removed = '±'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+au VimEnter * wincmd w
 
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
