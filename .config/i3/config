@@ -169,10 +169,13 @@ bar {
         status_command i3status
 }
 
+hide_edge_borders vertical
+default_border normal 2
+default_floating_border normal 2
+
 exec --no-startup-id ~/.config/screenlayout.sh
 exec --no-startup-id redshift
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id tlp
 exec --no-startup-id blueman-applet # Only if bluetooth is available
-exec --no-startup-id xss-lock -- i3lock -n 
