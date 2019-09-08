@@ -8,7 +8,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
     telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
     docker-compose python-pip python-setuptools xss-lock alacritty fzf ctags
-    neovim
+    neovim materia-gtk-theme ripgrep
 
 
 # Flatpaks
