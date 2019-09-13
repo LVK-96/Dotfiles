@@ -9,7 +9,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
     python-pip python-setuptools xss-lock alacritty fzf ctags \
     neovim materia-gtk-theme ripgrep powerline-fonts virtualbox \
-    linux-lts-headers sshfs vagrant
+    linux-headers sshfs vagrant
 
 
 # Flatpaks
