@@ -32,6 +32,7 @@ Plug 'fatih/vim-go'
 Plug 'rust-lang/rust.vim'
 call plug#end()
 
+runtime plugin/grepper.vim
 set relativenumber
 set rnu
 set tabstop=4
@@ -80,6 +81,7 @@ let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_modified_removed = '±'
 let g:netrw_liststyle=3
 let g:netrw_banner=0
+let g:grepper.prompt=0
 
 "Keybindings
 nnoremap <leader>t :TagbarToggle<CR>
