@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
+sudo pacman -Syu git curl wget ca-certificates gnupg alacritty zsh nmap tmux \
     htop neofetch xorg-server gvim flatpak code \
     lxappearance i3-wm i3blocks i3lock i3status nitrogen pcmanfm arandr \
     networkmanager noto-fonts pavucontrol xfce4-screenshooter \
@@ -7,7 +7,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
     dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
     telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
-    python-pip python-setuptools xss-lock alacritty fzf ctags \
+    python-pip python-setuptools xss-lock xterm fzf ctags \
     neovim materia-gtk-theme ripgrep powerline-fonts virtualbox \
     linux-headers sshfs vagrant qemu qemu-arch-extra mesa \
     vulkan-intel xclip
