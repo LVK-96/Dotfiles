@@ -9,8 +9,8 @@ sudo pacman -Syu git curl wget ca-certificates gnupg xterm zsh nmap tmux \
     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
     python-pip python-setuptools xss-lock alacritty fzf ctags \
     neovim materia-gtk-theme ripgrep powerline-fonts virtualbox \
-    linux-headers sshfs vagrant qemu qemu-arch-extra mesa xf86-video-fbdev \
-    vulkan-intel
+    linux-headers sshfs vagrant qemu qemu-arch-extra mesa \
+    vulkan-intel xclip
 
 
 # Flatpaks
