@@ -10,7 +10,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg alacritty zsh nmap tmux \
     python-pip python-setuptools xss-lock xterm fzf ctags \
     neovim materia-gtk-theme ripgrep powerline-fonts virtualbox \
     linux-headers sshfs vagrant qemu qemu-arch-extra mesa \
-    vulkan-intel xclip
+    vulkan-intel xclip jupyterlab jupyter-notebook
 
 
 # Flatpaks
