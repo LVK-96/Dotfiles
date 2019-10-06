@@ -7,11 +7,12 @@ sudo pacman -Syu git curl wget ca-certificates gnupg alacritty zsh nmap tmux \
     dmenu network-manager-applet pulseaudio clang lld lldb gcc docker \
     telegram-desktop llvm openmp redshift docker-compose mutt openssh vlc \
     openvpn networkmanager-openvpn pcmanfm dialog wpa_supplicant blueman \
-    python-pip python-setuptools xss-lock xterm fzf ctags \
-    neovim materia-gtk-theme ripgrep powerline-fonts virtualbox \
-    linux-headers sshfs vagrant qemu qemu-arch-extra mesa \
-    vulkan-intel xclip jupyterlab jupyter-notebook
+    python-setuptools xss-lock xterm fzf ctags neovim \
+    materia-gtk-theme ripgrep powerline-fonts virtualbox \
+    linux-headers sshfs vagrant qemu qemu-arch-extra qalculate-gtk\
+    xclip jupyterlab jupyter-notebook gnu-netcat
 
+# for laptops with intel graphics: vulkan-intel mesa
 
 # Flatpaks
 flatpak install flathub com.spotify.Client
