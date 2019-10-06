@@ -69,6 +69,7 @@ let g:airline#extensions#tabline#keymap_ignored_filetypes = ['nerdtree']
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
+highlight ColorColumn guibg=#ff2222 ctermbg=Red
 let g:vim_json_syntax_conceal=0
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_conceal=0
