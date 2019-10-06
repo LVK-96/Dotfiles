@@ -18,6 +18,7 @@ Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'jpalardy/vim-slime'
 Plug 'morhetz/gruvbox'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 "Language plugins
 Plug 'ekalinin/dockerfile.vim'
@@ -70,6 +71,10 @@ let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
 let g:vim_json_syntax_conceal=0
 let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_conceal=0
+let g:vim_markdown_conceal_code_blocks=0
+let g:tex_conceal=""
+let g:vim_markdown_math=1
 let g:graphql_javascript_tags=["gql", "graphql", "Relay.QL"]
 highlight clear SignColumn
 highlight GitGutterAdd    guifg=#009900  ctermfg=Green
