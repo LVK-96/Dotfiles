@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-"Esssentials
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
