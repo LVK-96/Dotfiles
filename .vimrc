@@ -10,6 +10,7 @@ Plug 'yggdroot/indentline'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Navigation
+Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-grepper'
@@ -78,13 +79,9 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set laststatus=2
 set showtabline=2
-let g:lightline#bufferline#show_number = 1
+let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#unnamed = '[No Name]'
-let g:lightline = {}
-let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
-let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-let g:lightline.component_type = {'buffers': 'tabsel'}
 let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
@@ -94,6 +91,9 @@ let g:lightline = {
       \   'gitbranch': 'gitbranch#name'
       \ },
       \ }
+let g:lightline.tabline = {'left': [['buffers']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type = {'buffers': 'tabsel'}
 let g:gruvbox_contrast_dark ='hard'
 color gruvbox
 let g:gruvbox_improved_warnings = 1
