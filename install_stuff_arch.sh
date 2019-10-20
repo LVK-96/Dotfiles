@@ -53,7 +53,7 @@ cp .Xresources ~
 cp -r .config/* ~/.config/
 
 # I prob already did this to make networking work
-# Also don't forget to edit config file: 
+# Also don't forget to edit config file:
 # https://wiki.archlinux.org/index.php/Systemd-networkd#Basic_usage
 sudo systemctl enable systemd-networkd.service
 sudo systemctl enable systemd-resolved.service
