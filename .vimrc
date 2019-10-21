@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 " Look
-Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
@@ -105,9 +105,8 @@ let g:lightline = {
 let g:lightline.tabline = {'left': [['buffers']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
-let g:gruvbox_contrast_dark ='hard'
-color gruvbox
-let g:gruvbox_improved_warnings = 1
+let base16colorspace=256
+color base16-default-dark
 let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
 highlight ColorColumn guibg=#ff2222 ctermbg=Red
