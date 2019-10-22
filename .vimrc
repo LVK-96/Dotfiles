@@ -91,7 +91,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set laststatus=2
 set showtabline=2
 let g:lightline#bufferline#show_number = 2
-let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline = {
       \ 'active': {
@@ -142,7 +142,7 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 "
 " coc.nvim config https://github.com/neoclide/coc.nvim
 "
-set cmdheight=2
+set cmdheight=1
 
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
