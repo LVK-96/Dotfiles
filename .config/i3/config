@@ -185,12 +185,13 @@ default_floating_border normal 2
 
 bindsym ctrl+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
 
-exec --no-startup-id ~/.config/screenlayout.sh
-exec --no-startup-id redshift
 exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id tlp
+exec --no-startup-id flameshot
 exec --no-startup-id blueman-applet # Only if bluetooth is available
-exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
-exec --no-startup-id compton
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id ~/.config/screenlayout.sh
 exec --no-startup-id nitrogen --restore
+exec --no-startup-id compton
+exec --no-startup-id redshift-gtk
+exec --no-startup-id tlp
+exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
