@@ -36,7 +36,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'ekalinin/dockerfile.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json'
 Plug 'stephpy/vim-yaml'
@@ -105,7 +105,7 @@ let g:lightline.tabline = {'left': [['buffers']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
 let base16colorspace=256
-color base16-default-dark
+color base16-spacemacs
 let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
 highlight ColorColumn guibg=#ff2222 ctermbg=Red
