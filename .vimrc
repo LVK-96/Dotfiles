@@ -63,7 +63,6 @@ set updatetime=100
 set timeoutlen=1000
 set ttimeoutlen=0
 runtime plugin/grepper.vim
-let g:grepper.prompt = 0
 set undodir=~/.vimdid
 set undofile
 set splitright
@@ -135,7 +134,11 @@ nnoremap <Leader>n :bn<CR>
 nnoremap <Leader><Space> :e#<CR>
 nnoremap <C-X> :bdelete<CR>
 nnoremap <leader>f :Files<cr>
-nnoremap <leader>g :GFiles<cr>
+nnoremap <leader>F :GFiles<cr>
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
 " Clear whitespace
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
@@ -201,10 +204,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
