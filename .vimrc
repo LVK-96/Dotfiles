@@ -79,6 +79,9 @@ let g:tex_conceal = ""
 set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 au BufNewFile,BufRead Jenkinsfile setf groovy
+let g:ale_fixers = {
+\  'javascript': ['eslint'],
+\}
 
 " Look
 set background=dark
