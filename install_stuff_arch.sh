@@ -11,7 +11,8 @@ sudo pacman -Syu git curl wget ca-certificates gnupg alacritty zsh nmap tmux \
     materia-gtk-theme ripgrep powerline-fonts virtualbox \
     linux-headers sshfs vagrant qemu qemu-arch-extra qalculate-gtk\
     xclip jupyterlab jupyter-notebook gnu-netcat lightdm lightdm-gtk-greeter \
-    lightdm-gtk-greeter-settings compton gparted feh flameshot
+    lightdm-gtk-greeter-settings compton gparted feh flameshot \
+    the_silver_searcher
 
 # for laptops with intel graphics: vulkan-intel mesa
 
