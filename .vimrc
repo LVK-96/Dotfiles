@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
+Plug 'takac/vim-hardtime'
 " Look
-Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
@@ -42,7 +42,7 @@ Plug 'elzr/vim-json'
 Plug 'stephpy/vim-yaml'
 Plug 'cespare/vim-toml'
 call plug#end()
-
+let g:hardtime_default_on = 1
 " Misc
 set ruler
 set relativenumber
@@ -84,7 +84,9 @@ let g:ale_fixers = {
 \}
 
 " Look
+colorscheme industry
 set background=dark
+highlight Pmenu ctermbg=DarkGrey guibg=gray18
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
 set termguicolors
@@ -107,8 +109,6 @@ let g:lightline = {
 let g:lightline.tabline = {'left': [['buffers']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
-let base16colorspace=256
-color base16-spacemacs
 let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
 highlight ColorColumn guibg=#ff2222 ctermbg=Red
