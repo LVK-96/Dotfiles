@@ -28,6 +28,8 @@ Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Language plugins
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'derekwyatt/vim-scala'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fatih/vim-go'
