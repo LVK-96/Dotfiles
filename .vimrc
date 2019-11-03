@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'takac/vim-hardtime'
 " Look
+Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
@@ -83,7 +84,10 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " Look
-colorscheme pablo
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 set background=dark
 highlight Pmenu ctermbg=DarkGrey guibg=gray18
 set guicursor=
