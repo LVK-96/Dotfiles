@@ -82,6 +82,7 @@ let g:tex_conceal = ""
 set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 au BufNewFile,BufRead Jenkinsfile setf groovy
+au BufRead,BufNewFile *.sbt set filetype=scala
 
 " Look
 if filereadable(expand("~/.vimrc_background"))

@@ -12,7 +12,7 @@ sudo pacman -Syu git curl wget ca-certificates gnupg alacritty zsh nmap tmux \
     linux-headers sshfs vagrant qemu qemu-arch-extra qalculate-gtk\
     xclip jupyterlab jupyter-notebook gnu-netcat lightdm lightdm-gtk-greeter \
     lightdm-gtk-greeter-settings compton gparted feh flameshot \
-    the_silver_searcher
+    the_silver_searcher sbt scala
 
 # for laptops with intel graphics: vulkan-intel mesa
 
