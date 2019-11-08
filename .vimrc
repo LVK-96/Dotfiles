@@ -29,8 +29,6 @@ Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Language plugins
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
 Plug 'derekwyatt/vim-scala'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fatih/vim-go'
@@ -79,10 +77,9 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_math = 1
 let g:graphql_javascript_tags = ["gql", "graphql", "Relay.QL"]
 let g:tex_conceal = ""
-set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 au BufNewFile,BufRead Jenkinsfile setf groovy
 au BufRead,BufNewFile *.sbt set filetype=scala
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 " Look
 if filereadable(expand("~/.vimrc_background"))
