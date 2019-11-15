@@ -86,8 +86,6 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
-set background=dark
-highlight Pmenu ctermbg=DarkGrey guibg=gray18
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
 set termguicolors
