@@ -88,6 +88,11 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
+" Fix highlighting for spell checks in terminal
+call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
 set guicursor=
 autocmd OptionSet guicursor noautocmd set guicursor=
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -111,7 +116,7 @@ let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
 let g:ale_sign_column_always = 1
 call matchadd('ColorColumn', '\%81v\S', 100)
-highlight ColorColumn guibg=#ff2222 ctermbg=Red
+highlight ColorColumn ctermbg=Red ctermfg=Yellow
 let g:netrw_liststyle=3
 let g:netrw_banner=0
 let g:highlightedyank_highlight_duration = 3000
