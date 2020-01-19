@@ -43,7 +43,6 @@ Plug 'elzr/vim-json'
 Plug 'stephpy/vim-yaml'
 Plug 'cespare/vim-toml'
 Plug 'lervag/vimtex'
-Plug 'ying17zi/vim-live-latex-preview'
 call plug#end()
 let g:hardtime_default_on = 1
 " Misc
@@ -82,6 +81,7 @@ let g:tex_conceal = ""
 au BufNewFile,BufRead Jenkinsfile setf groovy
 au BufRead,BufNewFile *.sbt set filetype=scala
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+let g:vimtex_view_method = 'zathura'
 
 " Look
 set background=dark
