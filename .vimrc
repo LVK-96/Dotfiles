@@ -42,6 +42,8 @@ Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json'
 Plug 'stephpy/vim-yaml'
 Plug 'cespare/vim-toml'
+Plug 'lervag/vimtex'
+Plug 'ying17zi/vim-live-latex-preview'
 call plug#end()
 let g:hardtime_default_on = 1
 " Misc
