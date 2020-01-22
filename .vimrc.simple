@@ -1,0 +1,48 @@
+" Misc
+set ruler
+set relativenumber
+set rnu
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set ai
+set number
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set gdefault
+set hidden
+set encoding=utf-8
+set updatetime=100
+set timeoutlen=1000
+set ttimeoutlen=0
+set undodir=~/.vimdid
+set undofile
+set splitright
+set splitbelow
+
+" Look
+set background=dark
+set t_Co=256
+set guicursor=
+color elflord
+autocmd OptionSet guicursor noautocmd set guicursor=
+set laststatus=2
+set showtabline=2
+call matchadd('ColorColumn', '\%81v\S', 100)
+highlight ColorColumn ctermbg=Red ctermfg=Yellow
+let g:netrw_liststyle=3
+let g:netrw_banner=0
+
+" Keybindings
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+nnoremap <Leader>p :bp<CR>
+nnoremap <Leader>n :bn<CR>
+nnoremap <Leader><Space> :e#<CR>
+nnoremap <C-X> :bdelete<CR>
+" Clear whitespace
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
