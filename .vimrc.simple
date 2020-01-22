@@ -26,7 +26,7 @@ set splitbelow
 set background=dark
 set t_Co=256
 set guicursor=
-color peachpuff
+color desert
 autocmd OptionSet guicursor noautocmd set guicursor=
 set laststatus=2
 set showtabline=2
