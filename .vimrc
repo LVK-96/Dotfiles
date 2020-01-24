@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-Plug 'takac/vim-hardtime'
 " Look
 Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
@@ -44,7 +43,7 @@ Plug 'stephpy/vim-yaml'
 Plug 'cespare/vim-toml'
 Plug 'lervag/vimtex'
 call plug#end()
-let g:hardtime_default_on = 1
+
 " Misc
 set ruler
 set relativenumber

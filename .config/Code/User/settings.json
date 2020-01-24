@@ -4,7 +4,7 @@
     "editor.lineNumbers": "relative",
     "workbench.activityBar.visible": true,
     "editor.fontSize": 16,
-    "editor.rulers": [80, 100, 120],
+    "editor.rulers": [80],
     "workbench.startupEditor": "newUntitledFile",
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
