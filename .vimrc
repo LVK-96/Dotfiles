@@ -19,9 +19,9 @@ Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Enhancements
+Plug 'tpope/vim-surround'
 Plug 'andymass/vim-matchup'
-Plug 'roxma/vim-paste-easy'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 
 " Linting & autocompletion
 Plug 'w0rp/ale'
