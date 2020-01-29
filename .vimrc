@@ -1,7 +1,14 @@
+nmap <leader>sp :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 call plug#begin('~/.vim/plugged')
 " Look
-Plug 'sstallion/vim-wtf'
-Plug 'sstallion/lightline-wtf'
+Plug 'ewilazarus/preto'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
@@ -84,10 +91,14 @@ autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 let g:vimtex_view_method = 'zathura'
 
 " Look
+" L
 set background=dark
 set t_Co=256
-colorscheme wtf
-highlight Pmenu ctermbg=darkgray guibg=darkgray
+colorscheme preto
+set cursorline
+highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
+autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=234 guifg=NONE guibg=#1c1c1c
+autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set laststatus=2
@@ -96,7 +107,7 @@ let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline = {
-      \ 'colorscheme': 'wtf',
+      \ 'colorscheme': 'seoul256',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
