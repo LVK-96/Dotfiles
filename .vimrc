@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 " Look
-Plug 'chriskempson/base16-vim'
+Plug 'sstallion/vim-wtf'
+Plug 'sstallion/lightline-wtf'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'itchyny/vim-gitbranch'
@@ -85,17 +86,8 @@ let g:vimtex_view_method = 'zathura'
 " Look
 set background=dark
 set t_Co=256
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-" Fix highlighting for spell checks in terminal
-call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
-call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
-call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
-call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
-set guicursor=
-autocmd OptionSet guicursor noautocmd set guicursor=
+colorscheme wtf
+highlight Pmenu ctermbg=darkgray guibg=darkgray
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set laststatus=2
@@ -104,6 +96,7 @@ let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed = '[No Name]'
 let g:lightline = {
+      \ 'colorscheme': 'wtf',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
