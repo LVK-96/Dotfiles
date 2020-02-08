@@ -183,11 +183,26 @@ bar {
         font pango:Inconsolata Regular 14
         position top
         status_command i3status
+
+        colors {
+                background #282828
+        }
 }
 
 default_border normal 2
 default_floating_border normal 2
 new_window pixel 3
+
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output DP-2
+workspace 4 output DP-2
+workspace 5 output DP-2
+workspace 6 output HDMI-0
+workspace 7 output HDMI-0
+workspace 8 output HDMI-0
+workspace 9 output HDMI-0
+workspace 10 output HDMI-1
 
 bindsym ctrl+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
 
