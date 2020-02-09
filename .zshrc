@@ -40,6 +40,7 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+alias lock=".config/i3/lock.sh"
 alias vim="nvim"
 alias ls="ls --color=auto"
 
