@@ -130,7 +130,6 @@ nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 nnoremap <Leader>p :bp<CR>
 nnoremap <Leader>n :bn<CR>
-nnoremap <Leader><Space> :e#<CR>
 nnoremap <C-X> :bdelete<CR>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :GFiles<cr>
