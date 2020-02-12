@@ -90,6 +90,10 @@ if filereadable(expand("~/.vimrc_background"))
 endif
 set laststatus=2
 set showtabline=2
+let g:tagbar_case_insensitive = 1
+let g:tagbar_compact = 1
+let g:tagbar_show_linenumbers = 2
+let g:tagbar_sort = 1
 let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#shorten_path = 1
 let g:lightline#bufferline#unnamed = '[No Name]'
