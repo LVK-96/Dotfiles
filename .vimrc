@@ -22,6 +22,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
 Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-commentary'
+Plug 'breuckelen/vim-resize'
 
 " Linting & autocompletion
 Plug 'w0rp/ale'
@@ -45,7 +46,20 @@ Plug 'lervag/vimtex'
 call plug#end()
 
 " Misc
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+set scrolloff=1
+set sidescrolloff=5
+set laststatus=2
+set display+=lastline
 set ruler
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set formatoptions+=j " Delete comment character when joining commented lines
+setglobal tags-=./tags tags-=./tags; tags^=./tags;
+set wildmenu
+set autoread
 set relativenumber
 set rnu
 set tabstop=4
@@ -62,12 +76,18 @@ set hidden
 set encoding=utf-8
 set updatetime=100
 set timeoutlen=1000
+set ttimeout
 set ttimeoutlen=0
 runtime plugin/grepper.vim
 set undodir=~/.vimdid
 set undofile
 set splitright
 set splitbelow
+set history=1000
+set tabpagemax=50
+set viminfo^=!
+set sessionoptions-=options
+set viewoptions-=options
 
 " Syntax
 let g:vim_json_syntax_conceal = 0
@@ -132,6 +152,7 @@ nmap <Leader>7 <Plug>lightline#bufferline#go(7)
 nmap <Leader>8 <Plug>lightline#bufferline#go(8)
 nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 nnoremap <Leader>p :bp<CR>
 nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
