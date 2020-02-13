@@ -78,7 +78,6 @@ set updatetime=100
 set timeoutlen=1000
 set ttimeout
 set ttimeoutlen=0
-runtime plugin/grepper.vim
 set undodir=~/.vimdid
 set undofile
 set splitright
@@ -88,6 +87,11 @@ set tabpagemax=50
 set viminfo^=!
 set sessionoptions-=options
 set viewoptions-=options
+let g:grepper = {
+    \ 'tools': ['rg', 'git', 'ag'],
+    \ 'rg': {
+    \   'grepprg':    'rg --multiline --hidden',
+    \ }}
 
 " Syntax
 let g:vim_json_syntax_conceal = 0
@@ -158,8 +162,8 @@ nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :GFiles<cr>
-nnoremap <leader>g :Grepper -tool git<cr>
-nnoremap <leader>G :Grepper -tool ag<cr>
+nnoremap <leader>g :Grepper -tool rg<cr>
+nnoremap <leader>G :Grepper -tool git<cr>
 nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
 " Clear whitespace
