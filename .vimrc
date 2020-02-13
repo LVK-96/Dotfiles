@@ -19,6 +19,7 @@ Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Enhancements
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-commentary'
