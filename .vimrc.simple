@@ -1,5 +1,18 @@
 " Misc
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+set scrolloff=1
+set sidescrolloff=5
+set laststatus=2
+set display+=lastline
 set ruler
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set formatoptions+=j " Delete comment character when joining commented lines
+setglobal tags-=./tags tags-=./tags; tags^=./tags;
+set wildmenu
+set autoread
 set relativenumber
 set rnu
 set tabstop=4
@@ -16,18 +29,17 @@ set hidden
 set encoding=utf-8
 set updatetime=100
 set timeoutlen=1000
+set ttimeout
 set ttimeoutlen=0
 set undodir=~/.vimdid
 set undofile
 set splitright
 set splitbelow
-
-" Look
-set background=dark
-set t_Co=256
-set guicursor=
-color desert
-autocmd OptionSet guicursor noautocmd set guicursor=
+set history=1000
+set tabpagemax=50
+set viminfo^=!
+set sessionoptions-=options
+set viewoptions-=options
 set laststatus=2
 set showtabline=2
 call matchadd('ColorColumn', '\%81v\S', 100)
@@ -40,6 +52,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 nnoremap <Leader>p :bp<CR>
 nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
