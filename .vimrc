@@ -160,8 +160,8 @@ nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L
 nnoremap <Leader>p :bp<CR>
 nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>F :GFiles<cr>
+nnoremap <leader>f :GFiles<cr>
+nnoremap <leader>F :Files<cr>
 nnoremap <leader>g :Grepper -tool rg<cr>
 nnoremap <leader>G :Grepper -tool git<cr>
 nmap gs <plug>(GrepperOperator)
