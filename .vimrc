@@ -23,6 +23,7 @@ if !exists('g:vscode')
     Plug 'tpope/vim-fugitive'
     Plug 'janko/vim-test'
     Plug 'tpope/vim-dispatch'
+    Plug 'benmills/vimux'
     Plug 'tpope/vim-surround'
     Plug 'andymass/vim-matchup'
     Plug 'tpope/vim-commentary'
@@ -111,6 +112,23 @@ if !exists('g:vscode')
     let g:highlightedyank_highlight_duration = 3000
 
     " Keybindings
+    " Prompt for a command to run
+    map <Leader>vr :VimuxPromptCommand<CR>
+
+    " Run last command executed by VimuxRunCommand
+    map <Leader>vl :VimuxRunLastCommand<CR>
+
+    " Inspect runner pane
+    map <Leader>vi :VimuxInspectRunner<CR>
+
+    " Close vim tmux runner opened by VimuxRunCommand
+    map <Leader>vq :VimuxCloseRunner<CR>
+
+    " Interrupt any command running in the runner pane
+    map <Leader>vx :VimuxInterruptRunner<CR>
+
+    " Zoom the runner pane (use <bind-key> z to restore runner pane)
+    map <Leader>vz :call VimuxZoomRunner()<CR>
     nnoremap <leader>t :TagbarToggle<CR>
     nnoremap <C-J> <C-W><C-J>
     nnoremap <C-K> <C-W><C-K>
