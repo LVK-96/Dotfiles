@@ -3,8 +3,7 @@ if !exists('g:vscode')
     " Look
     Plug 'noahfrederick/vim-hemisu'
     Plug 'chriskempson/base16-vim'
-    Plug 'itchyny/lightline.vim'
-    Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'ap/vim-buftabline'
     Plug 'airblade/vim-gitgutter'
     Plug 'machakann/vim-highlightedyank'
     Plug 'yggdroot/indentline'
@@ -81,35 +80,50 @@ if !exists('g:vscode')
     " Look
     set background=dark
     colorscheme hemisu
+    hi CursorLineNr gui=underline cterm=underline ctermfg=grey
+
     let g:tagbar_case_insensitive = 1
     let g:tagbar_compact = 1
     let g:tagbar_show_linenumbers = 2
     let g:tagbar_sort = 1
     let g:tagbar_width = 80
-    let g:lightline#bufferline#show_number = 2
-    let g:lightline#bufferline#shorten_path = 1
-    let g:lightline#bufferline#unnamed = '[No Name]'
-    let g:lightline = {
-          \ 'active': {
-          \   'left': [ [ 'mode', 'paste' ],
-          \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-          \ },
-          \ 'component_function': {
-          \   'gitbranch': 'FugitiveHead'
-          \ },
-          \ }
-    let g:lightline.tabline = {'left': [['buffers']]}
-    let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-    let g:lightline.component_type = {'buffers': 'tabsel'}
+
     let g:ale_sign_column_always = 1
+
     call matchadd('ColorColumn', '\%81v\S', 100)
     highlight ColorColumn ctermbg=Red ctermfg=Yellow
+
     let g:netrw_liststyle=3
     let g:netrw_fastbrowse=0
     autocmd FileType netrw setl bufhidden=wipe
     let g:netrw_banner=0
     let g:netrw_bufsettings = 'noma nomod renu nobl nowrap ro'
+
     let g:highlightedyank_highlight_duration = 3000
+
+    let g:buftabline_numbers=2
+    let g:buftabline_indicators=1
+    hi link BufTabLineActive Tabline
+
+    " Statusline
+    function! Current_git_branch()
+        let l:branch = split(fugitive#statusline(),'[()]')
+        if len(l:branch) > 1
+             return remove(l:branch, 1)
+        endif
+        return ""
+    endfunction
+
+    hi StatusLine guibg=#000000 ctermbg=black
+    hi StatusLineNC guibg=#000000 ctermbg=black
+    set statusline=
+    set statusline +=\ %{Current_git_branch()}
+    set statusline+=%=
+    set statusline+=\ %y
+    set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    set statusline+=\[%{&fileformat}\]
+    set statusline+=\ %p%%
+    set statusline+=\ %l:%c\ 
 
     " Keybindings
     " Prompt for a command to run
@@ -134,16 +148,16 @@ if !exists('g:vscode')
     nnoremap <C-K> <C-W><C-K>
     nnoremap <C-L> <C-W><C-L>
     nnoremap <C-H> <C-W><C-H>
-    nmap <Leader>1 <Plug>lightline#bufferline#go(1)
-    nmap <Leader>2 <Plug>lightline#bufferline#go(2)
-    nmap <Leader>3 <Plug>lightline#bufferline#go(3)
-    nmap <Leader>4 <Plug>lightline#bufferline#go(4)
-    nmap <Leader>5 <Plug>lightline#bufferline#go(5)
-    nmap <Leader>6 <Plug>lightline#bufferline#go(6)
-    nmap <Leader>7 <Plug>lightline#bufferline#go(7)
-    nmap <Leader>8 <Plug>lightline#bufferline#go(8)
-    nmap <Leader>9 <Plug>lightline#bufferline#go(9)
-    nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+    nmap <leader>1 <Plug>BufTabLine.Go(1)
+    nmap <leader>2 <Plug>BufTabLine.Go(2)
+    nmap <leader>3 <Plug>BufTabLine.Go(3)
+    nmap <leader>4 <Plug>BufTabLine.Go(4)
+    nmap <leader>5 <Plug>BufTabLine.Go(5)
+    nmap <leader>6 <Plug>BufTabLine.Go(6)
+    nmap <leader>7 <Plug>BufTabLine.Go(7)
+    nmap <leader>8 <Plug>BufTabLine.Go(8)
+    nmap <leader>9 <Plug>BufTabLine.Go(9)
+    nmap <leader>0 <Plug>BufTabLine.Go(10)
     nnoremap <Leader>p :bp<CR>
     nnoremap <Leader>n :bn<CR>
     nnoremap <C-X> :bdelete<CR>
@@ -161,6 +175,7 @@ if !exists('g:vscode')
     nmap <silent> t<C-s> :TestSuite<CR>
     nmap <silent> t<C-l> :TestLast<CR>
     nmap <silent> t<C-g> :TestVisit<CR>
+    map <F5> :StripWhitespace<cr>
 
     "
     " coc.nvim config https://github.com/neoclide/coc.nvim
@@ -258,9 +273,6 @@ if !exists('g:vscode')
     " use `:OR` for organize import of current buffer
     command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-    " Add status line support, for integration with other plugin, checkout `:h coc-status`
-    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
     " Using CocList
     " Show all diagnostics
     nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
@@ -286,7 +298,6 @@ set complete-=i
 set smarttab
 set scrolloff=1
 set sidescrolloff=5
-set laststatus=2
 set display+=lastline
 set ruler
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
