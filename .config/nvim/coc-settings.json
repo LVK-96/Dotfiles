@@ -1,11 +1,12 @@
 {
-  "languageserver": {
-    "metals": {
-      "command": "metals-vim",
-      "rootPatterns": ["build.sbt"],
-      "filetypes": ["scala", "sbt"]
-    },
-    "ccls": {
+    "diagnostic.displayByAle": true,
+    "languageserver": {
+        "metals": {
+            "command": "metals-vim",
+            "rootPatterns": ["build.sbt"],
+            "filetypes": ["scala", "sbt"]
+        },
+        "ccls": {
             "command": "ccls",
             "filetypes": [
                 "c",
@@ -25,6 +26,17 @@
                     "directory": "/tmp/ccls"
                 }
             }
+        },
+        "hdlChecker": {
+            "command": "hdl_checker",
+            "args": [
+                "--lsp"
+            ],
+            "filetypes": [
+                "vhdl",
+                "verilog",
+                "systemverilog"
+            ]
         }
-  }
+    }
 }
