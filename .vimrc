@@ -12,8 +12,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'mhinz/vim-grepper'
-Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -49,15 +48,6 @@ Plug 'lervag/vimtex'
 call plug#end()
 
 " Misc
-let g:grepper = {
-    \ 'tools': ['rg', 'git', 'ag'],
-    \ }
-let g:grepper.operator = {
-    \ 'tools': ['rg', 'git', 'ag'],
-    \ 'rg': {
-    \   'grepprg':    'rg -H --no-heading --vimgrep --multiline --hidden',
-    \ }
-    \ }
 let test#strategy = "dispatch"
 
 " Syntax
@@ -80,16 +70,12 @@ set background=dark
 colorscheme hemisu
 hi CursorLineNr gui=underline cterm=underline ctermfg=grey
 
-let g:tagbar_case_insensitive = 1
-let g:tagbar_compact = 1
-let g:tagbar_show_linenumbers = 2
-let g:tagbar_sort = 1
-let g:tagbar_width = 80
-
-let g:ale_sign_column_always = 1
-
 call matchadd('ColorColumn', '\%80v\S', 100)
 highlight ColorColumn ctermbg=red ctermfg=white
+
+let g:vista_sidebar_width=80
+let g:vista_default_executive = 'ctags'
+let g:vista#renderer#enable_icon=0
 
 let g:netrw_liststyle=3
 let g:netrw_fastbrowse=0
@@ -141,7 +127,7 @@ map <Leader>vx :VimuxInterruptRunner<CR>
 
 " Zoom the runner pane (use <bind-key> z to restore runner pane)
 map <Leader>vz :call VimuxZoomRunner()<CR>
-nnoremap <leader>t :TagbarToggle<CR>
+nnoremap <leader>t :Vista!!<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -161,11 +147,8 @@ nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :GFiles<cr>
-nnoremap <leader>g :Grepper -tool rg<cr>
-nnoremap <leader>G :Grepper -tool git<cr>
-nnoremap <leader>w :Grepper -tool rg -cword -noprompt<cr>
-nmap gs <plug>(GrepperOperator)
-xmap gs <plug>(GrepperOperator)
+nnoremap <leader>g :Rg <cr>
+nnoremap <silent> <Leader>w :Rg <C-R><C-W><CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 nmap <silent> t<C-n> :TestNearest<CR>
