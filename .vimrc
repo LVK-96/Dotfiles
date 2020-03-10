@@ -29,7 +29,6 @@ Plug 'breuckelen/vim-resize'
 Plug 'junegunn/vim-easy-align'
 
 " Linting & autocompletion
-Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Language plugins
@@ -89,8 +88,8 @@ let g:tagbar_width = 80
 
 let g:ale_sign_column_always = 1
 
-call matchadd('ColorColumn', '\%81v\S', 100)
-highlight ColorColumn ctermbg=Red ctermfg=Yellow
+call matchadd('ColorColumn', '\%80v\S', 100)
+highlight ColorColumn ctermbg=red ctermfg=white
 
 let g:netrw_liststyle=3
 let g:netrw_fastbrowse=0
