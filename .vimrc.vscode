@@ -46,6 +46,7 @@ set sessionoptions-=options
 set viewoptions-=options
 set laststatus=2
 set showtabline=2
+map <Space> <Leader>
 nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 
 " Emulate vim-commentary with vscode

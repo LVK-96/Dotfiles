@@ -49,6 +49,7 @@ call plug#end()
 
 " Misc
 let test#strategy = "dispatch"
+autocmd BufWritePre * :StripWhitespace
 
 " Syntax
 let g:vim_json_syntax_conceal = 0
@@ -109,23 +110,13 @@ set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
 
-" Keybindings
-" Prompt for a command to run
+map <Space> <Leader>
+nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 map <Leader>vr :VimuxPromptCommand<CR>
-
-" Run last command executed by VimuxRunCommand
 map <Leader>vl :VimuxRunLastCommand<CR>
-
-" Inspect runner pane
 map <Leader>vi :VimuxInspectRunner<CR>
-
-" Close vim tmux runner opened by VimuxRunCommand
 map <Leader>vq :VimuxCloseRunner<CR>
-
-" Interrupt any command running in the runner pane
 map <Leader>vx :VimuxInterruptRunner<CR>
-
-" Zoom the runner pane (use <bind-key> z to restore runner pane)
 map <Leader>vz :call VimuxZoomRunner()<CR>
 nnoremap <leader>t :Vista!!<CR>
 nnoremap <C-J> <C-W><C-J>
@@ -315,5 +306,3 @@ set viewoptions-=options
 set laststatus=2
 set showtabline=2
 set clipboard=unnamedplus
-nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-autocmd BufWritePre * :StripWhitespace
