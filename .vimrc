@@ -1,7 +1,7 @@
 call plug#begin('~/.vim/plugged')
 " Look
 Plug 'noahfrederick/vim-hemisu'
-Plug 'chriskempson/base16-vim'
+Plug 'morhetz/gruvbox'
 Plug 'ap/vim-buftabline'
 Plug 'airblade/vim-gitgutter'
 Plug 'machakann/vim-highlightedyank'
@@ -12,7 +12,6 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vista.vim'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -68,15 +67,17 @@ let g:mkdp_browser = 'qutebrowser'
 
 " Look
 set background=dark
-colorscheme hemisu
-hi CursorLineNr gui=underline cterm=underline ctermfg=grey
+
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = 'medium'
+
+" colorscheme hemisu
+" hi CursorLineNr gui=underline cterm=underline ctermfg=grey
+" hi StatusLine guibg=#000000 ctermbg=black
+" hi StatusLineNC guibg=#000000 ctermbg=black
 
 call matchadd('ColorColumn', '\%80v\S', 100)
 highlight ColorColumn ctermbg=red ctermfg=white
-
-let g:vista_sidebar_width=80
-let g:vista_default_executive = 'ctags'
-let g:vista#renderer#enable_icon=0
 
 let g:netrw_liststyle=3
 let g:netrw_fastbrowse=0
@@ -99,10 +100,8 @@ function! Current_git_branch()
     return ""
 endfunction
 
-hi StatusLine guibg=#000000 ctermbg=black
-hi StatusLineNC guibg=#000000 ctermbg=black
 set statusline=
-set statusline +=\ %{Current_git_branch()}
+set statusline +=%{Current_git_branch()}
 set statusline+=%=
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
@@ -118,7 +117,6 @@ map <Leader>vi :VimuxInspectRunner<CR>
 map <Leader>vq :VimuxCloseRunner<CR>
 map <Leader>vx :VimuxInterruptRunner<CR>
 map <Leader>vz :call VimuxZoomRunner()<CR>
-nnoremap <leader>t :Vista!!<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -140,6 +138,15 @@ nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :GFiles<cr>
 nnoremap <leader>g :Rg <cr>
 nnoremap <silent> <Leader>w :Rg <C-R><C-W><CR>
+nnoremap <leader>b :Buffers <cr>
+nnoremap <leader>t :BTags<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-rg)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 nmap <silent> t<C-n> :TestNearest<CR>
@@ -304,5 +311,5 @@ set viminfo^=!
 set sessionoptions-=options
 set viewoptions-=options
 set laststatus=2
-set showtabline=2
 set clipboard=unnamedplus
+set mouse=a
