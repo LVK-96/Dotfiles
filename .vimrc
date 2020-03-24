@@ -1,21 +1,14 @@
 call plug#begin('~/.vim/plugged')
-" Look
+" Themes
 Plug 'noahfrederick/vim-hemisu'
 Plug 'morhetz/gruvbox'
-Plug 'ap/vim-buftabline'
-Plug 'airblade/vim-gitgutter'
-Plug 'machakann/vim-highlightedyank'
-Plug 'yggdroot/indentline'
-Plug 'ntpeters/vim-better-whitespace'
-
-" Navigation
-Plug 'tpope/vim-vinegar'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-rooter'
-Plug 'christoomey/vim-tmux-navigator'
 
 " Enhancements
+Plug 'ap/vim-buftabline'
+Plug 'yggdroot/indentline'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'airblade/vim-gitgutter'
+Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-fugitive'
 Plug 'janko/vim-test'
 Plug 'tpope/vim-dispatch'
@@ -26,6 +19,13 @@ Plug 'tpope/vim-commentary'
 Plug 'breuckelen/vim-resize'
 Plug 'junegunn/vim-easy-align'
 
+" Navigation
+Plug 'tpope/vim-vinegar'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
+Plug 'christoomey/vim-tmux-navigator'
+
 " Linting & autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -35,7 +35,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fatih/vim-go'
 Plug 'rust-lang/rust.vim'
 Plug 'plasticboy/vim-markdown'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'ekalinin/dockerfile.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
@@ -46,9 +45,55 @@ Plug 'cespare/vim-toml'
 Plug 'lervag/vimtex'
 call plug#end()
 
+" Sane defaults
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+set scrolloff=1
+set sidescrolloff=5
+set display+=lastline
+set ruler
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set formatoptions+=j " Delete comment character when joining commented lines
+setglobal tags-=./tags tags-=./tags; tags^=./tags;
+set wildmenu
+set autoread
+set relativenumber
+set rnu
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set ai
+set number
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set gdefault
+set hidden
+set encoding=utf-8
+set updatetime=100
+set timeoutlen=1000
+set ttimeout
+set ttimeoutlen=0
+set undodir=~/.vimdid
+set undofile
+set splitright
+set splitbelow
+set history=1000
+set tabpagemax=50
+set viminfo^=!
+set sessionoptions-=options
+set viewoptions-=options
+set laststatus=2
+set clipboard=unnamedplus
+set mouse=a
+
 " Misc
 let test#strategy = "dispatch"
 autocmd BufWritePre * :StripWhitespace
+let g:rooter_patterns = ['Pipfile', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
 
 " Syntax
 let g:vim_json_syntax_conceal = 0
@@ -109,6 +154,7 @@ set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
 
+" Keybindings
 map <Space> <Leader>
 nnoremap <Leader>l :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 map <Leader>vr :VimuxPromptCommand<CR>
@@ -131,8 +177,6 @@ nmap <leader>7 <Plug>BufTabLine.Go(7)
 nmap <leader>8 <Plug>BufTabLine.Go(8)
 nmap <leader>9 <Plug>BufTabLine.Go(9)
 nmap <leader>0 <Plug>BufTabLine.Go(10)
-nnoremap <Leader>p :bp<CR>
-nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>F :GFiles<cr>
@@ -269,47 +313,3 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-set autoindent
-set backspace=indent,eol,start
-set complete-=i
-set smarttab
-set scrolloff=1
-set sidescrolloff=5
-set display+=lastline
-set ruler
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-set formatoptions+=j " Delete comment character when joining commented lines
-setglobal tags-=./tags tags-=./tags; tags^=./tags;
-set wildmenu
-set autoread
-set relativenumber
-set rnu
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set ai
-set number
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set gdefault
-set hidden
-set encoding=utf-8
-set updatetime=100
-set timeoutlen=1000
-set ttimeout
-set ttimeoutlen=0
-set undodir=~/.vimdid
-set undofile
-set splitright
-set splitbelow
-set history=1000
-set tabpagemax=50
-set viminfo^=!
-set sessionoptions-=options
-set viewoptions-=options
-set laststatus=2
-set clipboard=unnamedplus
-set mouse=a
