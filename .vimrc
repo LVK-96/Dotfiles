@@ -113,16 +113,19 @@ let g:mkdp_browser = 'qutebrowser'
 " Look
 set background=dark
 
+
 colorscheme gruvbox
 let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_italic=1
+highlight Comment cterm=italic gui=italic
 
 " colorscheme hemisu
 " hi CursorLineNr gui=underline cterm=underline ctermfg=grey
 " hi StatusLine guibg=#000000 ctermbg=black
 " hi StatusLineNC guibg=#000000 ctermbg=black
 
-call matchadd('ColorColumn', '\%80v\S', 100)
-highlight ColorColumn ctermbg=red ctermfg=white
+" call matchadd('ColorColumn', '\%80v\S', 100)
+" highlight ColorColumn ctermbg=red ctermfg=white
 
 let g:netrw_liststyle=3
 let g:netrw_fastbrowse=0
@@ -130,7 +133,7 @@ autocmd FileType netrw setl bufhidden=wipe
 let g:netrw_banner=0
 let g:netrw_bufsettings = 'noma nomod renu nobl nowrap ro'
 
-let g:highlightedyank_highlight_duration = 3000
+let g:highlightedyank_highlight_duration = 1500
 
 let g:buftabline_numbers=2
 let g:buftabline_indicators=1
