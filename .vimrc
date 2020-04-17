@@ -1,7 +1,8 @@
 call plug#begin('~/.vim/plugged')
 " Themes
 Plug 'noahfrederick/vim-hemisu'
-Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-solarized8'
+Plug 'lifepillar/vim-gruvbox8'
 
 " Enhancements
 Plug 'ap/vim-buftabline'
@@ -93,7 +94,7 @@ set mouse=a
 " Misc
 let test#strategy = "dispatch"
 autocmd BufWritePre * :StripWhitespace
-let g:rooter_patterns = ['Pipfile', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+let g:rooter_patterns = ['Pipfile', 'package.json', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
 
 " Syntax
 let g:vim_json_syntax_conceal = 0
@@ -111,21 +112,14 @@ let g:mkdp_refresh_slow = 1
 let g:mkdp_browser = 'qutebrowser'
 
 " Look
+set termguicolors
 set background=dark
+colorscheme gruvbox8
 
-
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_italic=1
 highlight Comment cterm=italic gui=italic
 
-" colorscheme hemisu
-" hi CursorLineNr gui=underline cterm=underline ctermfg=grey
-" hi StatusLine guibg=#000000 ctermbg=black
-" hi StatusLineNC guibg=#000000 ctermbg=black
-
-" call matchadd('ColorColumn', '\%80v\S', 100)
-" highlight ColorColumn ctermbg=red ctermfg=white
+call matchadd('ColorColumn', '\%80v\S', 100)
+highlight ColorColumn ctermbg=red ctermfg=white
 
 let g:netrw_liststyle=3
 let g:netrw_fastbrowse=0
