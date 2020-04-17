@@ -189,9 +189,9 @@ set $gray #a89984
 set $darkgray #1d2021
 
 # class                 border|backgr|text|indicator|child_border
-client.focused          $gray $blue $darkgray $gray $darkgray
-client.focused_inactive $darkgray $darkgray $yellow $gray $darkgray
-client.unfocused        $darkgray $darkgray $yellow $gray $darkgray
+client.focused          $darkgray $darkgray #ffffff $gray $darkgray
+client.focused_inactive $darkgray $darkgray #ffffff $gray $darkgray
+client.unfocused        #000000 #000000 #ffffff $gray $darkgray
 client.urgent           $red $red $white $red $red
 
 # Start i3bar to display a workspace bar (plus the system information i3status
