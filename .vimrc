@@ -114,7 +114,7 @@ let g:mkdp_browser = 'qutebrowser'
 " Look
 set termguicolors
 set background=dark
-colorscheme gruvbox8
+colorscheme solarized8
 
 highlight Comment cterm=italic gui=italic
 
