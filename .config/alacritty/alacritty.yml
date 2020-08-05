@@ -125,8 +125,8 @@ font:
     style: Italic
 
   # Point size
-  size: 13.0
 
+  size: 9.0
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
@@ -157,40 +157,10 @@ font:
   use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
+
+# Colors (Gruvbox dark)
 schemes:
-  solarized_light: &light
-    primary:
-      background: '#fdf6e3' # base3
-      foreground: '#657b83' # base00
-
-    # Cursor colors
-    cursor:
-      text:   '#fdf6e3' # base3
-      cursor: '#657b83' # base00
-
-    # Normal colors
-    normal:
-      black:   '#073642' # base02
-      red:     '#dc322f' # red
-      green:   '#859900' # green
-      yellow:  '#b58900' # yellow
-      blue:    '#268bd2' # blue
-      magenta: '#d33682' # magenta
-      cyan:    '#2aa198' # cyan
-      white:   '#eee8d5' # base2
-
-    # Bright colors
-    bright:
-      black:   '#002b36' # base03
-      red:     '#cb4b16' # orange
-      green:   '#586e75' # base01
-      yellow:  '#657b83' # base00
-      blue:    '#839496' # base0
-      magenta: '#6c71c4' # violet
-      cyan:    '#93a1a1' # base1
-      white:   '#fdf6e3' # base3'
-
-  gruvbox_dark: &gruvbox
+  gruvbox_dark: &gruvbox_dark
     # Default colors
     primary:
       # hard contrast: background = '#1d2021'
@@ -220,7 +190,9 @@ schemes:
       cyan:    '#8ec07c'
       white:   '#ebdbb2'
 
-  solarized_dark: &dark
+  # Colors (Solarized Dark)
+  solarized_dark: &solarized_dark
+    # Default colors
     primary:
       background: '#002b36' # base03
       foreground: '#839496' # base0
@@ -252,41 +224,43 @@ schemes:
       cyan:    '#93a1a1' # base1
       white:   '#fdf6e3' # base3
 
-    # Colors (One Dark)
+  # Colors (Solarized Light)
+  solarized_light: &solarized_light
     # Default colors
-  one_dark: &one_dark
     primary:
-      background: '#282c34'
-      foreground: '#abb2bf'
+      background: '#fdf6e3' # base3
+      foreground: '#657b83' # base00
+
+    # Cursor colors
+    cursor:
+      text:   '#fdf6e3' # base3
+      cursor: '#657b83' # base00
 
     # Normal colors
     normal:
-      # NOTE: Use '#131613' for the `black` color if you'd like to see
-      # black text on the background.
-      black:   '#282c34'
-      red:     '#e06c75'
-      green:   '#98c379'
-      yellow:  '#d19a66'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#abb2bf'
+      black:   '#073642' # base02
+      red:     '#dc322f' # red
+      green:   '#859900' # green
+      yellow:  '#b58900' # yellow
+      blue:    '#268bd2' # blue
+      magenta: '#d33682' # magenta
+      cyan:    '#2aa198' # cyan
+      white:   '#eee8d5' # base2
 
     # Bright colors
     bright:
-      black:   '#5c6370'
-      red:     '#e06c75'
-      green:   '#98c379'
-      yellow:  '#d19a66'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#ffffff'
+      black:   '#002b36' # base03
+      red:     '#cb4b16' # orange
+      green:   '#586e75' # base01
+      yellow:  '#657b83' # base00
+      blue:    '#839496' # base0
+      magenta: '#6c71c4' # violet
+      cyan:    '#93a1a1' # base1
+      white:   '#fdf6e3' # base3
 
-colors: *dark
+colors: *solarized_dark
 
 draw_bold_text_with_bright_colors: true
-
 
 # Visual Bell
 #
@@ -309,7 +283,7 @@ draw_bold_text_with_bright_colors: true
 #   - Linear
 #
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
   color: '0xffffff'
@@ -379,7 +353,7 @@ selection:
   save_to_clipboard: false
 
 # Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
+window.dynamic_title: true
 
 cursor:
   # Cursor style
