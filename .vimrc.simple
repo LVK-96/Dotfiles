@@ -1,5 +1,5 @@
 " Misc
-colorscheme desert
+colorscheme default
 set autoindent
 set backspace=indent,eol,start
 set complete-=i
@@ -59,3 +59,5 @@ nnoremap <Leader>n :bn<CR>
 nnoremap <C-X> :bdelete<CR>
 " Clear whitespace
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+syntax on
