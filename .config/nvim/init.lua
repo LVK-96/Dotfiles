@@ -9,10 +9,12 @@ require("config.keybindings")
 require("config.misc")
 
 function main()
+    if not vim.g.vscode then
+        syntax()
+        lsp()
+        look()
+    end
     sane_defaults()
-    syntax()
-    lsp()
-    look()
     keybindings()
     misc()
 end

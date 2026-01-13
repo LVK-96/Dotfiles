@@ -1,15 +1,15 @@
 function lsp()
-    require'lspconfig'.pyright.setup{}
+    vim.lsp.config("pyright", {})
 
-    require'lspconfig'.clangd.setup {
+    vim.lsp.config("clangd", {
         cmd = { "chess-clangd" },
         autostart = false
-    }
+    })
 
-    require'lspconfig'.bashls.setup{}
-
-    require('lspconfig').verible.setup{
+    vim.lsp.config("verible", {
         cmd = {'verible-verilog-ls', '--rules_config_search'},
         autostart = false
-    }
+    })
+
+    vim.lsp.enable("python", "rust", "cpp", "c", "verilog")
 end

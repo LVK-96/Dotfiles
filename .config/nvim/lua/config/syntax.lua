@@ -1,4 +1,3 @@
-
 function syntax()
     vim.api.nvim_create_autocmd(
         {"BufNewFile", "BufRead", "BufEnter"},
@@ -45,9 +44,8 @@ function syntax()
     vim.api.nvim_create_autocmd(
         "FileType",
         {
-        pattern={"bcf"},
+        pattern={"*.bcf"},
         command= "setlocal commentstring=//\\ %s"
         }
     )
-
 end

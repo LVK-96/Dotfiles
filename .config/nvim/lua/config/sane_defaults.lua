@@ -1,47 +1,40 @@
 function sane_defaults()
-    vim.opt.autoindent = true
-    vim.opt.backspace = { "indent", "eol", "start" }
-    vim.opt.complete:remove("i")
-    vim.opt.smarttab = true
-    vim.opt.scrolloff = 1
-    vim.opt.sidescrolloff = 5
-    vim.opt.display:append("lastline")
-    vim.opt.ruler = true
-    vim.opt.listchars = { tab = "> ", trail = "-", extends = ">", precedes = "<", nbsp = "+" }
-    vim.opt.formatoptions:append("j")
-    vim.opt.tags:remove("./tags")
-    vim.opt.tags:remove("./tags;")
-    vim.opt.tags:prepend("./tags")
-    vim.opt.wildmenu = true
-    vim.opt.autoread = true
-    vim.opt.relativenumber = true
-    vim.opt.rnu = true
+    -- Indentation
     vim.opt.tabstop = 4
     vim.opt.shiftwidth = 4
     vim.opt.expandtab = true
-    vim.opt.ai = true
-    vim.opt.number = true
-    vim.opt.hlsearch = true
-    vim.opt.incsearch = true
+
+    -- UI Config
+    if not vim.g.vscode then
+        vim.opt.number = true
+        vim.opt.relativenumber = true
+        vim.opt.scrolloff = 1
+        vim.opt.sidescrolloff = 5
+        vim.opt.listchars = { tab = "> ", trail = "-", extends = ">", precedes = "<", nbsp = "+" }
+        vim.opt.laststatus = 2 -- Always show statusline
+    end
+
+    -- Search
     vim.opt.ignorecase = true
     vim.opt.smartcase = true
-    vim.opt.gdefault = true
-    vim.opt.hidden = true
-    vim.opt.encoding = "utf-8"
-    vim.opt.updatetime = 100
-    vim.opt.timeoutlen = 1000
-    vim.opt.ttimeout = true
-    vim.opt.ttimeoutlen = 0
-    vim.opt.undodir = vim.fn.expand("~/.vimdid")
+    vim.opt.gdefault = true -- Adds 'g' flag to search/replace by default
+
+    -- System
+    vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
+    vim.opt.updatetime = 100 -- Faster completion/triggering
+    vim.opt.timeoutlen = 1000 -- Time to wait for a mapped sequence to complete
+
+    -- Undo (Keep persistent undo)
     vim.opt.undofile = true
+
+    -- Window Splitting
     vim.opt.splitright = true
     vim.opt.splitbelow = true
-    vim.opt.history = 1000
-    vim.opt.tabpagemax = 50
-    vim.opt.viminfo:append("!")
+
+    -- Session Management
     vim.opt.sessionoptions:remove("options")
     vim.opt.viewoptions:remove("options")
-    vim.opt.laststatus = 2
-    vim.opt.clipboard = "unnamedplus"
-    vim.opt.mouse = "a"
+
+    -- Formatting
+    vim.opt.formatoptions:append("j") -- Remove comment leader when joining lines
 end

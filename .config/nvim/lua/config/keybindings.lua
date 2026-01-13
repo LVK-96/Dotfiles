@@ -1,36 +1,60 @@
 function keybindings()
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_set_keymap('n', '<Space>', '<Leader>', opts)
-    vim.api.nvim_set_keymap('n', '<Leader>l', ':nohlsearch<C-R>=has("diff")? "<Bar>diffupdate" : ""<CR><CR><C-L>', opts)
-    vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', opts)
-    vim.api.nvim_set_keymap('n', '<C-K>', '<C-W><C-K>', opts)
-    vim.api.nvim_set_keymap('n', '<C-L>', '<C-W><C-L>', opts)
-    vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>1', '<Plug>BufTabLine.Go(1)', {})
-    vim.api.nvim_set_keymap('n', '<leader>2', '<Plug>BufTabLine.Go(2)', {})
-    vim.api.nvim_set_keymap('n', '<leader>3', '<Plug>BufTabLine.Go(3)', {})
-    vim.api.nvim_set_keymap('n', '<leader>4', '<Plug>BufTabLine.Go(4)', {})
-    vim.api.nvim_set_keymap('n', '<leader>5', '<Plug>BufTabLine.Go(5)', {})
-    vim.api.nvim_set_keymap('n', '<leader>6', '<Plug>BufTabLine.Go(6)', {})
-    vim.api.nvim_set_keymap('n', '<leader>7', '<Plug>BufTabLine.Go(7)', {})
-    vim.api.nvim_set_keymap('n', '<leader>8', '<Plug>BufTabLine.Go(8)', {})
-    vim.api.nvim_set_keymap('n', '<leader>9', '<Plug>BufTabLine.Go(9)', {})
-    vim.api.nvim_set_keymap('n', '<leader>0', '<Plug>BufTabLine.Go(10)', {})
-    vim.api.nvim_set_keymap('n', '<C-X>', ':bdelete<CR>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>f', ':Files<cr>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>F', ':GFiles<cr>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>g', ':Rg <cr>', opts)
-    vim.api.nvim_set_keymap('n', '<Leader>w', ':Rg <C-R><C-W><CR>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers <cr>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>t', ':BTags<CR>', opts)
-    vim.api.nvim_set_keymap('n', '<leader><tab>', '<plug>(fzf-maps-n)', {})
-    vim.api.nvim_set_keymap('x', '<leader><tab>', '<plug>(fzf-maps-x)', {})
-    vim.api.nvim_set_keymap('o', '<leader><tab>', '<plug>(fzf-maps-o)', {})
-    vim.api.nvim_set_keymap('i', '<c-x><c-k>', '<plug>(fzf-complete-word)', {})
-    vim.api.nvim_set_keymap('i', '<c-x><c-f>', '<plug>(fzf-complete-path)', {})
-    vim.api.nvim_set_keymap('i', '<c-x><c-j>', '<plug>(fzf-complete-file-rg)', {})
-    vim.api.nvim_set_keymap('i', '<c-x><c-l>', '<plug>(fzf-complete-line)', {})
-    vim.api.nvim_set_keymap('x', 'ga', '<Plug>(EasyAlign)', {})
-    vim.api.nvim_set_keymap('n', 'ga', '<Plug>(EasyAlign)', {})
-    vim.api.nvim_set_keymap('n', '<F5>', ':StripWhitespace<cr>', opts)
+    local opts = { silent = true }
+
+    -- Clear search highlighting
+    vim.keymap.set("n", "<leader>l", function()
+        -- 1. Clear search highlighting
+        vim.cmd.nohlsearch()
+
+        -- 2. Update diffs (if the current window is in diff mode)
+        if vim.wo.diff then
+            vim.cmd.diffupdate()
+        end
+
+        -- 3. Redraw the screen (Equivalent to <C-L>)
+        vim.cmd("redraw!")
+    end, { desc = "Clear highlights, update diffs & redraw" })
+
+    -- Tabline navigation
+    for i = 1, 9 do
+        vim.keymap.set("n", "<leader>" .. i, function()
+            if vim.g.vscode then
+                -- Trigger the VS Code command "Open Editor at Index X"
+                require('vscode').call("workbench.action.openEditorAtIndex" .. i)
+            else
+                local buffers = vim.tbl_filter(function(b) return vim.bo[b].buflisted end, vim.api.nvim_list_bufs())
+                if buffers[i] then vim.api.nvim_set_current_buf(buffers[i]) end
+            end
+        end, { desc = "Go to Tab " .. i })
+    end
+
+    vim.keymap.set("n", "<leader>0", function()
+        if vim.g.vscode then
+            require('vscode').call("workbench.action.lastEditorInGroup")
+        else
+            local buffers = vim.tbl_filter(function(b) return vim.bo[b].buflisted end, vim.api.nvim_list_bufs())
+            if #buffers > 0 then vim.api.nvim_set_current_buf(buffers[#buffers]) end
+        end
+    end, { desc = "Last Buffer" })
+
+    vim.keymap.set("n", "<C-X>", function()
+        if vim.g.vscode then
+            require('vscode').call("workbench.action.closeActiveEditor")
+        else
+            vim.cmd("bdelete")
+        end
+    end, { desc = "Close buffer" })
+
+    if not vim.g.vscode then
+        -- Tab completion keymaps
+        -- plugins.lua has the normal Tab since it needs to handle LSP + Copilot
+        -- Shift+Tab to go up
+        vim.keymap.set("i", "<S-Tab>", function()
+            return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
+        end, { expr = true })
+        -- If menu is open, confirm selection. If not, just insert a newline.
+        vim.keymap.set("i", "<CR>", function()
+            return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
+        end, { expr = true })
+    end
 end
