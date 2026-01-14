@@ -30,8 +30,22 @@ function syntax()
     vim.api.nvim_create_autocmd(
         {"BufNewFile", "BufRead", "BufEnter"},
         {
-        pattern={"*.sva"},
+        pattern={"*.v"},
         command= "set filetype=verilog"
+        }
+    )
+    vim.api.nvim_create_autocmd(
+        {"BufNewFile", "BufRead", "BufEnter"},
+        {
+        pattern={"*.sv"},
+        command= "set filetype=systemverilog"
+        }
+    )
+    vim.api.nvim_create_autocmd(
+        {"BufNewFile", "BufRead", "BufEnter"},
+        {
+        pattern={"*.sva"},
+        command= "set filetype=systemverilog"
         }
     )
     vim.api.nvim_create_autocmd(

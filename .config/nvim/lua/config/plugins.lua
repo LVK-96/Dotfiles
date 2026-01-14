@@ -16,6 +16,7 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         lazy = false,
         keys = { { "-", "<CMD>Oil<CR>", desc = "Open Parent Directory" } },
+        win_options = { signcolumn = "yes:2" },
         config = function()
             require("oil").setup({
                 -- 1. REPLICATE 'netrw_bufsettings = ... renu'
@@ -80,6 +81,13 @@ return {
             vim.api.nvim_create_user_command("Ex", "Oil", {})
         end,
     },
+    { "refractalize/oil-git-status.nvim",
+        dependencies = {
+            "stevearc/oil.nvim",
+        },
+
+        config = true,
+    },
     { "ibhagwan/fzf-lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
@@ -114,13 +122,17 @@ return {
             "TmuxNavigatorProcessList",
         },
         keys = {
-            { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-            { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-            { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-            { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-            { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" ,
+            { "<C-a>h", "<cmd>TmuxNavigateLeft<cr>" },
+            { "<C-a>j", "<cmd>TmuxNavigateDown<cr>" },
+            { "<C-a>k", "<cmd>TmuxNavigateUp<cr>" },
+            { "<C-a>l", "<cmd>TmuxNavigateRight<cr>" },
+            { "<C-a>\\", "<cmd>TmuxNavigatePrevious<cr>" },
         },
-    }},
+        init = function()
+            -- Disable the default mappings so they don't conflict
+            vim.g.tmux_navigator_no_mappings = 1
+        end,
+    },
 
     -- Git
     { "lewis6991/gitsigns.nvim",
@@ -168,6 +180,22 @@ return {
                 },
                 matchup = {
                     enable = true,
+                },
+                ensure_installed = {
+                    "bash",
+                    "c",
+                    "cpp",
+                    "css",
+                    "html",
+                    "javascript",
+                    "json",
+                    "lua",
+                    "markdown",
+                    "python",
+                    "rust",
+                    "toml",
+                    "typescript",
+                    "yaml",
                 },
             })
         end,
@@ -297,64 +325,91 @@ return {
             },
         },
     },
-    { "olimorris/codecompanion.nvim",
-        enabled = not vim.g.vscode,
+    { "NickvanDyke/opencode.nvim",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        opts = {
-            -- NOTE: The log_level is in `opts.opts`
-            -- opts = {
-            --   log_level = "DEBUG", -- or "TRACE"
-            -- },
-            adapters = {
-                acp = {
-                    gemini_cli = function()
-                        return require("codecompanion.adapters").extend("gemini_cli", {
-                            defaults = {
-                                auth_method = "ouath-personal",
-                            },
-                        })
-                    end
-                },
-                http = {
-                    gemini = function()
-                        return require("codecompanion.adapters").extend("gemini", {
-                            env = {
-                                api_key = "GEMINI_API_KEY",
-                            },
-                        })
-                    end,
-                },
-            },
-            interactions = {
-                chat = { adapter = "gemini_cli" },
-                inline = { adapter = "copilot" },
-                cmd = { adapter = "gemini_cli" },
-                background = {
-                    chat = {
-                        callbacks = {
-                            ["on_ready"] = {
-                                actions = {
-                                    "interactions.background.builtin.chat_make_title",
-                                },
-                                enabled = true,
-                            },
-                        },
-                        opts = {
-                            enabled = true,
-                        },
+            { "folke/snacks.nvim",
+                opts = {
+                    -- 1. Setup Input (The Prompt Box)
+                    input = {
+                        enabled = true,
+                        keys = { ["<C-q>"] = { "cancel", mode = { "n", "i" } } }
                     },
-                },
+
+                    -- 2. Setup Terminal (The Chat Window)
+                    terminal = { enabled = true },
+
+                    -- 3. Setup Picker (The Actions Menu)
+                    picker = {
+                        enabled = true, -- Enable Snacks to handle standard menus
+                        ui_select = true, -- Explicitly tell it to handle vim.ui.select
+                        win = {
+                            input = {
+                                keys = {
+                                    -- FORCE Ctrl+q to close the window (instead of Quickfix)
+                                    ["<C-q>"] = { "close", mode = { "n", "i" } },
+                                }
+                            }
+                        }
+                    },
+                }
             },
         },
-        init = function()
-            vim.cmd("cab cc CodeCompanion")
+        config = function()
+            require("fzf-lua").register_ui_select()
+
+            ---@type opencode.Opts
+            vim.g.opencode_opts = {
+                preferred_picker = "fzf",
+
+                -- Use Snacks for the terminal window integration
+                provider = {
+                     enabled = "snacks",
+                },
+
+                -- Your Antigravity Model Setup
+                agent = {
+                     auto_init = true,
+                     default_model = "google/antigravity-gemini-3-flash",
+                },
+
+                -- Floating Window Style
+                ui = {
+                     style = "float",
+                     width = 0.8,
+                     height = 0.8,
+                },
+            }
+
+            -- Required for `opts.events.reload`.
+            vim.o.autoread = true
+
+            local opencode = require("opencode")
+            -- <leader>oo : Toggle the AI Chat Window
+            vim.keymap.set({ "n", "t" }, "<leader>oo", opencode.toggle, { desc = "AI: Toggle" })
+            -- <leader>oa : Ask AI about the current line/selection
+            vim.keymap.set({ "n", "x" }, "<leader>oa", function()
+              opencode.ask("@this: ", { submit = false })
+            end, { desc = "AI: Ask" })
+            -- <leader>ox : Open Actions Menu (Explain, Fix, etc.)
+            vim.keymap.set({ "n", "x" }, "<leader>ox", opencode.select, { desc = "AI: Actions" })
+
+            vim.keymap.set({ "n", "x" }, "go",  function() return opencode.operator("@this ") end, { expr = true, desc = "AI: Operator" })
+            vim.keymap.set("n",          "goo", function() return opencode.operator("@this ") .. "_" end, { expr = true, desc = "AI: Line" })
+
+            -- Scroll the AI window UP (Ctrl + Shift + u)
+            vim.keymap.set({"n", "i"}, "<C-S-u>", function()
+                require("opencode").command("session.half.page.up")
+            end, { desc = "AI: Scroll Up" })
+
+            -- Scroll the AI window DOWN (Ctrl + Shift + d)
+            vim.keymap.set({"n", "i"}, "<C-S-d>", function()
+                require("opencode").command("session.half.page.down")
+            end, { desc = "AI: Scroll Down" })
+
+            -- Quickly cycle between Models (e.g. Gemini <-> Opus)
+            vim.keymap.set("n", "<leader>om", function()
+                require("opencode").command("agent.cycle")
+            end, { desc = "AI: Cycle Model" })
         end,
-        keys = {
-            { "<leader>ca", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "AI Actions" },
-            { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Toggle AI Chat" },
-            { "ga", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add selection to AI Chat" },
-        },
-    },
+    }
 }

@@ -19,7 +19,6 @@ local function highlight_yank()
     })
 end
 
-
 function misc()
     highlight_yank()
     if not vim.g.vscode then

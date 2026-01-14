@@ -78,13 +78,73 @@ function MyTabClick(minwid, clicks, btn, modifiers)
     if buffers[minwid] then vim.api.nvim_set_current_buf(buffers[minwid]) end
 end
 
+-- Current tabline page (0-indexed)
+_G.tabline_page = _G.tabline_page or 0
+_G.tabline_manual_page = _G.tabline_manual_page or false  -- Track if user manually switched pages
+local BUFFERS_PER_PAGE = 10
+
+-- Navigate to next/previous tabline page (circular)
+function _G.tabline_next_page()
+    local buffers = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
+    end, vim.api.nvim_list_bufs())
+    local max_page = math.max(0, math.ceil(#buffers / BUFFERS_PER_PAGE) - 1)
+    if _G.tabline_page < max_page then
+        _G.tabline_page = _G.tabline_page + 1
+    else
+        _G.tabline_page = 0  -- Wrap to first page
+    end
+    _G.tabline_manual_page = true
+    vim.cmd("redrawtabline")
+end
+
+function _G.tabline_prev_page()
+    local buffers = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
+    end, vim.api.nvim_list_bufs())
+    local max_page = math.max(0, math.ceil(#buffers / BUFFERS_PER_PAGE) - 1)
+    if _G.tabline_page > 0 then
+        _G.tabline_page = _G.tabline_page - 1
+    else
+        _G.tabline_page = max_page  -- Wrap to last page
+    end
+    _G.tabline_manual_page = true
+    vim.cmd("redrawtabline")
+end
+
 function my_tabline()
     local s = ""
     -- Get list of all listed buffers
     local buffers = vim.tbl_filter(function(b)
         return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
     end, vim.api.nvim_list_bufs())
-    for index, buf_id in ipairs(buffers) do
+
+    -- Only auto-follow if user didn't manually switch pages
+    if not _G.tabline_manual_page then
+        local current_buf = vim.api.nvim_get_current_buf()
+        for i, buf_id in ipairs(buffers) do
+            if buf_id == current_buf then
+                _G.tabline_page = math.floor((i - 1) / BUFFERS_PER_PAGE)
+                break
+            end
+        end
+    end
+
+    -- Calculate pagination
+    local total_pages = math.max(1, math.ceil(#buffers / BUFFERS_PER_PAGE))
+    _G.tabline_page = math.min(_G.tabline_page, total_pages - 1)
+    local start_idx = _G.tabline_page * BUFFERS_PER_PAGE + 1
+    local end_idx = math.min(start_idx + BUFFERS_PER_PAGE - 1, #buffers)
+
+    -- Show page indicator if more than one page
+    if total_pages > 1 then
+        s = s .. "%#TabLineFill# [" .. (_G.tabline_page + 1) .. "/" .. total_pages .. "] "
+    end
+
+    -- Only show buffers for current page
+    for i = start_idx, end_idx do
+        local buf_id = buffers[i]
+        local display_index = i - start_idx + 1  -- 1-10 for hotkeys
         local is_selected = (buf_id == vim.api.nvim_get_current_buf())
         local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf_id), ":t")
         if name == "" then name = "[No Name]" end
@@ -100,12 +160,11 @@ function my_tabline()
         else
             s = s .. "%#TabLine#"    -- Inactive Buffer Color
         end
-        -- Make the tab clickable with mouse
-        s = s .. "%" .. index .. "@v:lua.MyTabClick@"
+        -- Make the tab clickable with mouse (use actual buffer index for click)
+        s = s .. "%" .. i .. "@v:lua.MyTabClick@"
 
-        -- THE FORMATTING: " 1 name "
-        -- This adds the spacing and numbers you missed
-        s = s .. " " .. index .. " " .. name .. " "
+        -- THE FORMATTING: " 1 name " (display 1-10 for hotkey reference)
+        s = s .. " " .. display_index .. " " .. name .. " "
         -- Reset highlight
         s = s .. "%*"
     end
@@ -113,7 +172,6 @@ function my_tabline()
     s = s .. "%#TabLineFill#%T"
     return s
 end
-
 
 -- Apply the settings
 local function tabline()
