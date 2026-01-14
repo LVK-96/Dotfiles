@@ -385,7 +385,7 @@ return {
 
             local opencode = require("opencode")
             -- <leader>oo : Toggle the AI Chat Window
-            vim.keymap.set({ "n", "t" }, "<leader>oo", opencode.toggle, { desc = "AI: Toggle" })
+            vim.keymap.set("n", "<leader>oo", opencode.toggle, { desc = "AI: Toggle" })
             -- <leader>oa : Ask AI about the current line/selection
             vim.keymap.set({ "n", "x" }, "<leader>oa", function()
               opencode.ask("@this: ", { submit = false })
