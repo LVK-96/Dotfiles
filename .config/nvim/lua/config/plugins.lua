@@ -1,12 +1,20 @@
 return {
     -- Theme
-    { "ishan9299/nvim-solarized-lua",
-        enabled = not vim.g.vscode,
+    -- { "ishan9299/nvim-solarized-lua",
+    --     enabled = not vim.g.vscode,
+    --     lazy = false,
+    --     priority = 1000,
+    --     config = function()
+    --         vim.o.background = "light" -- or "light"
+    --         vim.cmd.colorscheme("solarized")
+    --     end,
+    -- },
+    { "miikanissi/modus-themes.nvim",
         lazy = false,
         priority = 1000,
         config = function()
-            vim.o.background = "light" -- or "light"
-            vim.cmd.colorscheme("solarized")
+            vim.o.background = "dark" -- or "light"
+            vim.cmd.colorscheme("modus_vivendi")
         end,
     },
 
