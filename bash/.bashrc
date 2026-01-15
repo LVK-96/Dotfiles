@@ -5,8 +5,15 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Ensure local paths are set (Pixi/Local/Mason)
-export PATH="$HOME/.local/share/nvim/mason/bin:${PIXI_HOME:-$HOME/.pixi}/bin:$HOME/.local/bin:$PATH"
+# Ensure local paths are set
+export PATH="$HOME/.local/share/nvim/mason/bin:$HOME/.local/bin:$PATH"
+
+# Add pixi to PATH if installed
+if [[ -n "$PIXI_HOME" && -d "$PIXI_HOME/bin" ]]; then
+    export PATH="$PIXI_HOME/.opencode/bin:$PIXI_HOME/bin:$PATH"
+elif [[ -d "$HOME/.pixi/bin" ]]; then
+    export PATH="$HOME/.pixi/.opencode/bin:$HOME/.pixi/bin:$PATH"
+fi
 
 # ls with colors
 alias ls='ls --color=auto'
