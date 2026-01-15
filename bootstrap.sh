@@ -3,7 +3,7 @@ set -e
 
 # Configuration
 DOTFILES_DIR="$HOME/Dotfiles"
-REPO_URL="https://github.com/YOUR_USERNAME/Dotfiles.git" # Update this!
+REPO_URL="https://github.com/LVK-96/Dotfiles.git"
 
 # Colors
 GREEN='\033[0;32m'
