@@ -58,6 +58,21 @@ for pkg in $PACKAGES; do
     fi
 done
 
+# 4.1 Install Fisher plugins (Fish)
+if [ -f "$HOME/.config/fish/fish_plugins" ]; then
+    echo -e "${BLUE}Installing Fisher plugins...${NC}"
+    # Use 'fish -c' to run fisher install in a fish shell
+    # We install fisher itself first if needed (though bootstrap usually handles only the plugins via fisher)
+    # But since we ignored fisher.fish, we need to bootstrap fisher first.
+    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher update"
+fi
+
+# 4.2 Install Neovim Plugins (Lazy.nvim)
+echo -e "${BLUE}Installing Neovim plugins (Lazy)...${NC}"
+# Run headless Lazy sync. 
+# We ignore errors because sometimes first-run treesitter compilations output stuff to stderr.
+nvim --headless "+Lazy! sync" +qa || echo "Neovim plugin install finished with some warnings (normal for first run)."
+
 echo -e "${GREEN}Setup Complete!${NC}"
 echo "Debug: Checking stow results..."
 ls -l ~/.bashrc | grep "\->" || echo "Warning: .bashrc is not a symlink"
