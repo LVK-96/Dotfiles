@@ -60,22 +60,21 @@ fi
 
 # 4. Link Configs (Stow)
 cd "$DOTFILES_DIR"
-echo -e "${BLUE}Linking configurations to $INSTALL_PREFIX...${NC}"
+echo -e "${BLUE}Linking configurations to $HOME...${NC}"
 
-# Link packages
 PACKAGES="bash nvim alacritty vim git tmux rofi opencode"
 
 for pkg in $PACKAGES; do
     if [ -d "$pkg" ]; then
         echo "Stowing $pkg..."
-        stow -d "$DOTFILES_DIR" -t "$INSTALL_PREFIX" --adopt "$pkg" || echo "Warning: Stow failed for $pkg"
+        stow -d "$DOTFILES_DIR" -t "$HOME" --adopt "$pkg" || echo "Warning: Stow failed for $pkg"
         git restore . &>/dev/null || true
     fi
 done
 
 echo -e "${GREEN}Setup Complete!${NC}"
 echo "Debug: Checking stow results..."
-ls -l "$INSTALL_PREFIX/.bashrc" | grep "\->" || echo "Warning: .bashrc is not a symlink"
+ls -l "$HOME/.bashrc" | grep "\->" || echo "Warning: .bashrc is not a symlink"
 
 echo ""
 echo "Environment setup at: $INSTALL_PREFIX"
