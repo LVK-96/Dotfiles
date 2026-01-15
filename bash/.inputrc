@@ -1,0 +1,41 @@
+# ~/.inputrc
+
+# Use Vi mode
+set editing-mode vi
+
+# Case-insensitive completion
+set completion-ignore-case on
+
+# Show all completions immediately (don't beep)
+set show-all-if-ambiguous on
+
+# Colorized completion stats (Bash 4.4+)
+set colored-stats on
+set visible-stats on
+
+# Mark directories with / and symlinks with @
+set mark-directories on
+set mark-symlinked-directories on
+
+# History search with Up/Down arrows (matches current input)
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Tab cycling (menu-complete) instead of just listing
+# Shift-Tab to cycle backward
+"\t": menu-complete
+"\e[Z": menu-complete-backward
+
+# Cursor shapes for Vi mode (requires compatible terminal)
+# Insert mode = Bar cursor
+set vi-ins-mode-string \1\e[6 q\2
+# Normal mode = Block cursor
+set vi-cmd-mode-string \1\e[2 q\2
+
+# Keymaps for fzf (if not handled by shell integration)
+set keymap vi-command
+"gg": beginning-of-history
+"G": end-of-history
+
+set keymap vi-insert
+"jj": vi-movement-mode

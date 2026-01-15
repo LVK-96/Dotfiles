@@ -1,0 +1,14 @@
+[general]
+import = [
+    "modus_vivendi.toml"
+]
+
+[font]
+normal = { family = "FiraCode Nerd Font" }
+size = 14
+
+[env]
+term = "xterm-256color"
+
+[window]
+padding = { x = 10, y = 10 }

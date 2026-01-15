@@ -1,0 +1,43 @@
+# Existing ignores
+fish/.config/fish/conf.d/local.fish
+opencode/.config/opencode/antigravity-accounts.json
+opencode/.config/opencode/node_modules
+
+# Pixi
+.pixi/
+pixi.lock
+
+# Fish
+fish/.config/fish/fish_variables
+fish/.config/fish/conf.d/fish_frozen_key_bindings.fish
+
+# Fisher Plugins (Managed by fisher)
+fish/.config/fish/functions/fisher.fish
+fish/.config/fish/completions/fisher.fish
+fish/.config/fish/functions/bass.fish
+fish/.config/fish/functions/__bass.py
+fish/.config/fish/man/man1/bass.1
+fish/.config/fish/completions/bass.fish
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+tmux-client-*.log
+
+# Container / Testing
+Containerfile
+test-bootstrap.sh
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private / Secrets
+.env
+.netrc
+.ssh/

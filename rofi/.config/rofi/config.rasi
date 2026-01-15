@@ -1,0 +1,18 @@
+@theme "modus-vivendi"
+configuration {
+    /* Define which modes are enabled */
+    modes: "window,drun,run,ssh,combi";
+
+    /* Define what is inside "combi" mode */
+    combi-modes: "window,drun,run";
+
+    /* Change the prompt to something generic (or empty) */
+    display-combi: "   Search ";
+
+    /* Remove the (drun)/(window) text from result lines */
+    combi-hide-mode-prefix: true;
+
+    /* Common settings */
+    show-icons: true;
+    terminal: "alacritty";
+}
