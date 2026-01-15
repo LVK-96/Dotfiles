@@ -46,7 +46,7 @@ pixi global install $TOOLS
 # 2.1 Install Opencode
 if ! command -v opencode &> /dev/null; then
     echo -e "${BLUE}Installing OpenCode to $PIXI_HOME/.opencode...${NC}"
-    HOME="$PIXI_HOME" curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path
+    curl -fsSL https://opencode.ai/install | HOME="$PIXI_HOME" bash -s -- --no-modify-path
     export PATH="$PIXI_HOME/.opencode/bin:$PATH"
 fi
 
