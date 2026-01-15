@@ -4,8 +4,13 @@ set -e
 # Usage: ./bootstrap.sh [INSTALL_PREFIX]
 # INSTALL_PREFIX defaults to $HOME
 
-# Configuration
-INSTALL_PREFIX="${1:-$HOME}"
+# Configuration - ensure absolute path
+INSTALL_PREFIX="$(cd "${1:-$HOME}" 2>/dev/null && pwd || echo "${1:-$HOME}")"
+if [[ "$INSTALL_PREFIX" != /* ]]; then
+    INSTALL_PREFIX="$(pwd)/$INSTALL_PREFIX"
+    mkdir -p "$INSTALL_PREFIX"
+    INSTALL_PREFIX="$(cd "$INSTALL_PREFIX" && pwd)"
+fi
 DOTFILES_DIR="$INSTALL_PREFIX/Dotfiles"
 PIXI_HOME="$INSTALL_PREFIX/.pixi"
 LOCAL_DIR="$INSTALL_PREFIX/.local"
@@ -33,7 +38,6 @@ else
 fi
 
 # 2. Install Tools via Pixi Global
-# This installs binaries to $PIXI_HOME/bin
 TOOLS="nvim fzf ripgrep stow git tmux nodejs"
 
 echo -e "${BLUE}Installing tools: $TOOLS${NC}"
