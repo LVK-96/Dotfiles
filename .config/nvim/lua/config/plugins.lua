@@ -396,8 +396,12 @@ return {
             vim.keymap.set("n", "<leader>oo", opencode.toggle, { desc = "AI: Toggle" })
             -- <leader>oa : Ask AI about the current line/selection
             vim.keymap.set({ "n", "x" }, "<leader>oa", function()
-              opencode.ask("@this: ", { submit = false })
+              opencode.ask("@this: ", { submit = true })
             end, { desc = "AI: Ask" })
+            -- <leader>af : Send entire file (review before submit)
+            vim.keymap.set("n", "<leader>af", function()
+              opencode.ask("@file: ", { submit = true })
+            end, { desc = "AI: Send Whole File" })
             -- <leader>ox : Open Actions Menu (Explain, Fix, etc.)
             vim.keymap.set({ "n", "x" }, "<leader>ox", opencode.select, { desc = "AI: Actions" })
 
