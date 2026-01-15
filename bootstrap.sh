@@ -31,7 +31,7 @@ pixi global install $TOOLS
 # 2.1 Install Opencode via NPM (Pixi provides node/npm)
 if ! command -v opencode &> /dev/null; then
     echo -e "${BLUE}Installing OpenCode...${NC}"
-    npm install -g opencode-ai
+    curl -fsSL https://opencode.ai/install | bash
 fi
 
 # 3. Clone Dotfiles
