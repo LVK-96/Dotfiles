@@ -59,4 +59,8 @@ for pkg in $PACKAGES; do
 done
 
 echo -e "${GREEN}Setup Complete!${NC}"
+echo "Debug: Checking stow results..."
+ls -l ~/.bashrc | grep "\->" || echo "Warning: .bashrc is not a symlink"
+ls -l ~/.config/fish/functions/fish_prompt.fish || echo "Warning: fish_prompt.fish missing"
+
 echo "Restart your terminal. Pixi has installed Fish shell."
