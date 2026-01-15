@@ -23,7 +23,7 @@ fi
 
 # 2. Install Tools via Pixi Global
 # This installs binaries to ~/.pixi/bin which is in PATH
-TOOLS="fish nvim fzf ripgrep stow git tmux nodejs"
+TOOLS="nvim fzf ripgrep stow git tmux nodejs"
 
 echo -e "${BLUE}Installing tools: $TOOLS${NC}"
 pixi global install $TOOLS
@@ -47,8 +47,7 @@ cd "$DOTFILES_DIR"
 echo -e "${BLUE}Linking configurations...${NC}"
 
 # Link packages
-# Note: we stow 'bash' too, which includes the auto-switch to fish
-PACKAGES="bash nvim fish alacritty vim git tmux rofi opencode"
+PACKAGES="bash nvim alacritty vim git tmux rofi opencode"
 
 for pkg in $PACKAGES; do
     if [ -d "$pkg" ]; then
@@ -58,22 +57,8 @@ for pkg in $PACKAGES; do
     fi
 done
 
-# 4.1 Install Fisher plugins (Fish)
-if [ -f "$HOME/.config/fish/fish_plugins" ]; then
-    echo -e "${BLUE}Installing Fisher plugins...${NC}"
-    # Use 'fish -c' to run fisher install in a fish shell
-    # We install fisher itself first if needed (though bootstrap usually handles only the plugins via fisher)
-    # But since we ignored fisher.fish, we need to bootstrap fisher first.
-    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher update"
-fi
-
-# 4.2 Install Neovim Plugins (Lazy.nvim)
-# Lazy.nvim handles its own bootstrapping and plugin installation
-# when you first open nvim.
-
 echo -e "${GREEN}Setup Complete!${NC}"
 echo "Debug: Checking stow results..."
 ls -l ~/.bashrc | grep "\->" || echo "Warning: .bashrc is not a symlink"
-ls -l ~/.config/fish/functions/fish_prompt.fish || echo "Warning: fish_prompt.fish missing"
 
-echo "Restart your terminal. Pixi has installed Fish shell."
+echo "Environment setup!"

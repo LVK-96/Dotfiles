@@ -5,8 +5,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Ensure local paths are set (Pixi/Local)
-export PATH="$HOME/.pixi/bin:$HOME/.local/bin:$PATH"
+# Ensure local paths are set (Pixi/Local/Mason)
+export PATH="$HOME/.local/share/nvim/mason/bin:$HOME/.pixi/bin:$HOME/.local/bin:$PATH"
 
 # Auto-launch Fish if available (Pixi installed)
 if command -v fish >/dev/null; then
