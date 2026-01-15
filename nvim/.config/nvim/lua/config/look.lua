@@ -52,7 +52,7 @@ function statusline()
 
         -- Use pcall to prevent errors during complex searches
         local ok, res = pcall(vim.fn.searchcount, { maxcount = 999, timeout = 500 })
-        if not ok or res.total == 0 then return "" end
+        if not ok or not res or not res.total or res.total == 0 then return "" end
 
         if res.incomplete == 1 then
             return " [?/" .. res.total .. "] "
