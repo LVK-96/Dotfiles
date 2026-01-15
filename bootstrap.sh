@@ -68,10 +68,8 @@ if [ -f "$HOME/.config/fish/fish_plugins" ]; then
 fi
 
 # 4.2 Install Neovim Plugins (Lazy.nvim)
-echo -e "${BLUE}Installing Neovim plugins (Lazy)...${NC}"
-# Run headless Lazy sync. 
-# We ignore errors because sometimes first-run treesitter compilations output stuff to stderr.
-nvim --headless "+Lazy! sync" +qa || echo "Neovim plugin install finished with some warnings (normal for first run)."
+# Lazy.nvim handles its own bootstrapping and plugin installation
+# when you first open nvim.
 
 echo -e "${GREEN}Setup Complete!${NC}"
 echo "Debug: Checking stow results..."
