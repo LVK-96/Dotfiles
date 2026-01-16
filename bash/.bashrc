@@ -48,8 +48,16 @@ __git_prompt() {
     echo " ($branch$status)"
 }
 
-# Green cwd, yellow git status, $ prompt
-PS1='\[\e[32m\]\w\[\e[33m\]$(__git_prompt)\[\e[0m\] $ '
+# Fast git status, branch name and dirty flag in prompt
+parse_git_info() {
+   branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+   [ -n "$branch" ] || return
+   dirty=$(git status --porcelain 2>/dev/null)
+   [ -n "$dirty" ] && echo "($branch*)" || echo "($branch)"
+}
+export PS1="\[\033[32m\]\w\[\033[33m\]\$(parse_git_info)\[\033[00m\] \$ "
+
+bind 'TAB:menu-complete'
 
 # FZF Setup (check multiple locations: pixi, homebrew, system)
 for fzf_dir in "${PIXI_HOME:-$HOME/.pixi}/share/fzf" "$HOME/.fzf" "/opt/homebrew/opt/fzf/shell" "/usr/share/fzf" "/usr/share/doc/fzf/examples"; do
