@@ -31,23 +31,6 @@ shopt -s histappend                      # Append to history, don't overwrite
 # Check window size after each command and, if necessary, update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# Fast git status prompt (matches fish style)
-__git_prompt() {
-    local branch
-    branch=$(git branch --show-current 2>/dev/null) || return
-    [[ -z "$branch" ]] && return
-
-    local status=""
-    # Dirty working tree
-    git diff --quiet 2>/dev/null || status="*"
-    # Staged changes (only if not dirty)
-    [[ -z "$status" ]] && ! git diff --cached --quiet 2>/dev/null && status="+"
-    # Untracked files
-    [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null | head -1)" ]] && status="${status}%"
-
-    echo " ($branch$status)"
-}
-
 # Fast git status, branch name and dirty flag in prompt
 parse_git_info() {
    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
