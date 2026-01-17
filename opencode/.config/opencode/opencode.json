@@ -20,6 +20,7 @@
         "antigravity-gemini-3-pro": {
           "name": "Gemini 3 Pro (Antigravity)",
           "limit": { "context": 1048576, "output": 65535 },
+          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
           "variants": {
             "high": { "thinkingLevel": "high" },
             "medium": { "thinkingLevel": "medium" },
@@ -29,6 +30,7 @@
         "antigravity-gemini-3-flash": {
           "name": "Gemini 3 Flash (Antigravity)",
           "limit": { "context": 1048576, "output": 65535 },
+          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
           "variants": {
             "high": { "thinkingLevel": "high" },
             "medium": { "thinkingLevel": "medium" },
@@ -38,6 +40,7 @@
         "antigravity-claude-opus-4-5-thinking": {
           "name": "Claude Opus 4.5 Thinking",
           "limit": { "context": 1048576, "output": 65535 },
+          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
           "variants": {
             "low": { "thinkingConfig": { "thinkingBudget": 8192 } },
             "max": { "thinkingConfig": { "thinkingBudget": 32768 } }
