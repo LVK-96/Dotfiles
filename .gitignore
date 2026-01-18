@@ -3,6 +3,9 @@ fish/.config/fish/conf.d/local.fish
 opencode/.config/opencode/antigravity-accounts.json
 opencode/.config/opencode/node_modules
 
+#nvim
+lazy-lock.json
+
 # Pixi
 .pixi/
 pixi.lock
@@ -10,6 +13,7 @@ pixi.lock
 # Fish
 fish/.config/fish/fish_variables
 fish/.config/fish/conf.d/fish_frozen_key_bindings.fish
+fish/.config/fish/env.fish
 
 # Fisher Plugins (Managed by fisher)
 fish/.config/fish/functions/fisher.fish

@@ -27,8 +27,16 @@ bind -M insert \cn history-search-forward
 set -gx TERM xterm-256color
 set -gx EDITOR nvim
 set -gx XDG_RUNTIME_DIR /run/user/(id -u)
+set -gx BAT_THEME base16
 
-# Aliases (use abbr for expansion in command line, or function for true alias)
-function vim --wraps=nvim
-    nvim $argv
+if type -q eza
+    alias l="eza -lh --icons --git"
+    alias la="eza -lah --icons --git"
 end
+
+if type -q nvim
+    alias vim="nvim"
+end
+
+
+source (dirname (status filename))/env.fish

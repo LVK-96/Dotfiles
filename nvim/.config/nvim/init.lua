@@ -27,23 +27,26 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
+-- Load per project .nvimrc files, asks for confirmation
+vim.o.exrc = true
+
 require("config.lazy")
+require("config.keybindings")
 require("config.sane_defaults")
 require("config.syntax")
 require("config.lsp")
 require("config.look")
-require("config.keybindings")
 require("config.misc")
 
 function main()
-    if not vim.g.vscode then
-        syntax()
-        lsp()
-        look()
-    end
-    sane_defaults()
-    keybindings()
-    misc()
+	if not vim.g.vscode then
+		syntax()
+		lsp()
+		look()
+	end
+	sane_defaults()
+	keybindings()
+	misc()
 end
 
 main()

@@ -28,18 +28,16 @@ NC='\033[0m'
 echo -e "${GREEN}Starting Portable Environment Setup (via Pixi)...${NC}"
 echo -e "${BLUE}Install prefix: $INSTALL_PREFIX${NC}"
 
-# 1. Install Pixi
+# Install Pixi
 if ! command -v pixi &> /dev/null; then
     echo -e "${BLUE}Installing Pixi to $PIXI_HOME...${NC}"
     curl -fsSL https://pixi.sh/install.sh | PIXI_HOME="$PIXI_HOME" bash
-    export PATH="$PIXI_HOME/bin:$PATH"
 else
     echo "Pixi already installed."
 fi
 
-# 2. Install Tools via Pixi Global
-TOOLS="nvim fzf ripgrep stow git tmux nodejs"
-
+# Install Tools via Pixi Global
+TOOLS="nvim fzf ripgrep stow git tmux nodejs pyhton fish lazygit difftastic delta bat llm fd zoxide yazi eza"
 echo -e "${BLUE}Installing tools: $TOOLS${NC}"
 pixi global install $TOOLS
 
@@ -62,7 +60,7 @@ fi
 cd "$DOTFILES_DIR"
 echo -e "${BLUE}Linking configurations to $HOME...${NC}"
 
-PACKAGES="bash nvim alacritty vim git tmux rofi opencode"
+PACKAGES="bash nvim vim git tmux rofi opencode"
 
 for pkg in $PACKAGES; do
     if [ -d "$pkg" ]; then

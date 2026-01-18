@@ -2,12 +2,38 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "modus-vivendi",
   "plugin": [
-    "oh-my-opencode",
     "opencode-antigravity-auth@beta",
     "opencode-mystatus",
     "@tarquinen/opencode-dcp@latest",
-    "@plannotator/opencode@latest"
+    "opencode-supermemory@latest"
   ],
+  "model": "antigravity-claude-opus-4-5-thinking",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "oauth": false,
+      "enabled": true
+    },
+    "gh-grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "oauth": false,
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp?tools=web_search_exa",
+      "headers": {
+        "x-api-key": "{env:EXA_API_KEY}"
+      },
+      "oauth": false,
+      "enabled": true
+    }
+  },
   "command": {
     "mystatus": {
       "description": "Query quota usage for all AI accounts",
@@ -19,31 +45,87 @@
       "models": {
         "antigravity-gemini-3-pro": {
           "name": "Gemini 3 Pro (Antigravity)",
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
           "variants": {
-            "high": { "thinkingLevel": "high" },
-            "medium": { "thinkingLevel": "medium" },
-            "low": { "thinkingLevel": "low" }
+            "high": {
+              "thinkingLevel": "high"
+            },
+            "medium": {
+              "thinkingLevel": "medium"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            }
           }
         },
         "antigravity-gemini-3-flash": {
           "name": "Gemini 3 Flash (Antigravity)",
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
           "variants": {
-            "high": { "thinkingLevel": "high" },
-            "medium": { "thinkingLevel": "medium" },
-            "low": { "thinkingLevel": "low" }
+            "high": {
+              "thinkingLevel": "high"
+            },
+            "medium": {
+              "thinkingLevel": "medium"
+            },
+            "low": {
+              "thinkingLevel": "low"
+            }
           }
         },
         "antigravity-claude-opus-4-5-thinking": {
           "name": "Claude Opus 4.5 Thinking",
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
           "variants": {
-            "low": { "thinkingConfig": { "thinkingBudget": 8192 } },
-            "max": { "thinkingConfig": { "thinkingBudget": 32768 } }
+            "low": {
+              "thinkingConfig": {
+                "thinkingBudget": 8192
+              }
+            },
+            "max": {
+              "thinkingConfig": {
+                "thinkingBudget": 32768
+              }
+            }
           }
         }
       }
