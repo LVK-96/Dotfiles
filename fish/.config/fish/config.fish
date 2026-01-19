@@ -38,5 +38,9 @@ if type -q nvim
     alias vim="nvim"
 end
 
+function fish_user_key_bindings
+    fzf_configure_bindings --directory=\ct
+end
+
 
 source (dirname (status filename))/env.fish

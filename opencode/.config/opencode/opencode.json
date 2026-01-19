@@ -5,7 +5,8 @@
     "opencode-antigravity-auth@beta",
     "opencode-mystatus",
     "@tarquinen/opencode-dcp@latest",
-    "opencode-supermemory@latest"
+    "opencode-supermemory@latest",
+    "opencode-quotas"
   ],
   "model": "antigravity-claude-opus-4-5-thinking",
   "mcp": {

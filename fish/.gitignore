@@ -1,0 +1,8 @@
+.config/fish/functions/_fzf*
+.config/fish/functions/_autopair*
+.config/fish/functions/fzf_configure_bindings.fish
+.config/fish/conf.d/autopair.fish
+.config/fish/conf.d/fzf.fish
+.config/fish/conf.d/local.fish
+.config/fish/completions/fisher.fish
+.config/fish/completions/fzf_configure_bindings.fish

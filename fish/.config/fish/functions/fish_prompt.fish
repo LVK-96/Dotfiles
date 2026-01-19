@@ -7,22 +7,19 @@ function fish_prompt
     # Yellow git status
     set_color yellow
     set -l git_branch (git branch --show-current 2>/dev/null)
+
     if test -n "$git_branch"
-        set -l git_status ""
-
-        # Check for dirty state
-        if not git diff --quiet 2>/dev/null
-            set git_status "*"
-        else if not git diff --cached --quiet 2>/dev/null
-            set git_status "+"
+        # OPTIMIZATION:
+        # 1. Use --porcelain (machine readable, faster).
+        # 2. Use --untracked-files=normal (standard check).
+        # 3. Pipe to head -n1. This kills the process the moment ONE change is found.
+        if command git status --porcelain --untracked-files=normal 2>/dev/null | head -n1 | grep -q .
+            # If we are here, the repo is dirty (staged, unstaged, OR untracked)
+            echo -n " ($git_branch*)"
+        else
+            # The repo is clean
+            echo -n " ($git_branch)"
         end
-
-        # Check for untracked files
-        if test -n "(git ls-files --others --exclude-standard 2>/dev/null)"
-            set git_status "$git_status%"
-        end
-
-        echo -n " ($git_branch$git_status)"
     end
 
     # Reset color and show prompt
