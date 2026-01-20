@@ -26,7 +26,6 @@ bind -M insert \cn history-search-forward
 # Environment variables
 set -gx TERM xterm-256color
 set -gx EDITOR nvim
-set -gx XDG_RUNTIME_DIR /run/user/(id -u)
 set -gx BAT_THEME base16
 
 if type -q eza
@@ -43,4 +42,8 @@ function fish_user_key_bindings
 end
 
 
-source (dirname (status filename))/env.fish
+# Load environment config if it exists
+set -l env_file (dirname (status filename))/env.fish
+if test -f $env_file
+    source $env_file
+end
