@@ -161,6 +161,37 @@ function my_tabline()
 		end
 	end
 
+	-- Prepare buffer names (handle duplicates)
+	local buf_names = {}
+	local name_counts = {}
+
+	-- First pass: count names
+	for _, buf_id in ipairs(buffers) do
+		local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf_id), ":t")
+		if name == "" then
+			name = "[No Name]"
+		end
+		name_counts[name] = (name_counts[name] or 0) + 1
+	end
+
+	-- Second pass: disambiguate
+	for _, buf_id in ipairs(buffers) do
+		local path = vim.api.nvim_buf_get_name(buf_id)
+		local name = vim.fn.fnamemodify(path, ":t")
+		if name == "" then
+			name = "[No Name]"
+		end
+
+		if name_counts[name] > 1 and name ~= "[No Name]" then
+			local parent = vim.fn.fnamemodify(path, ":h:t")
+			if #parent > 15 then
+				parent = string.sub(parent, 1, 5) .. ".." .. string.sub(parent, -5)
+			end
+			name = parent .. "/" .. name
+		end
+		buf_names[buf_id] = name
+	end
+
 	-- Calculate pagination
 	local total_pages = math.max(1, math.ceil(#buffers / BUFFERS_PER_PAGE))
 	_G.tabline_page = math.min(_G.tabline_page, total_pages - 1)
@@ -177,10 +208,7 @@ function my_tabline()
 		local buf_id = buffers[i]
 		local display_index = i - start_idx + 1 -- 1-10 for hotkeys
 		local is_selected = (buf_id == vim.api.nvim_get_current_buf())
-		local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf_id), ":t")
-		if name == "" then
-			name = "[No Name]"
-		end
+		local name = buf_names[buf_id]
 		-- Add modification indicator
 		if vim.bo[buf_id].modified then
 			name = name .. " +"

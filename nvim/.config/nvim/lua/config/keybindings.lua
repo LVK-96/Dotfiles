@@ -93,7 +93,7 @@ function keybindings()
 		if vim.g.vscode then
 			require("vscode").call("workbench.action.closeActiveEditor")
 		else
-			vim.cmd("bdelete")
+			Snacks.bufdelete()
 		end
 	end, { desc = "Close buffer" })
 
