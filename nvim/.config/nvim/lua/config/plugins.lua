@@ -102,17 +102,61 @@ return {
 	},
 	{
 		"ibhagwan/fzf-lua",
+		event = "LspAttach",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		keys = {
 			-- Normal Mode
-			{ "<leader>f", "<cmd>FzfLua files<cr>", desc = "Find Files" },
-			{ "<leader>F", "<cmd>FzfLua git_files<cr>", desc = "Find Git Files" },
-			{ "<leader>g", "<cmd>FzfLua live_grep<cr>", desc = "Exact Grep" },
-			{ "<leader>G", "<cmd>FzfLua grep_project<cr>", desc = "Fuzzy Grep" },
-			{ "<leader>w", "<cmd>FzfLua grep_cword<cr>", desc = "Grep Word Under Cursor" },
-			{ "<leader>b", "<cmd>FzfLua buffers<cr>", desc = "Find Buffers" },
-			{ "<leader>t", "<cmd>FzfLua btags<cr>", desc = "Buffer Tags" },
+			{
+				"<leader>f",
+				function()
+					require("fzf-lua").files({ multi = true })
+				end,
+				desc = "Find Files",
+			},
+			{
+				"<leader>F",
+				function()
+					require("fzf-lua").git_files({ multi = true })
+				end,
+				desc = "Find Git Files",
+			},
+			{
+				"<leader>g",
+				function()
+					require("fzf-lua").live_grep({ multi = true })
+				end,
+				desc = "Exact Grep",
+			},
+			{
+				"<leader>G",
+				function()
+					require("fzf-lua").grep_project({ multi = true })
+				end,
+				desc = "Fuzzy Grep",
+			},
+			{
+				"<leader>w",
+				function()
+					require("fzf-lua").grep_cword({ multi = true })
+				end,
+				desc = "Grep Word Under Cursor",
+			},
+			{
+				"<leader>b",
+				function()
+					require("fzf-lua").buffers({ multi = true })
+				end,
+				desc = "Find Buffers",
+			},
+			{
+				"<leader>t",
+				function()
+					require("fzf-lua").btags({ multi = true })
+				end,
+				desc = "Buffer Tags",
+			},
 			{ "<leader><tab>", "<cmd>FzfLua keymaps<cr>", desc = "Search Keymaps" },
+
 			-- Insert Mode (Completions)
 			-- <c-x><c-k> (Word completion) is skipped; native <C-n> is usually better.
 			{
@@ -143,49 +187,49 @@ return {
 		config = function()
 			-- Optional: setup fzf-lua with defaults if you want to customize icons/layout later
 			require("fzf-lua").setup({ "default-title" })
-            -- This sets the keys only when an LSP attaches to a buffer
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true }),
-                callback = function(ev)
-                    local opts = { buffer = ev.buf, silent = true }
+			-- This sets the keys only when an LSP attaches to a buffer
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true }),
+				callback = function(ev)
+					local opts = { buffer = ev.buf, silent = true }
 
-                    -- Replace "Find References" (Default: grr)
-                    vim.keymap.set("n", "grr", function()
-                        fzf.lsp_references({ ignore_current_line = true })
-                    end, { buffer = ev.buf, desc = "Fzf References" })
+					-- Replace "Find References" (Default: grr)
+					vim.keymap.set("n", "grr", function()
+						require("fzf-lua").lsp_references({ ignore_current_line = true, multi = true })
+					end, { buffer = ev.buf, desc = "Fzf References" })
 
-                    -- Replace "Go to Definition" (Default: gd)
-                    vim.keymap.set("n", "gd", function()
-                        fzf.lsp_definitions({ jump_to_single_result = true })
-                    end, { buffer = ev.buf, desc = "Fzf Definitions" })
+					-- Replace "Go to Definition" (Default: gd)
+					vim.keymap.set("n", "gd", function()
+						require("fzf-lua").lsp_definitions({ jump1 = true })
+					end, { buffer = ev.buf, desc = "Fzf Definitions" })
 
-                    -- Replace "Go to Declaration" (Default: gD)
-                    vim.keymap.set("n", "gD", function()
-                        fzf.lsp_declarations({ jump_to_single_result = true })
-                    end, { buffer = ev.buf, desc = "Fzf Declarations" })
+					-- Replace "Go to Declaration" (Default: gD)
+					vim.keymap.set("n", "gD", function()
+						require("fzf-lua").lsp_declarations({ jump1 = true })
+					end, { buffer = ev.buf, desc = "Fzf Declarations" })
 
-                    -- Replace "Go to Implementation" (Default: gI)
-                    vim.keymap.set("n", "gI", function()
-                        fzf.lsp_implementations({ jump_to_single_result = true })
-                    end, { buffer = ev.buf, desc = "Fzf Implementations" })
+					-- Replace "Go to Implementation" (Default: gI)
+					vim.keymap.set("n", "gI", function()
+						require("fzf-lua").lsp_implementations({ jump1 = true })
+					end, { buffer = ev.buf, desc = "Fzf Implementations" })
 
-                    -- Replace "Type Definition" (Default: gy)
-                    vim.keymap.set("n", "gy", function()
-                        fzf.lsp_typedefs({ jump_to_single_result = true })
-                    end, { buffer = ev.buf, desc = "Fzf Type Definitions" })
+					-- Replace "Type Definition" (Default: gy)
+					vim.keymap.set("n", "gy", function()
+						require("fzf-lua").lsp_typedefs({ jump1 = true })
+					end, { buffer = ev.buf, desc = "Fzf Type Definitions" })
 
-                    -- Replace "Code Actions" (Default: gra / <leader>ca)
-                    vim.keymap.set({ "n", "v" }, "<leader>ca", function()
-                        fzf.lsp_code_actions()
-                    end, { buffer = ev.buf, desc = "Fzf Code Actions" })
+					-- Replace "Code Actions" (Default: gra / <leader>ca)
+					vim.keymap.set({ "n", "v" }, "<leader>ca", function()
+						require("fzf-lua").lsp_code_actions({ multi = true })
+					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
 
-                    -- Note: We map <leader>ca here generally.
-                    -- If you want to replace the new default 'gra' as well:
-                    vim.keymap.set({ "n", "v" }, "gra", function()
-                        fzf.lsp_code_actions()
-                    end, { buffer = ev.buf, desc = "Fzf Code Actions" })
-                end,
-            })
+					-- Note: We map <leader>ca here generally.
+					-- If you want to replace the new default 'gra' as well:
+					vim.keymap.set({ "n", "v" }, "gra", function()
+						require("fzf-lua").lsp_code_actions({ multi = true })
+					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
+				end,
+			})
 		end,
 	},
 	{
@@ -228,32 +272,45 @@ return {
 				untracked = { text = "┆" },
 			},
 			numhl = true,
-            on_attach = function(bufnr)
-                local gs = package.loaded.gitsigns
-                local function map(mode, l, r, opts)
-                    opts = opts or {}
-                    opts.buffer = bufnr
-                    vim.keymap.set(mode, l, r, opts)
-                end
-                -- Navigation Keybinds
-                map('n', ']c', function()
-                    if vim.wo.diff then return ']c' end
-                    vim.schedule(function() gs.next_hunk() end)
-                    return '<Ignore>'
-                end, {expr=true})
-                map('n', '[c', function()
-                    if vim.wo.diff then return '[c' end
-                    vim.schedule(function() gs.prev_hunk() end)
-                    return '<Ignore>'
-                end, {expr=true})
-                map('n', '<leader>hp', gs.preview_hunk)
-            end,
+			on_attach = function(bufnr)
+				local gs = package.loaded.gitsigns
+				local function map(mode, l, r, opts)
+					opts = opts or {}
+					opts.buffer = bufnr
+					vim.keymap.set(mode, l, r, opts)
+				end
+				-- Navigation Keybinds
+				map("n", "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+				map("n", "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+				map("n", "<leader>hp", gs.preview_hunk)
+			end,
 		},
 	},
 	{
 		"tpope/vim-fugitive",
 		enabled = not vim.g.vscode,
 		cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse" },
+		keys = {
+			{ "<leader>gs", vim.cmd.Git, desc = "Git Status" },
+			{ "<leader>gb", "<cmd>Git blame<CR>", desc = "Git Blame" },
+			{ "<leader>glg", "<cmd>Git log --oneline --decorate --graph<CR>", desc = "Git Log (Simple)" },
+		},
 	},
 	"sindrets/diffview.nvim",
 	-- This ensures the plugin only loads when one of these commands is run
@@ -331,7 +388,14 @@ return {
 		event = "VeryLazy",
 		config = true,
 	},
-	{ "andymass/vim-matchup", event = "BufReadPost" },
+	{
+		"andymass/vim-matchup",
+		event = "BufReadPost",
+		config = function()
+			-- Use treesitter's engine for matching (faster than regex)
+			vim.g.matchup_matchparen_offscreen = { method = "popup" }
+		end,
+	},
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
@@ -457,6 +521,7 @@ return {
 	},
 	{
 		"NickvanDyke/opencode.nvim",
+		enabled = os.getenv("NVIM_AI") == "opencode",
 		keys = {
 			{
 				"<leader>oo",
@@ -538,36 +603,20 @@ return {
 						enabled = true,
 						keys = { ["<C-q>"] = { "cancel", mode = { "n", "i" } } },
 					},
-
-					-- 2. Setup Terminal (The Chat Window)
-					terminal = { enabled = true },
-
-					-- 3. Setup Picker (The Actions Menu)
-					picker = {
-						enabled = true, -- Enable Snacks to handle standard menus
-						ui_select = true, -- Explicitly tell it to handle vim.ui.select
-						win = {
-							input = {
-								keys = {
-									-- FORCE Ctrl+q to close the window (instead of Quickfix)
-									["<C-q>"] = { "close", mode = { "n", "i" } },
-								},
-							},
-						},
-					},
 				},
 			},
 		},
-		config = function()
-			require("fzf-lua").register_ui_select()
-
+		init = function()
 			---@type opencode.Opts
 			vim.g.opencode_opts = {
 				preferred_picker = "fzf",
 
-				-- Use Snacks for the terminal window integration
+				-- Use tmux for the terminal window integration
 				provider = {
-					enabled = "snacks",
+					enabled = "tmux",
+					tmux = {
+						options = "-h",
+					},
 				},
 
 				-- Your Antigravity Model Setup
@@ -587,5 +636,104 @@ return {
 			-- Required for `opts.events.reload`.
 			vim.o.autoread = true
 		end,
+		config = function()
+			require("fzf-lua").register_ui_select()
+		end,
+	},
+	{
+		"folke/sidekick.nvim",
+		enabled = os.getenv("NVIM_AI") == "sidekick",
+		event = "VeryLazy",
+		dependencies = {
+			{
+				"folke/snacks.nvim",
+				opts = {
+					-- This tells Snacks to takeover vim.ui.input
+					input = { enabled = true },
+					-- Optional: Makes vim.ui.select (menus) nice too
+					picker = { enabled = true },
+				},
+			},
+		},
+		cmd = { "Sidekick" },
+		opts = {
+			nes = { enabled = false },
+			cli = {
+				enabled = true,
+				mux = {
+					backend = "tmux",
+					enabled = "true",
+					create = "split",
+					split = {
+						axis = "vertical",
+						size = 0.3,
+					},
+				},
+			},
+		},
+		keys = {
+			-- Toggle Chat
+			{
+				"<leader>oo",
+				function()
+					require("sidekick.cli").toggle()
+				end,
+				desc = "AI: Toggle Chat",
+			},
+
+			-- [Ask Selection] - Uses Snacks for a nice single-line popup
+			{
+				"<leader>oa",
+				function()
+					require("snacks").input({ prompt = "Ask AI about selection: " }, function(input)
+						if not input then
+							return
+						end
+						require("sidekick.cli").send({ msg = input .. "\n\n```\n{selection}\n```" })
+						vim.schedule(function()
+							vim.fn.system("tmux send-keys -t ! Enter")
+						end)
+					end)
+				end,
+				mode = "v",
+				desc = "AI: Ask (Selection)",
+			},
+
+			-- [Ask Word] - Uses Snacks for a nice single-line popup
+			{
+				"<leader>oa",
+				function()
+					local word = vim.fn.expand("<cword>")
+					require("snacks").input({ prompt = "Ask AI about '" .. word .. "': " }, function(input)
+						if not input then
+							return
+						end
+						require("sidekick.cli").send({ msg = input .. "\n\nContext: " .. word })
+						vim.schedule(function()
+							vim.fn.system("tmux send-keys -t ! Enter")
+						end)
+					end)
+				end,
+				mode = "n",
+				desc = "AI: Ask (Word)",
+			},
+
+			-- [Send File] - Uses Snacks for a nice single-line popup
+			{
+				"<leader>af",
+				function()
+					require("snacks").input({ prompt = "Instruction for this file: " }, function(input)
+						if not input then
+							return
+						end
+						require("sidekick.cli").send({ msg = input .. "\n\nFile Context:\n{file}" })
+						vim.schedule(function()
+							vim.fn.system("tmux send-keys -t ! Enter")
+						end)
+					end)
+				end,
+				desc = "AI: Send Whole File",
+			},
+		},
 	},
 }

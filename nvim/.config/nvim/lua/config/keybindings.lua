@@ -113,27 +113,27 @@ function keybindings()
 		vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], { desc = "Exit Terminal Mode", buffer = 0 })
 	end
 
-    -- FZF-Lua LSP Keybindings
-    local function fzf(command)
-      return function()
-        require('fzf-lua')[command]()
-      end
-    end
-    -- 1. References (Overrides default 'grr')
-    -- Instead of the Quickfix list, this opens the FZF fuzzy finder.
-    vim.keymap.set('n', 'grr', fzf('lsp_references'), { desc = "FZF LSP References" })
-    -- 2. Code Actions (Overrides default 'gra')
-    -- Works in Normal mode and Visual mode (for range actions).
-    vim.keymap.set({ 'n', 'v' }, 'gra', fzf('lsp_code_actions'), { desc = "FZF LSP Code Actions" })
-    -- 3. Definitions (Overrides default 'gd')
-    -- Falls back to standard navigation if only one definition exists.
-    vim.keymap.set('n', 'gd', fzf('lsp_definitions'), { desc = "FZF LSP Definitions" })
-    -- 4. Implementations (Overrides default 'gri' / 'gI')
-    vim.keymap.set('n', 'gI', fzf('lsp_implementations'), { desc = "FZF LSP Implementations" })
-    vim.keymap.set('n', 'gri', fzf('lsp_implementations'), { desc = "FZF LSP Implementations" })
-    -- 5. Type Definitions (Overrides default 'gy')
-    vim.keymap.set('n', 'gy', fzf('lsp_typedefs'), { desc = "FZF LSP Type Definitions" })
-    -- 6. Document Symbols (Bonus: usually mapped to <leader>ds)
-    -- Lists functions, variables, and classes in the current file.
-    vim.keymap.set('n', '<leader>ds', fzf('lsp_document_symbols'), { desc = "FZF Document Symbols" })
+	-- FZF-Lua LSP Keybindings
+	local function fzf(command)
+		return function()
+			require("fzf-lua")[command]()
+		end
+	end
+	-- 1. References (Overrides default 'grr')
+	-- Instead of the Quickfix list, this opens the FZF fuzzy finder.
+	vim.keymap.set("n", "grr", fzf("lsp_references"), { desc = "FZF LSP References" })
+	-- 2. Code Actions (Overrides default 'gra')
+	-- Works in Normal mode and Visual mode (for range actions).
+	vim.keymap.set({ "n", "v" }, "gra", fzf("lsp_code_actions"), { desc = "FZF LSP Code Actions" })
+	-- 3. Definitions (Overrides default 'gd')
+	-- Falls back to standard navigation if only one definition exists.
+	vim.keymap.set("n", "gd", fzf("lsp_definitions"), { desc = "FZF LSP Definitions" })
+	-- 4. Implementations (Overrides default 'gri' / 'gI')
+	vim.keymap.set("n", "gI", fzf("lsp_implementations"), { desc = "FZF LSP Implementations" })
+	vim.keymap.set("n", "gri", fzf("lsp_implementations"), { desc = "FZF LSP Implementations" })
+	-- 5. Type Definitions (Overrides default 'gy')
+	vim.keymap.set("n", "gy", fzf("lsp_typedefs"), { desc = "FZF LSP Type Definitions" })
+	-- 6. Document Symbols (Bonus: usually mapped to <leader>ds)
+	-- Lists functions, variables, and classes in the current file.
+	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
 end

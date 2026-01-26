@@ -47,3 +47,5 @@ set -l env_file (dirname (status filename))/env.fish
 if test -f $env_file
     source $env_file
 end
+
+zoxide init fish | source
