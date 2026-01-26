@@ -681,22 +681,33 @@ return {
 				desc = "AI: Toggle Chat",
 			},
 
-			-- [Ask Selection] - Uses Snacks for a nice single-line popup
+			-- [Ask Selection] - Sends the visual selection directly
 			{
 				"<leader>oa",
 				function()
-					require("snacks").input({ prompt = "Ask AI about selection: " }, function(input)
-						if not input then
-							return
-						end
-						require("sidekick.cli").send({ msg = input .. "\n\n```\n{selection}\n```" })
-						vim.schedule(function()
-							vim.fn.system("tmux send-keys -t ! Enter")
-						end)
-					end)
+					local start_pos = vim.fn.getpos("v")
+					local end_pos = vim.fn.getpos(".")
+					local start_row, start_col = start_pos[2] - 1, start_pos[3] - 1
+					local end_row, end_col = end_pos[2] - 1, end_pos[3]
+
+					if end_row < start_row or (end_row == start_row and end_col < start_col) then
+						start_row, end_row = end_row, start_row
+						start_col, end_col = end_col, start_col
+					end
+
+					local file = vim.api.nvim_buf_get_name(0)
+					if file == "" then
+						return
+					end
+
+					local rel = vim.fn.fnamemodify(file, ":.")
+					local start_line = start_row + 1
+					local end_line = end_row + 1
+					local ref = string.format("@%s:%d-%d", rel, start_line, end_line)
+					require("sidekick.cli").send({ msg = ref })
 				end,
-				mode = "v",
-				desc = "AI: Ask (Selection)",
+				mode = "x",
+				desc = "Send Visual Selection",
 			},
 
 			-- [Ask Word] - Uses Snacks for a nice single-line popup
@@ -709,9 +720,6 @@ return {
 							return
 						end
 						require("sidekick.cli").send({ msg = input .. "\n\nContext: " .. word })
-						vim.schedule(function()
-							vim.fn.system("tmux send-keys -t ! Enter")
-						end)
 					end)
 				end,
 				mode = "n",
@@ -727,9 +735,6 @@ return {
 							return
 						end
 						require("sidekick.cli").send({ msg = input .. "\n\nFile Context:\n{file}" })
-						vim.schedule(function()
-							vim.fn.system("tmux send-keys -t ! Enter")
-						end)
 					end)
 				end,
 				desc = "AI: Send Whole File",
