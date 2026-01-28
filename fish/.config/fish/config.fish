@@ -27,6 +27,7 @@ bind -M insert \cn history-search-forward
 set -gx TERM xterm-256color
 set -gx EDITOR nvim
 set -gx BAT_THEME base16
+set -gx NIXPKGS_ALLOW_UNFREE 1
 
 if type -q eza
     alias l="eza -lh --icons --git"
@@ -35,6 +36,7 @@ end
 
 if type -q nvim
     alias vim="nvim"
+    set -gx SUDO_EDITOR nvim
 end
 
 function fish_user_key_bindings
