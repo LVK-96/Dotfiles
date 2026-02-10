@@ -13,6 +13,11 @@ Options:
   -o, --only LIST  Comma-separated manager allowlist (e.g. apt,npm,uv)
   -s, --skip LIST  Comma-separated manager skip list
   -h, --help       Show this help message
+
+Examples:
+  update-all-packages.sh --list
+  update-all-packages.sh --dry-run --only apt,paru,pixi
+  update-all-packages.sh --skip pip3,npm
 USAGE
 }
 
@@ -96,6 +101,16 @@ csv_contains() {
   local csv="$1"
   local value="$2"
   [[ ",$csv," == *",$value,"* ]]
+}
+
+sanitize_csv() {
+  local csv="$1"
+  # Normalize common user input like "apt, npm,uv".
+  csv="${csv// /}"
+  csv="${csv//,,/,}"
+  csv="${csv#,}"
+  csv="${csv%,}"
+  printf '%s\n' "$csv"
 }
 
 filter_managers() {
@@ -239,13 +254,21 @@ while (($#)); do
       DRY_RUN=true
       ;;
     -o|--only)
-      ONLY_CSV="${2:-}"
-      [[ -z "$ONLY_CSV" ]] && { log WARN "--only requires a comma-separated value"; exit 1; }
+      if [[ $# -lt 2 || "${2:-}" == -* ]]; then
+        log WARN "--only requires a comma-separated value"
+        exit 1
+      fi
+      ONLY_CSV=$(sanitize_csv "$2")
+      [[ -z "$ONLY_CSV" ]] && { log WARN "--only requires at least one manager"; exit 1; }
       shift
       ;;
     -s|--skip)
-      SKIP_CSV="${2:-}"
-      [[ -z "$SKIP_CSV" ]] && { log WARN "--skip requires a comma-separated value"; exit 1; }
+      if [[ $# -lt 2 || "${2:-}" == -* ]]; then
+        log WARN "--skip requires a comma-separated value"
+        exit 1
+      fi
+      SKIP_CSV=$(sanitize_csv "$2")
+      [[ -z "$SKIP_CSV" ]] && { log WARN "--skip requires at least one manager"; exit 1; }
       shift
       ;;
     -h|--help)
