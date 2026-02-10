@@ -249,6 +249,6 @@ function look()
 	vim.api.nvim_set_hl(0, "Comment", { italic = true, force = true })
 
 	-- Statusline and tabline
-	vim.opt.statusline = "%!v:lua.statusline()"
+	vim.opt.laststatus = 2
 	tabline()
 end

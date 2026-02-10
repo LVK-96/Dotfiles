@@ -137,5 +137,12 @@ function keybindings()
 	-- Lists functions, variables, and classes in the current file.
 	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
 	vim.keymap.set("n", "<leader>e", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
-	vim.keymap.set("n", "<leader>E", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
+    vim.keymap.set("n", "<leader>E", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
+
+    -- Toggle inlay hints
+	vim.keymap.set("n", "<leader>ih", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+        vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+    end, { desc = "Toggle inlay hints" })
 end

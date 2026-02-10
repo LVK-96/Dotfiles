@@ -35,4 +35,8 @@ function syntax()
 		pattern = { "*.bcf" },
 		command = "setlocal commentstring=//\\ %s",
 	})
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = { "*.wgsl" },
+		command = "set filetype=wgsl",
+	})
 end

@@ -19,6 +19,43 @@ return {
 		end,
 	},
 
+    	--Statusline
+    	{
+		'nvim-mini/mini.statusline',
+		version = false,
+		config = function()
+		    local statusline = require("mini.statusline")
+		    statusline.setup({
+			content = {
+			    active = function()
+                    local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+                    local git = statusline.section_git({ trunc_width = 40 })
+                    local diff = statusline.section_diff({ trunc_width = 75 })
+                    local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
+                    local filename = statusline.section_filename({ trunc_width = 140 })
+                    local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+                    local search = statusline.section_searchcount({ trunc_width = 75 })
+                    local location = statusline.section_location({ trunc_width = 75 })
+
+                    local left = statusline.combine_groups({
+                        { hl = mode_hl, strings = { mode } },
+                        { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
+                        "%<",
+                        { hl = "MiniStatuslineFilename", strings = { filename } },
+                    })
+
+                    local right = statusline.combine_groups({
+                        { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+                        { hl = mode_hl, strings = { search, location } },
+                    })
+
+                    return left .. "%=" .. right
+			    end,
+			},
+		    })
+		end,
+    	},
+
 	-- Navigation
 	{
 		"stevearc/oil.nvim",
@@ -185,8 +222,8 @@ return {
 			},
 		},
 		config = function()
-			-- Optional: setup fzf-lua with defaults if you want to customize icons/layout later
 			require("fzf-lua").setup({ "default-title" })
+			require("fzf-lua").register_ui_select()
 			-- This sets the keys only when an LSP attaches to a buffer
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true }),
@@ -412,7 +449,27 @@ return {
 		enabled = not vim.g.vscode,
 		version = "^6", -- Recommended
 		lazy = false, -- This plugin is already lazy
-	},
+        config = function()
+            vim.g.rustaceanvim = {
+                server = {
+                    settings = {
+                        ["rust-analyzer"] = {
+                            inlayHints = {
+                                typeHints = { enable = true },
+                                parameterHints = { enable = true },
+                                chainingHints = { enable = false },
+                            },
+                        },
+                    },
+                    on_attach = function(client, bufnr)
+                        if client:supports_method("textDocument/inlayHint") then
+                            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                        end
+                    end,
+                },
+            }
+        end,
+    },
 
 	-- LSP
 	{
@@ -635,9 +692,6 @@ return {
 
 			-- Required for `opts.events.reload`.
 			vim.o.autoread = true
-		end,
-		config = function()
-			require("fzf-lua").register_ui_select()
 		end,
 	},
 	{
