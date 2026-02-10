@@ -10,6 +10,8 @@ Detect common package managers and update globally installed packages.
 Options:
   -l, --list       List discovered package managers and exit
   -n, --dry-run    Show what would run without executing updates
+  -o, --only LIST  Comma-separated manager allowlist (e.g. apt,npm,uv)
+  -s, --skip LIST  Comma-separated manager skip list
   -h, --help       Show this help message
 USAGE
 }
@@ -81,8 +83,39 @@ detect_managers() {
 
   have_cmd cargo && managers+=(cargo)
   have_cmd nix && managers+=(nix)
+  have_cmd flatpak && managers+=(flatpak)
+  have_cmd snap && managers+=(snap)
+  have_cmd brew && managers+=(brew)
+  have_cmd dnf && managers+=(dnf)
+  have_cmd zypper && managers+=(zypper)
 
   printf '%s\n' "${managers[@]}"
+}
+
+csv_contains() {
+  local csv="$1"
+  local value="$2"
+  [[ ",$csv," == *",$value,"* ]]
+}
+
+filter_managers() {
+  local managers=("$@")
+  local filtered=()
+  local manager
+
+  for manager in "${managers[@]}"; do
+    if [[ -n "$ONLY_CSV" ]] && ! csv_contains "$ONLY_CSV" "$manager"; then
+      continue
+    fi
+
+    if [[ -n "$SKIP_CSV" ]] && csv_contains "$SKIP_CSV" "$manager"; then
+      continue
+    fi
+
+    filtered+=("$manager")
+  done
+
+  printf '%s\n' "${filtered[@]}"
 }
 
 update_pip() {
@@ -105,6 +138,7 @@ update_pip() {
 
   while IFS= read -r package; do
     [[ -z "$package" ]] && continue
+    [[ "$package" == "pip" ]] && continue
     run_cmd "$pip_bin" install --upgrade "$package"
   done <<< "$outdated"
 }
@@ -167,6 +201,24 @@ update_manager() {
     nix)
       run_cmd nix profile upgrade '.*'
       ;;
+    flatpak)
+      run_cmd flatpak update -y
+      ;;
+    snap)
+      run_privileged snap refresh
+      ;;
+    brew)
+      run_cmd brew update
+      run_cmd brew upgrade
+      run_cmd brew cleanup -s
+      ;;
+    dnf)
+      run_privileged dnf upgrade --refresh -y
+      ;;
+    zypper)
+      run_privileged zypper refresh
+      run_privileged zypper update -y
+      ;;
     *)
       log WARN "Unknown package manager: $manager"
       ;;
@@ -175,6 +227,8 @@ update_manager() {
 
 LIST_ONLY=false
 DRY_RUN=false
+ONLY_CSV=""
+SKIP_CSV=""
 
 while (($#)); do
   case "$1" in
@@ -183,6 +237,16 @@ while (($#)); do
       ;;
     -n|--dry-run)
       DRY_RUN=true
+      ;;
+    -o|--only)
+      ONLY_CSV="${2:-}"
+      [[ -z "$ONLY_CSV" ]] && { log WARN "--only requires a comma-separated value"; exit 1; }
+      shift
+      ;;
+    -s|--skip)
+      SKIP_CSV="${2:-}"
+      [[ -z "$SKIP_CSV" ]] && { log WARN "--skip requires a comma-separated value"; exit 1; }
+      shift
       ;;
     -h|--help)
       usage
@@ -198,6 +262,7 @@ while (($#)); do
 done
 
 mapfile -t discovered < <(detect_managers)
+mapfile -t discovered < <(filter_managers "${discovered[@]}")
 
 if ((${#discovered[@]} == 0)); then
   log WARN "No supported package managers were detected on this system"
