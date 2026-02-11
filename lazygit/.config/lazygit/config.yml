@@ -1,7 +1,6 @@
 git:
   pagers:
-    - externalDiffCommand: difft
-    - pager: delta --dark --paging=never --line-numbers
+    - pager: delta --dark --paging=never --line-numbers --diff-so-fancy
   merging:
     externalTool: "nvim"
 
