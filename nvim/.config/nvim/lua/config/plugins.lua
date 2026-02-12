@@ -470,6 +470,33 @@ return {
             }
         end,
     },
+    {
+        "scalameta/nvim-metals",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "mfussenegger/nvim-dap",
+        },
+        ft = { "scala", "sbt", "java" },
+        config = function()
+            local metals = require("metals")
+            local metals_config = metals.bare_config()
+                metals_config.on_attach = function(client, bufnr)
+                    metals.setup_dap()
+                    if client:supports_method("textDocument/inlayHint") then
+                        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                    end
+                end
+
+            local group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "scala", "sbt", "java" },
+                callback = function()
+                    metals.initialize_or_attach(metals_config)
+                end,
+                group = group,
+            })
+        end,
+    },
 
 	-- LSP
 	{
