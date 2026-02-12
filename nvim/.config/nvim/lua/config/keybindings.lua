@@ -47,38 +47,24 @@ function keybindings()
 	end, { desc = "Clear highlights, update diffs & redraw" })
 
 	-- Tabline navigation (respects pagination)
-	local BUFFERS_PER_PAGE = 10
+	-- Leader + number: jump to tab on current page (1-9 = first 9 tabs, 0 = last tab on page)
 	for i = 1, 9 do
 		vim.keymap.set("n", "<leader>" .. i, function()
 			if vim.g.vscode then
 				require("vscode").call("workbench.action.openEditorAtIndex" .. i)
 			else
-				local buffers = vim.tbl_filter(function(b)
-					return vim.bo[b].buflisted
-				end, vim.api.nvim_list_bufs())
-				local page = _G.tabline_page or 0
-				local global_index = page * BUFFERS_PER_PAGE + i
-				if buffers[global_index] then
-					vim.api.nvim_set_current_buf(buffers[global_index])
-				end
+				_G.jump_to_tab_on_page(i)
 			end
-		end, { desc = "Go to Tab " .. i })
+		end, { desc = "Go to tab " .. i .. " on current page" })
 	end
 
 	vim.keymap.set("n", "<leader>0", function()
 		if vim.g.vscode then
 			require("vscode").call("workbench.action.lastEditorInGroup")
 		else
-			local buffers = vim.tbl_filter(function(b)
-				return vim.bo[b].buflisted
-			end, vim.api.nvim_list_bufs())
-			local page = _G.tabline_page or 0
-			local page_end = math.min((page + 1) * BUFFERS_PER_PAGE, #buffers)
-			if buffers[page_end] then
-				vim.api.nvim_set_current_buf(buffers[page_end])
-			end
+			_G.jump_to_last_tab_on_page()
 		end
-	end, { desc = "Last Buffer on Page" })
+	end, { desc = "Last tab on current page" })
 
 	-- Tabline page navigation (Tab/S-Tab in normal mode)
 	vim.keymap.set("n", "<Tab>", function()
@@ -137,12 +123,12 @@ function keybindings()
 	-- Lists functions, variables, and classes in the current file.
 	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
 	vim.keymap.set("n", "<leader>e", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
-    vim.keymap.set("n", "<leader>E", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
+	vim.keymap.set("n", "<leader>E", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
 
-    -- Toggle inlay hints
+	-- Toggle inlay hints
 	vim.keymap.set("n", "<leader>ih", function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-        vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
-    end, { desc = "Toggle inlay hints" })
+		local bufnr = vim.api.nvim_get_current_buf()
+		local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+		vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+	end, { desc = "Toggle inlay hints" })
 end

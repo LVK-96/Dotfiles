@@ -19,42 +19,42 @@ return {
 		end,
 	},
 
-    	--Statusline
-    	{
-		'nvim-mini/mini.statusline',
+	--Statusline
+	{
+		"nvim-mini/mini.statusline",
 		version = false,
 		config = function()
-		    local statusline = require("mini.statusline")
-		    statusline.setup({
-			content = {
-			    active = function()
-                    local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
-                    local git = statusline.section_git({ trunc_width = 40 })
-                    local diff = statusline.section_diff({ trunc_width = 75 })
-                    local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
-                    local filename = statusline.section_filename({ trunc_width = 140 })
-                    local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
-                    local search = statusline.section_searchcount({ trunc_width = 75 })
-                    local location = statusline.section_location({ trunc_width = 75 })
+			local statusline = require("mini.statusline")
+			statusline.setup({
+				content = {
+					active = function()
+						local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+						local git = statusline.section_git({ trunc_width = 40 })
+						local diff = statusline.section_diff({ trunc_width = 75 })
+						local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
+						local filename = statusline.section_filename({ trunc_width = 140 })
+						local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+						local search = statusline.section_searchcount({ trunc_width = 75 })
+						local location = statusline.section_location({ trunc_width = 75 })
 
-                    local left = statusline.combine_groups({
-                        { hl = mode_hl, strings = { mode } },
-                        { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
-                        "%<",
-                        { hl = "MiniStatuslineFilename", strings = { filename } },
-                    })
+						local left = statusline.combine_groups({
+							{ hl = mode_hl, strings = { mode } },
+							{ hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
+							"%<",
+							{ hl = "MiniStatuslineFilename", strings = { filename } },
+						})
 
-                    local right = statusline.combine_groups({
-                        { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
-                        { hl = mode_hl, strings = { search, location } },
-                    })
+						local right = statusline.combine_groups({
+							{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+							{ hl = mode_hl, strings = { search, location } },
+						})
 
-                    return left .. "%=" .. right
-			    end,
-			},
-		    })
+						return left .. "%=" .. right
+					end,
+				},
+			})
 		end,
-    	},
+	},
 
 	-- Navigation
 	{
@@ -449,54 +449,54 @@ return {
 		enabled = not vim.g.vscode,
 		version = "^6", -- Recommended
 		lazy = false, -- This plugin is already lazy
-        config = function()
-            vim.g.rustaceanvim = {
-                server = {
-                    settings = {
-                        ["rust-analyzer"] = {
-                            inlayHints = {
-                                typeHints = { enable = true },
-                                parameterHints = { enable = true },
-                                chainingHints = { enable = false },
-                            },
-                        },
-                    },
-                    on_attach = function(client, bufnr)
-                        if client:supports_method("textDocument/inlayHint") then
-                            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                        end
-                    end,
-                },
-            }
-        end,
-    },
-    {
-        "scalameta/nvim-metals",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "mfussenegger/nvim-dap",
-        },
-        ft = { "scala", "sbt", "java" },
-        config = function()
-            local metals = require("metals")
-            local metals_config = metals.bare_config()
-                metals_config.on_attach = function(client, bufnr)
-                    metals.setup_dap()
-                    if client:supports_method("textDocument/inlayHint") then
-                        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                    end
-                end
+		config = function()
+			vim.g.rustaceanvim = {
+				server = {
+					settings = {
+						["rust-analyzer"] = {
+							inlayHints = {
+								typeHints = { enable = true },
+								parameterHints = { enable = true },
+								chainingHints = { enable = false },
+							},
+						},
+					},
+					on_attach = function(client, bufnr)
+						if client:supports_method("textDocument/inlayHint") then
+							vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+						end
+					end,
+				},
+			}
+		end,
+	},
+	{
+		"scalameta/nvim-metals",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"mfussenegger/nvim-dap",
+		},
+		ft = { "scala", "sbt", "java" },
+		config = function()
+			local metals = require("metals")
+			local metals_config = metals.bare_config()
+			metals_config.on_attach = function(client, bufnr)
+				metals.setup_dap()
+				if client:supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end
+			end
 
-            local group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "scala", "sbt", "java" },
-                callback = function()
-                    metals.initialize_or_attach(metals_config)
-                end,
-                group = group,
-            })
-        end,
-    },
+			local group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "scala", "sbt", "java" },
+				callback = function()
+					metals.initialize_or_attach(metals_config)
+				end,
+				group = group,
+			})
+		end,
+	},
 
 	-- LSP
 	{
