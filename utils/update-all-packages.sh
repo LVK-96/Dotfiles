@@ -40,20 +40,16 @@ run_cmd() {
 }
 
 run_privileged() {
-  if [[ "$DRY_RUN" == "true" ]]; then
-    log DRY-RUN "$*"
-    return 0
-  fi
-
   if (( EUID == 0 )); then
     run_cmd "$@"
-    return 0
+    return
   fi
 
   if have_cmd sudo; then
     run_cmd sudo "$@"
   else
     log WARN "sudo is not available; cannot run privileged command: $*"
+    return 1
   fi
 }
 
@@ -94,7 +90,9 @@ detect_managers() {
   have_cmd dnf && managers+=(dnf)
   have_cmd zypper && managers+=(zypper)
 
-  printf '%s\n' "${managers[@]}"
+  if ((${#managers[@]} > 0)); then
+    printf '%s\n' "${managers[@]}"
+  fi
 }
 
 csv_contains() {
@@ -130,32 +128,33 @@ filter_managers() {
     filtered+=("$manager")
   done
 
-  printf '%s\n' "${filtered[@]}"
+  if ((${#filtered[@]} > 0)); then
+    printf '%s\n' "${filtered[@]}"
+  fi
 }
 
 update_pip() {
   local pip_bin="$1"
 
-  run_cmd "$pip_bin" install --upgrade pip
+  run_privileged "$pip_bin" install --upgrade pip
 
   if ! have_cmd python3; then
     log WARN "python3 is not available; cannot parse outdated package list for $pip_bin"
     return 0
   fi
 
-  local outdated
-  outdated="$($pip_bin list --outdated --format=json 2>/dev/null | python3 -c 'import json,sys; data=json.load(sys.stdin); print("\n".join(pkg["name"] for pkg in data))' || true)"
+  local -a outdated_packages
+  mapfile -t outdated_packages < <(
+    "$pip_bin" list --outdated --format=json 2>/dev/null |
+      python3 -c 'import json,sys; data=json.load(sys.stdin); print("\n".join(pkg["name"] for pkg in data if pkg.get("name") and pkg["name"] != "pip"))'
+  )
 
-  if [[ -z "$outdated" ]]; then
+  if ((${#outdated_packages[@]} == 0)); then
     log INFO "No outdated packages found for $pip_bin"
     return 0
   fi
 
-  while IFS= read -r package; do
-    [[ -z "$package" ]] && continue
-    [[ "$package" == "pip" ]] && continue
-    run_cmd "$pip_bin" install --upgrade "$package"
-  done <<< "$outdated"
+  run_privileged "$pip_bin" install --upgrade "${outdated_packages[@]}"
 }
 
 update_manager() {
@@ -301,7 +300,7 @@ log INFO "Discovered package managers: ${discovered[*]}"
 
 for manager in "${discovered[@]}"; do
   log INFO "Updating via $manager"
-  if ! update_manager "$manager"; then
+  if ! (set -Eeuo pipefail; update_manager "$manager"); then
     log WARN "Update failed for $manager (continuing)"
   fi
 done
