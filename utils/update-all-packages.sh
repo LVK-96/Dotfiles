@@ -17,7 +17,7 @@ Options:
 Examples:
   update-all-packages.sh --list
   update-all-packages.sh --dry-run --only apt,paru,pixi
-  update-all-packages.sh --skip pip3,npm
+  update-all-packages.sh --skip uv,npm
 USAGE
 }
 
@@ -76,12 +76,6 @@ detect_managers() {
     managers+=(pipx)
   fi
 
-  if have_cmd pip3; then
-    managers+=(pip3)
-  elif have_cmd pip; then
-    managers+=(pip)
-  fi
-
   have_cmd cargo && managers+=(cargo)
   have_cmd nix && managers+=(nix)
   have_cmd flatpak && managers+=(flatpak)
@@ -133,30 +127,6 @@ filter_managers() {
   fi
 }
 
-update_pip() {
-  local pip_bin="$1"
-
-  run_privileged "$pip_bin" install --upgrade pip
-
-  if ! have_cmd python3; then
-    log WARN "python3 is not available; cannot parse outdated package list for $pip_bin"
-    return 0
-  fi
-
-  local -a outdated_packages
-  mapfile -t outdated_packages < <(
-    "$pip_bin" list --outdated --format=json 2>/dev/null |
-      python3 -c 'import json,sys; data=json.load(sys.stdin); print("\n".join(pkg["name"] for pkg in data if pkg.get("name") and pkg["name"] != "pip"))'
-  )
-
-  if ((${#outdated_packages[@]} == 0)); then
-    log INFO "No outdated packages found for $pip_bin"
-    return 0
-  fi
-
-  run_privileged "$pip_bin" install --upgrade "${outdated_packages[@]}"
-}
-
 update_manager() {
   local manager="$1"
 
@@ -179,7 +149,7 @@ update_manager() {
       run_cmd pixi global update
       ;;
     npm)
-      run_cmd npm update -g
+      run_privileged npm update -g
       ;;
     pnpm)
       run_cmd pnpm update -g
@@ -198,12 +168,6 @@ update_manager() {
       ;;
     pipx)
       run_cmd pipx upgrade-all
-      ;;
-    pip)
-      update_pip pip
-      ;;
-    pip3)
-      update_pip pip3
       ;;
     cargo)
       if have_cmd cargo-install-update; then
