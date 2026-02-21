@@ -138,6 +138,33 @@ return {
 		config = true,
 	},
 	{
+		"nvim-tree/nvim-tree.lua",
+		cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+		keys = {
+			{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Toggle file tree" },
+		},
+		opts = {
+			view = {
+				side = "left",
+				width = 50,
+				preserve_window_proportions = true,
+			},
+
+			git = { enable = true },
+			diagnostics = { enable = true },
+			filesystem_watchers = { enable = true },
+
+			update_focused_file = {
+				enable = true,
+				update_root = false,
+			},
+
+			filters = {
+				dotfiles = false,
+			},
+		},
+	},
+	{
 		"ibhagwan/fzf-lua",
 		event = "LspAttach",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -265,6 +292,20 @@ return {
 					vim.keymap.set({ "n", "v" }, "gra", function()
 						require("fzf-lua").lsp_code_actions({ multi = true })
 					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
+
+					-- Disable inlay hints in insert mode (workaround for neovim #36318)
+					vim.api.nvim_create_autocmd("InsertEnter", {
+						buffer = ev.buf,
+						callback = function()
+							vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
+						end,
+					})
+					vim.api.nvim_create_autocmd("InsertLeave", {
+						buffer = ev.buf,
+						callback = function()
+							vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+						end,
+					})
 				end,
 			})
 		end,
@@ -454,6 +495,27 @@ return {
 				server = {
 					settings = {
 						["rust-analyzer"] = {
+							cargo = {
+								allFeatures = true,
+								loadOutDirsFromCheck = true,
+								buildScripts = {
+									enable = true,
+								},
+							},
+							-- Add clippy lints for Rust.
+							checkOnSave = {
+								allFeatures = true,
+								command = "clippy",
+								extraArgs = { "--no-deps" },
+							},
+							procMacro = {
+								enable = true,
+								ignored = {
+									["async-trait"] = { "async_trait" },
+									["napi-derive"] = { "napi" },
+									["async-recursion"] = { "async_recursion" },
+								},
+							},
 							inlayHints = {
 								typeHints = { enable = true },
 								parameterHints = { enable = true },
@@ -463,7 +525,7 @@ return {
 					},
 					on_attach = function(client, bufnr)
 						if client:supports_method("textDocument/inlayHint") then
-							vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+							pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
 						end
 					end,
 				},
@@ -483,7 +545,7 @@ return {
 			metals_config.on_attach = function(client, bufnr)
 				metals.setup_dap()
 				if client:supports_method("textDocument/inlayHint") then
-					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
 				end
 			end
 

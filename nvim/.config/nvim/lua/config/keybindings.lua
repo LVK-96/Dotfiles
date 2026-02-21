@@ -122,8 +122,8 @@ function keybindings()
 	-- 6. Document Symbols (Bonus: usually mapped to <leader>ds)
 	-- Lists functions, variables, and classes in the current file.
 	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
-	vim.keymap.set("n", "<leader>e", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
-	vim.keymap.set("n", "<leader>E", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
+	vim.keymap.set("n", "<leader>dd", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
+	vim.keymap.set("n", "<leader>DD", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
 
 	-- Toggle inlay hints
 	vim.keymap.set("n", "<leader>ih", function()
