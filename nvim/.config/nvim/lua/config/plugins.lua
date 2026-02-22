@@ -294,16 +294,31 @@ return {
 					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
 
 					-- Disable inlay hints in insert mode (workaround for neovim #36318)
+					-- These should only apply if the hints are on in the first place
 					vim.api.nvim_create_autocmd("InsertEnter", {
 						buffer = ev.buf,
 						callback = function()
-							vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
+							local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })
+							vim.b[ev.buf].inlay_hints_was_enabled = is_enabled
+							if is_enabled then
+								vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
+							end
 						end,
 					})
 					vim.api.nvim_create_autocmd("InsertLeave", {
 						buffer = ev.buf,
 						callback = function()
-							vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+							if vim.b[ev.buf].inlay_hints_was_enabled then
+								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+							end
+						end,
+					})
+					vim.api.nvim_create_autocmd("InsertLeave", {
+						buffer = ev.buf,
+						callback = function()
+							if vim.b[ev.buf].inlay_hints_was_enabled then
+								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+							end
 						end,
 					})
 				end,

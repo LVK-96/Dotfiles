@@ -124,6 +124,8 @@ function keybindings()
 	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
 	vim.keymap.set("n", "<leader>dd", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
 	vim.keymap.set("n", "<leader>DD", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
+	-- LSP rename
+	vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "LSP Rename" })
 
 	-- Toggle inlay hints
 	vim.keymap.set("n", "<leader>ih", function()

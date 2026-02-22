@@ -1,5 +1,5 @@
 set $mod Mod4
-font pango:Source Code Pro 8
+font pango:Fira Code 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -150,7 +150,7 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar
 bar {
-    font pango:Source Code Pro 8
+    font pango: Fira Code 8
     position top
     tray_output none
     status_command i3status
