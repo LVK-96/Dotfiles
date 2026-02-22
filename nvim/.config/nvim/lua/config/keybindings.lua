@@ -150,47 +150,47 @@ function keybindings()
 			local params = vim.lsp.util.make_position_params(0, "utf-16")
 			params.newName = new_name
 
-				vim.lsp.buf_request_all(0, "textDocument/rename", params, function(results)
-					local applied = false
-					for client_id, res in pairs(results or {}) do
-						if res and res.error then
-							vim.notify(
-								string.format("Rename error (%s): %s", client_id, res.error.message or "unknown"),
-								vim.log.levels.WARN
-							)
-						elseif (not applied) and res and res.result then
-							local client = vim.lsp.get_client_by_id(client_id)
-							vim.lsp.util.apply_workspace_edit(res.result, client and client.offset_encoding or "utf-16")
-							applied = true
+			vim.lsp.buf_request_all(0, "textDocument/rename", params, function(results)
+				local applied = false
+				for client_id, res in pairs(results or {}) do
+					if res and res.error then
+						vim.notify(
+							string.format("Rename error (%s): %s", client_id, res.error.message or "unknown"),
+							vim.log.levels.WARN
+						)
+					elseif (not applied) and res and res.result then
+						local client = vim.lsp.get_client_by_id(client_id)
+						vim.lsp.util.apply_workspace_edit(res.result, client and client.offset_encoding or "utf-16")
+						applied = true
+					end
+				end
+
+				if not applied then
+					return
+				end
+
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					if vim.bo[buf].modified and not pre_modified[buf] then
+						local name = vim.api.nvim_buf_get_name(buf)
+						if name ~= "" and not vim.bo[buf].readonly and vim.bo[buf].buftype == "" then
+							pcall(vim.fn.bufload, buf)
+							pcall(vim.api.nvim_buf_call, buf, function()
+								vim.cmd("silent noautocmd keepalt keepjumps write")
+							end)
 						end
 					end
+				end
 
-					if not applied then
-						return
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+					if
+						vim.api.nvim_buf_is_valid(buf)
+						and vim.fn.bufwinid(buf) == -1
+						and (not pre_existing[buf] or not pre_loaded[buf])
+					then
+						pcall(vim.api.nvim_buf_delete, buf, { force = true })
 					end
-
-					for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-						if vim.bo[buf].modified and not pre_modified[buf] then
-							local name = vim.api.nvim_buf_get_name(buf)
-							if name ~= "" and not vim.bo[buf].readonly and vim.bo[buf].buftype == "" then
-								pcall(vim.fn.bufload, buf)
-								pcall(vim.api.nvim_buf_call, buf, function()
-									vim.cmd("silent noautocmd keepalt keepjumps write")
-								end)
-							end
-						end
-					end
-
-					for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-						if
-							vim.api.nvim_buf_is_valid(buf)
-							and vim.fn.bufwinid(buf) == -1
-							and (not pre_existing[buf] or not pre_loaded[buf])
-						then
-							pcall(vim.api.nvim_buf_delete, buf, { force = true })
-						end
-					end
-				end)
+				end
+			end)
 		end)
 	end, { desc = "LSP Rename" })
 

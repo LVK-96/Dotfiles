@@ -146,7 +146,7 @@ return {
 		opts = {
 			view = {
 				side = "left",
-				width = 50,
+				width = 35,
 				preserve_window_proportions = true,
 			},
 
