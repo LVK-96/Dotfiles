@@ -200,4 +200,10 @@ function keybindings()
 		local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
 		vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
 	end, { desc = "Toggle inlay hints" })
+
+    -- Resize splits with arrow keys
+    vim.keymap.set("n", "<leader><Up>",    "<cmd>resize -5<CR>", { silent = true })
+    vim.keymap.set("n", "<leader><Down>",  "<cmd>resize +5<CR>", { silent = true })
+    vim.keymap.set("n", "<leader><Left>",  "<cmd>vertical resize -5<CR>", { silent = true })
+    vim.keymap.set("n", "<leader><Right>", "<cmd>vertical resize +5<CR>", { silent = true })
 end
