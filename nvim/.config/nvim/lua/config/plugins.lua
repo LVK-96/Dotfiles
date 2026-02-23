@@ -185,21 +185,28 @@ return {
 				desc = "Find Git Files",
 			},
 			{
-				"<leader>g",
+				"<leader>gg",
 				function()
 					require("fzf-lua").live_grep({ multi = true })
 				end,
-				desc = "Exact Grep",
+				desc = "Live Grep",
 			},
 			{
-				"<leader>G",
+				"<leader>gG",
+				function()
+					require("fzf-lua").grep({ multi = true })
+				end,
+				desc = "Grep",
+			},
+			{
+				"<leader>gf",
 				function()
 					require("fzf-lua").grep_project({ multi = true })
 				end,
 				desc = "Fuzzy Grep",
 			},
 			{
-				"<leader>w",
+				"<leader>gw",
 				function()
 					require("fzf-lua").grep_cword({ multi = true })
 				end,
@@ -249,9 +256,31 @@ return {
 			},
 		},
 		config = function()
-			require("fzf-lua").setup({ "default-title" })
+			local function get_git_root()
+				local git_dir = vim.fn.finddir(".git", ".;")
+				if git_dir ~= "" then
+					return vim.fn.fnamemodify(git_dir, ":h")
+				end
+				return vim.loop.cwd()
+			end
+
+			local git_root = get_git_root()
+			require("fzf-lua").setup({
+				defaults = {
+					cwd = git_root,
+				},
+				files = {
+					cwd_prompt = false,
+					fd_opts = "--type f --hidden --follow --exclude .git",
+				},
+				grep = {
+					rg_opts = "--hidden --smart-case --column --line-number --no-heading --color=never --glob '!.git/*'",
+				},
+				live_grep = {
+					rg_opts = "--hidden --smart-case --column --line-number --no-heading --color=never --glob '!.git/*'",
+				},
+			})
 			require("fzf-lua").register_ui_select()
-			-- This sets the keys only when an LSP attaches to a buffer
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true }),
 				callback = function(ev)
