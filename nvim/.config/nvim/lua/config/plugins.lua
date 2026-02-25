@@ -902,11 +902,18 @@ return {
 				"<leader>oa",
 				function()
 					local word = vim.fn.expand("<cword>")
+					local file = vim.api.nvim_buf_get_name(0)
+					if file == "" then
+						return
+					end
+					local rel = vim.fn.fnamemodify(file, ":.")
+					local line = vim.api.nvim_win_get_cursor(0)[1]
+					local ref = string.format("@%s:%d-%d", rel, line, line)
 					require("snacks").input({ prompt = "Ask AI about '" .. word .. "': " }, function(input)
 						if not input then
 							return
 						end
-						require("sidekick.cli").send({ msg = input .. "\n\nContext: " .. word })
+						require("sidekick.cli").send({ msg = input .. "\n\nContext: " .. ref })
 					end)
 				end,
 				mode = "n",
