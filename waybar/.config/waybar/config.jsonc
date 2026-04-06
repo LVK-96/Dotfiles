@@ -5,17 +5,13 @@
   "spacing": 8,
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["sway/window"],
-  "modules-right": ["pulseaudio", "network", "battery", "clock", "tray"],
+  "modules-right": ["network", "battery", "clock"],
   "sway/workspaces": {
     "disable-scroll": true,
     "all-outputs": true
   },
   "sway/window": {
     "max-length": 80
-  },
-  "pulseaudio": {
-    "format": "VOL {volume}%",
-    "format-muted": "VOL mute"
   },
   "network": {
     "format-wifi": "NET {essid}",
@@ -34,7 +30,7 @@
     "format-plugged": "BAT AC"
   },
   "clock": {
-    "format": "{:%Y-%m-%d %H:%M}",
+    "format": "{:%d-%m-%Y %H:%M}",
     "format-alt": "{:%a %d %b %H:%M}"
   },
   "tray": {

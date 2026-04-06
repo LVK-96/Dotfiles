@@ -1,16 +1,16 @@
 set $mod Mod4
 set $terminal alacritty
-set $menu wofi --show drun
+set $menu rofi -show combi
 set $lock ~/.config/sway/lock.sh
 set $screenshot ~/.config/sway/screenshot.sh
 set $nightlight ~/.config/sway/wlsunset-toggle.sh
 
-font pango:Fira Code 8
+font pango:Fira Code Nerd Font 8
 xwayland enable
 
 # Preserve the i3 interaction model where possible.
 floating_modifier $mod
-default_border pixel 1
+default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
 
@@ -21,6 +21,8 @@ output * bg #000000 solid_color
 input type:keyboard {
     repeat_delay 200
     repeat_rate 75
+    xkb_layout "us"
+    xkb_options "caps:ctrl"
 }
 
 input type:touchpad {
