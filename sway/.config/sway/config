@@ -1,0 +1,135 @@
+set $mod Mod4
+set $terminal alacritty
+set $menu wofi --show drun
+set $lock ~/.config/sway/lock.sh
+set $screenshot ~/.config/sway/screenshot.sh
+set $nightlight ~/.config/sway/wlsunset-toggle.sh
+
+font pango:Fira Code 8
+xwayland enable
+
+# Preserve the i3 interaction model where possible.
+floating_modifier $mod
+default_border pixel 1
+default_floating_border pixel 2
+hide_edge_borders smart
+
+# Outputs vary between machines. Start generic, then add per-output rules or
+# kanshi profiles after checking names with: swaymsg -t get_outputs
+output * bg #000000 solid_color
+
+input type:keyboard {
+    repeat_delay 200
+    repeat_rate 75
+}
+
+input type:touchpad {
+    tap enabled
+    dwt enabled
+    middle_emulation enabled
+}
+
+seat seat0 hide_cursor 5000
+
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+bindsym $mod+Return exec $terminal
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Control+h split h
+bindsym $mod+Control+v split v
+
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+bindsym $mod+Shift+c reload
+# sway has reload but not the i3-style in-place restart; keep the old muscle
+# memory and map both reload keys to the same action.
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exit
+
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bindsym ctrl+$mod+l exec $lock screen-off
+bindsym Print exec $screenshot area
+bindsym Shift+Print exec $screenshot screen
+bindsym $mod+g exec $nightlight toggle
+
+exec_always --no-startup-id ~/.config/sway/autostart.sh
