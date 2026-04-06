@@ -8,7 +8,6 @@ set $nightlight ~/.config/sway/wlsunset-toggle.sh
 font pango:Fira Code Nerd Font 8
 xwayland enable
 
-# Preserve the i3 interaction model where possible.
 floating_modifier $mod
 default_border pixel 2
 default_floating_border pixel 2
@@ -22,7 +21,7 @@ input type:keyboard {
     repeat_delay 200
     repeat_rate 75
     xkb_layout "us"
-    xkb_options "caps:ctrl"
+    xkb_options "ctrl:nocaps"
 }
 
 input type:touchpad {
@@ -106,8 +105,6 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 bindsym $mod+Shift+c reload
-# sway has reload but not the i3-style in-place restart; keep the old muscle
-# memory and map both reload keys to the same action.
 bindsym $mod+Shift+r reload
 bindsym $mod+Shift+e exit
 
@@ -129,7 +126,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym ctrl+$mod+l exec $lock screen-off
+bindsym ctrl+$mod+l exec $lock lock
 bindsym Print exec $screenshot area
 bindsym Shift+Print exec $screenshot screen
 bindsym $mod+g exec $nightlight toggle
