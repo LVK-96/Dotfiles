@@ -1,0 +1,25 @@
+[user]
+	email = leo@kivikunnas.xyz
+	name = Leo Kivikunas
+
+[alias]
+    dlog = -c diff.external=difft log --ext-diff
+    dshow = -c diff.external=difft show --ext-diff
+    ddiff = -c diff.external=difft diff
+
+[core]
+    pager = delta
+	editor = nvim
+
+[interactive]
+    diffFilter = delta --color-only --line-numbers
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+
+[merge]
+    tool = nvimdiff
+    conflictStyle = zdiff3
+
+[mergetool "nvimdiff"]
+    layout = "LOCAL,BASE,REMOTE / MERGED"
