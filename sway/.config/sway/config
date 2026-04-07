@@ -1,6 +1,6 @@
 set $mod Mod4
 set $terminal alacritty
-set $menu rofi -show combi
+set $menu rofi -show combi -combi-modes "drun,window,run"
 set $lock ~/.config/sway/lock.sh
 set $screenshot ~/.config/sway/screenshot.sh
 set $nightlight ~/.config/sway/wlsunset-toggle.sh

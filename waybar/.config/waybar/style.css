@@ -2,7 +2,7 @@
   border: none;
   border-radius: 0;
   font-family: "Fira Code Nerd Font";
-  font-size: 12px;
+  font-size: 14px;
   min-height: 0;
 }
 
@@ -35,6 +35,7 @@ window#waybar {
 
 #window {
   color: #b8c0cc;
+  font-weight: bold;
 }
 
 #mode {
@@ -42,10 +43,25 @@ window#waybar {
   color: #ffffff;
 }
 
-#battery.warning {
-  color: #f4a261;
+#battery:not(.warning):not(.critical) {
+  color: #4cff4c; /* green */
 }
 
-#battery.critical {
-  color: #e76f51;
+#bluetooth.connected {
+  color: #00ccff; /* light blue */
+}
+
+#battery.warning {
+  color: #ffcc00; /* yellow/orange */
+}
+
+#battery.critical,
+#network.disconnected,
+#bluetooth.disabled,
+#bluetooth.off {
+  color: #ff5252; /* red */
+}
+
+#custom-sep {
+  color: rgba(216, 222, 233, 0.25);
 }

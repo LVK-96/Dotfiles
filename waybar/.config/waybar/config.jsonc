@@ -5,7 +5,21 @@
   "spacing": 8,
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["sway/window"],
-  "modules-right": ["network", "battery", "clock"],
+  "modules-right": [
+    "network",
+    "custom/sep",
+    "bluetooth",
+    "custom/sep",
+    "battery",
+    "custom/sep",
+    "power-profiles-daemon",
+    "custom/sep",
+    "clock"
+  ],
+  "custom/sep": {
+    "format": "│",
+    "tooltip": false
+  },
   "sway/workspaces": {
     "disable-scroll": true,
     "all-outputs": true
@@ -14,26 +28,83 @@
     "max-length": 80
   },
   "network": {
-    "format-wifi": "NET {essid}",
-    "format-ethernet": "NET wired",
-    "format-disconnected": "NET down",
-    "tooltip-format": "{ifname} {ipaddr}"
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󰖪",
+    "format-icons": [
+      "󰤯",  // no signal
+      "󰤟",  // weak
+      "󰤢",  // ok
+      "󰤥",  // good
+      "󰤨"   // excellent
+    ],
+    "tooltip-format-wifi": "{essid} ({ipaddr})",
+    "tooltip-format-ethernet": "{ifname} ({ipaddr})",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "networkmanager_dmenu -dmenu rofi"
+  },
+  "bluetooth": {
+    "format": "{icon}",
+    "format-icons": {
+      "disabled": "󰂲",
+      "off": "󰂲",
+      "on": "󰂯",
+      "connected": "󰂱"
+    },
+    "tooltip-format": "{controller_alias} ({controller_address})",
+    "tooltip-format-connected": "{controller_alias} ({controller_address})\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "rofi-bluetooth"
+  },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}",
+    "format-icons": {
+      "performance": "ppd: p",
+      "balanced": "ppd: b",
+      "power-saver": "ppd: s"
+    }
   },
   "battery": {
     "interval": 30,
     "states": {
-      "warning": 25,
-      "critical": 10
+      "warning": 50,
+      "critical": 25
     },
-    "format": "BAT {capacity}%",
-    "format-charging": "BAT {capacity}%+",
-    "format-plugged": "BAT AC"
+    "tooltip-format": "BAT {capacity}%\n{timeTo}",
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%+",
+    "format-plugged": "󰂄",
+    "format-icons": [
+      "󰁺",  // 0–10%
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"   // 100%
+    ]
   },
   "clock": {
-    "format": "{:%d-%m-%Y %H:%M}",
-    "format-alt": "{:%a %d %b %H:%M}"
-  },
-  "tray": {
-    "spacing": 8
+    "format": "{:%d-%m-%Y %H:%M} ",
+    "format-alt": "{:%a %d %b %H:%M} ",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "left",
+      "on-scroll": 1,
+      "iso8601": true,
+      "format": {
+        "months": "<span color='#d8dee9'><b>{}</b></span>",
+        "weekdays": "<span color='#b8c0cc'><b>{}</b></span>",
+        "days": "<span color='#d8dee9'>{}</span>",
+        "weeks": "<span color='#4c7899'><b>W{}</b></span>",
+        "today": "<span color='#ffffff' background='#4c7899'><b>{}</b></span>"
+      }
+    }
   }
 }
