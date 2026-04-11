@@ -1,5 +1,9 @@
 function lsp()
-	vim.lsp.config("pyright", {})
+	vim.lsp.config("ty", {
+		cmd = { "ty", "server" },
+		filetypes = { "python" },
+		root_markers = { "pyproject.toml", ".git" },
+	})
 
 	vim.lsp.config("clangd", {
 		cmd = { "chess-clangd" },
@@ -8,8 +12,9 @@ function lsp()
 
 	vim.lsp.config("verible", {
 		cmd = { "verible-verilog-ls", "--rules_config_search" },
-		autostart = false,
+		filetypes = { "verilog", "systemverilog" },
+		root_markers = { ".git", "flake.nix" },
 	})
 
-	vim.lsp.enable("python", "rust", "cpp", "c", "verilog")
+	vim.lsp.enable({ "ty", "verible" })
 end

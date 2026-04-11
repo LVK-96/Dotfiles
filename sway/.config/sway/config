@@ -22,6 +22,7 @@ input type:keyboard {
     repeat_rate 75
     xkb_layout "us"
     xkb_options "ctrl:nocaps"
+    xkb_variant "altgr-intl"
 }
 
 input type:touchpad {
@@ -149,4 +150,5 @@ for_window [app_id="pavucontrol"] {
 }
 for_window [app_id="qalculate"] floating enable
 
+exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_RUNTIME_DIR XDG_CURRENT_DESKTOP XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS
 exec_always --no-startup-id ~/.config/sway/autostart.sh
