@@ -1,23 +1,24 @@
 return {
 	-- Theme
-	-- { "ishan9299/nvim-solarized-lua",
-	--     enabled = not vim.g.vscode,
-	--     lazy = false,
-	--     priority = 1000,
-	--     config = function()
-	--         vim.o.background = "light" -- or "light"
-	--         vim.cmd.colorscheme("solarized")
-	--     end,
-	-- },
 	{
-		"miikanissi/modus-themes.nvim",
+		"ishan9299/nvim-solarized-lua",
+		enabled = not vim.g.vscode,
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.o.background = "dark" -- or "light"
-			vim.cmd.colorscheme("modus_vivendi")
+			vim.o.background = "light"
+			vim.cmd.colorscheme("solarized")
 		end,
 	},
+	-- {
+	-- 	"miikanissi/modus-themes.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.o.background = "dark" -- or "light"
+	-- 		vim.cmd.colorscheme("modus_vivendi")
+	-- 	end,
+	-- },
 
 	--Statusline
 	{
@@ -256,102 +257,134 @@ return {
 			},
 		},
 		config = function()
-			local function get_git_root()
-				local git_dir = vim.fn.finddir(".git", ".;")
-				if git_dir ~= "" then
-					return vim.fn.fnamemodify(git_dir, ":h")
+			local function get_git_root(bufnr)
+				local root = vim.fs.root(bufnr or 0, { ".git" })
+				if root and root ~= "" then
+					return root
 				end
 				return vim.loop.cwd()
 			end
 
 			local git_root = get_git_root()
 			require("fzf-lua").setup({
-				defaults = {
-					cwd = git_root,
-				},
+				fzf_colors = true,
 				files = {
+					cwd = git_root,
 					cwd_prompt = false,
 					fd_opts = "--type f --hidden --follow --exclude .git",
 				},
 				grep = {
+					cwd = git_root,
 					rg_opts = "--hidden --smart-case --column --line-number --no-heading --color=never --glob '!.git/*'",
 				},
 				live_grep = {
+					cwd = git_root,
 					rg_opts = "--hidden --smart-case --column --line-number --no-heading --color=never --glob '!.git/*'",
 				},
 			})
 			require("fzf-lua").register_ui_select()
+			local lsp_group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true })
+			local inlay_group = vim.api.nvim_create_augroup("FzfLspInlayHints", { clear = false })
+
+			local function set_lsp_keymaps(bufnr)
+				local opts = { buffer = bufnr, silent = true }
+
+				-- Replace "Find References" (Default: grr)
+				vim.keymap.set("n", "grr", function()
+					require("fzf-lua").lsp_references({ ignore_current_line = true, multi = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf References" }))
+
+				-- Replace "Go to Definition" (Default: gd)
+				vim.keymap.set("n", "gd", function()
+					require("fzf-lua").lsp_definitions({
+						jump1 = true,
+						cwd_only = false,
+						silent = false,
+					})
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Definitions" }))
+
+				-- Replace "Go to Declaration" (Default: gD)
+				vim.keymap.set("n", "gD", function()
+					require("fzf-lua").lsp_declarations({ jump1 = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Declarations" }))
+
+				-- Replace "Go to Implementation" (Default: gI)
+				vim.keymap.set("n", "gI", function()
+					require("fzf-lua").lsp_implementations({ jump1 = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Implementations" }))
+
+				-- Replace "Type Definition" (Default: gy)
+				vim.keymap.set("n", "gy", function()
+					require("fzf-lua").lsp_typedefs({ jump1 = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Type Definitions" }))
+
+				-- Replace "Code Actions" (Default: gra / <leader>ca)
+				vim.keymap.set({ "n", "v" }, "<leader>ca", function()
+					require("fzf-lua").lsp_code_actions({ multi = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Code Actions" }))
+
+				vim.keymap.set({ "n", "v" }, "gra", function()
+					require("fzf-lua").lsp_code_actions({ multi = true })
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Code Actions" }))
+
+				vim.keymap.set("n", "<leader>cd", function()
+					require("fzf-lua").diagnostics_document()
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Document Diagnostics" }))
+
+				vim.keymap.set("n", "<leader>cD", function()
+					require("fzf-lua").diagnostics_workspace()
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Workspace Diagnostics" }))
+
+				vim.keymap.set("n", "<leader>ce", function()
+					require("fzf-lua").diagnostics_document({
+						severity_only = vim.diagnostic.severity.ERROR,
+					})
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Document Errors" }))
+
+				vim.keymap.set("n", "<leader>cs", function()
+					require("fzf-lua").lsp_document_symbols()
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Document Symbols" }))
+
+				vim.keymap.set("n", "<leader>cS", function()
+					require("fzf-lua").lsp_workspace_symbols()
+				end, vim.tbl_extend("force", opts, { desc = "Fzf Workspace Symbols" }))
+
+				-- Disable inlay hints in insert mode (workaround for neovim #36318).
+				vim.api.nvim_clear_autocmds({ group = inlay_group, buffer = bufnr })
+				vim.api.nvim_create_autocmd("InsertEnter", {
+					group = inlay_group,
+					buffer = bufnr,
+					callback = function()
+						local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+						vim.b[bufnr].inlay_hints_was_enabled = is_enabled
+						if is_enabled then
+							vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+						end
+					end,
+				})
+				vim.api.nvim_create_autocmd("InsertLeave", {
+					group = inlay_group,
+					buffer = bufnr,
+					callback = function()
+						if vim.b[bufnr].inlay_hints_was_enabled then
+							vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+						end
+					end,
+				})
+			end
+
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true }),
+				group = lsp_group,
 				callback = function(ev)
-					local opts = { buffer = ev.buf, silent = true }
-
-					-- Replace "Find References" (Default: grr)
-					vim.keymap.set("n", "grr", function()
-						require("fzf-lua").lsp_references({ ignore_current_line = true, multi = true })
-					end, { buffer = ev.buf, desc = "Fzf References" })
-
-					-- Replace "Go to Definition" (Default: gd)
-					vim.keymap.set("n", "gd", function()
-						require("fzf-lua").lsp_definitions({ jump1 = true })
-					end, { buffer = ev.buf, desc = "Fzf Definitions" })
-
-					-- Replace "Go to Declaration" (Default: gD)
-					vim.keymap.set("n", "gD", function()
-						require("fzf-lua").lsp_declarations({ jump1 = true })
-					end, { buffer = ev.buf, desc = "Fzf Declarations" })
-
-					-- Replace "Go to Implementation" (Default: gI)
-					vim.keymap.set("n", "gI", function()
-						require("fzf-lua").lsp_implementations({ jump1 = true })
-					end, { buffer = ev.buf, desc = "Fzf Implementations" })
-
-					-- Replace "Type Definition" (Default: gy)
-					vim.keymap.set("n", "gy", function()
-						require("fzf-lua").lsp_typedefs({ jump1 = true })
-					end, { buffer = ev.buf, desc = "Fzf Type Definitions" })
-
-					-- Replace "Code Actions" (Default: gra / <leader>ca)
-					vim.keymap.set({ "n", "v" }, "<leader>ca", function()
-						require("fzf-lua").lsp_code_actions({ multi = true })
-					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
-
-					-- Note: We map <leader>ca here generally.
-					-- If you want to replace the new default 'gra' as well:
-					vim.keymap.set({ "n", "v" }, "gra", function()
-						require("fzf-lua").lsp_code_actions({ multi = true })
-					end, { buffer = ev.buf, desc = "Fzf Code Actions" })
-
-					-- Disable inlay hints in insert mode (workaround for neovim #36318)
-					-- These should only apply if the hints are on in the first place
-					vim.api.nvim_create_autocmd("InsertEnter", {
-						buffer = ev.buf,
-						callback = function()
-							local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })
-							vim.b[ev.buf].inlay_hints_was_enabled = is_enabled
-							if is_enabled then
-								vim.lsp.inlay_hint.enable(false, { bufnr = ev.buf })
-							end
-						end,
-					})
-					vim.api.nvim_create_autocmd("InsertLeave", {
-						buffer = ev.buf,
-						callback = function()
-							if vim.b[ev.buf].inlay_hints_was_enabled then
-								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
-							end
-						end,
-					})
-					vim.api.nvim_create_autocmd("InsertLeave", {
-						buffer = ev.buf,
-						callback = function()
-							if vim.b[ev.buf].inlay_hints_was_enabled then
-								vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
-							end
-						end,
-					})
+					set_lsp_keymaps(ev.buf)
 				end,
 			})
+
+			for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+				if vim.api.nvim_buf_is_loaded(bufnr) and #vim.lsp.get_clients({ bufnr = bufnr }) > 0 then
+					set_lsp_keymaps(bufnr)
+				end
+			end
 		end,
 	},
 	{
@@ -610,59 +643,6 @@ return {
 		enabled = not vim.g.vscode,
 		cmd = "Mason",
 		config = true, -- Runs require("mason").setup()
-	},
-	{
-		"neovim/nvim-lspconfig",
-		enabled = not vim.g.vscode,
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
-		config = function()
-			-- Setup Mason
-			require("mason").setup()
-			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						-- Note: We intentionally leave this empty now!
-						-- We don't need to configure completion here anymore.
-						require("lspconfig")[server_name].setup({})
-					end,
-				},
-			})
-
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					-- Enable native autocomplete for this server
-					if client:supports_method("textDocument/completion") then
-						vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-					end
-				end,
-			})
-
-			vim.diagnostic.config({
-				virtual_text = false, -- Turn off inline diagnostics
-				signs = true, -- Keep gutter signs (icons on the left)
-				underline = true,
-				update_in_insert = false,
-				float = {
-					source = "always",
-				},
-			})
-
-			-- Show diagnostics in a floating window on hover (CursorHold)
-			vim.api.nvim_create_autocmd("CursorHold", {
-				callback = function()
-					local opts = {
-						focusable = false,
-						close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-						source = "always",
-						prefix = " ",
-						scope = "cursor",
-					}
-					vim.diagnostic.open_float(nil, opts)
-				end,
-			})
-		end,
 	},
 
 	-- AI

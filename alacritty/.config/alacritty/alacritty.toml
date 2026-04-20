@@ -1,6 +1,6 @@
 [general]
 import = [
-    "modus_vivendi.toml"
+    "solarized_light.toml"
 ]
 
 [font]

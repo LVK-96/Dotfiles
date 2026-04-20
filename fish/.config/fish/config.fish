@@ -7,7 +7,7 @@ status is-interactive || exit
 set -g fish_greeting
 
 # Theme
-theme_modus
+theme_solarized
 
 # Vi mode
 fish_vi_key_bindings

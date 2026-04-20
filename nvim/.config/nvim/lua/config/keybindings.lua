@@ -18,11 +18,11 @@ function keybindings()
 	vim.api.nvim_create_autocmd("TermOpen", {
 		desc = "Universal Exit Binding for Terminals",
 		callback = function()
-			-- The crucial part: Maps Ctrl+g to the Exit Sequence
-			-- nowait=true is SAFE here because Ctrl+g is not a prefix key
+			-- Map terminal exit chords buffer-locally for each terminal.
 			local opts = { buffer = 0, nowait = true }
 
 			vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], opts)
+			vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], opts)
 
 			-- KEEP your navigation chords here too!
 			vim.keymap.set("t", "<C-a>h", [[<C-\><C-n><cmd>TmuxNavigateLeft<cr>]], opts)
@@ -79,7 +79,7 @@ function keybindings()
 		if vim.g.vscode then
 			require("vscode").call("workbench.action.closeActiveEditor")
 		else
-			Snacks.bufdelete()
+			require("snacks").bufdelete()
 		end
 	end, { desc = "Close buffer" })
 
@@ -94,36 +94,8 @@ function keybindings()
 		vim.keymap.set("i", "<CR>", function()
 			return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
 		end, { expr = true })
-
-		-- Force Ctrl+[ to behave exactly like Ctrl-\ Ctrl-n
-		vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], { desc = "Exit Terminal Mode", buffer = 0 })
 	end
 
-	-- FZF-Lua LSP Keybindings
-	local function fzf(command)
-		return function()
-			require("fzf-lua")[command]()
-		end
-	end
-	-- 1. References (Overrides default 'grr')
-	-- Instead of the Quickfix list, this opens the FZF fuzzy finder.
-	vim.keymap.set("n", "grr", fzf("lsp_references"), { desc = "FZF LSP References" })
-	-- 2. Code Actions (Overrides default 'gra')
-	-- Works in Normal mode and Visual mode (for range actions).
-	vim.keymap.set({ "n", "v" }, "gra", fzf("lsp_code_actions"), { desc = "FZF LSP Code Actions" })
-	-- 3. Definitions (Overrides default 'gd')
-	-- Falls back to standard navigation if only one definition exists.
-	vim.keymap.set("n", "gd", fzf("lsp_definitions"), { desc = "FZF LSP Definitions" })
-	-- 4. Implementations (Overrides default 'gri' / 'gI')
-	vim.keymap.set("n", "gI", fzf("lsp_implementations"), { desc = "FZF LSP Implementations" })
-	vim.keymap.set("n", "gri", fzf("lsp_implementations"), { desc = "FZF LSP Implementations" })
-	-- 5. Type Definitions (Overrides default 'gy')
-	vim.keymap.set("n", "gy", fzf("lsp_typedefs"), { desc = "FZF LSP Type Definitions" })
-	-- 6. Document Symbols (Bonus: usually mapped to <leader>ds)
-	-- Lists functions, variables, and classes in the current file.
-	vim.keymap.set("n", "<leader>ds", fzf("lsp_document_symbols"), { desc = "FZF Document Symbols" })
-	vim.keymap.set("n", "<leader>dd", fzf("lsp_document_diagnostics"), { desc = "FZF Document Diagnostics" })
-	vim.keymap.set("n", "<leader>DD", fzf("lsp_workspace_diagnostics"), { desc = "FZF Workspace Diagnostics" })
 	-- LSP rename with prompt + autosave of files changed by the rename edit.
 	vim.keymap.set("n", "<leader>cr", function()
 		local current_name = vim.fn.expand("<cword>")
@@ -201,9 +173,9 @@ function keybindings()
 		vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
 	end, { desc = "Toggle inlay hints" })
 
-    -- Resize splits with arrow keys
-    vim.keymap.set("n", "<leader><Up>",    "<cmd>resize -5<CR>", { silent = true })
-    vim.keymap.set("n", "<leader><Down>",  "<cmd>resize +5<CR>", { silent = true })
-    vim.keymap.set("n", "<leader><Left>",  "<cmd>vertical resize -5<CR>", { silent = true })
-    vim.keymap.set("n", "<leader><Right>", "<cmd>vertical resize +5<CR>", { silent = true })
+	-- Resize splits with arrow keys
+	vim.keymap.set("n", "<leader><Up>", "<cmd>resize -5<CR>", { silent = true })
+	vim.keymap.set("n", "<leader><Down>", "<cmd>resize +5<CR>", { silent = true })
+	vim.keymap.set("n", "<leader><Left>", "<cmd>vertical resize -5<CR>", { silent = true })
+	vim.keymap.set("n", "<leader><Right>", "<cmd>vertical resize +5<CR>", { silent = true })
 end

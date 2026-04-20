@@ -16,6 +16,7 @@
 
 [delta]
     navigate = true  # use n and N to move between diff sections
+    syntax-theme = Solarized (light)
 
 [merge]
     tool = nvimdiff
