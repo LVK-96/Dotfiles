@@ -47,8 +47,8 @@ function keybindings()
 	end, { desc = "Clear highlights, update diffs & redraw" })
 
 	-- Tabline navigation (respects pagination)
-	-- Leader + number: jump to tab on current page (1-9 = first 9 tabs, 0 = last tab on page)
-	for i = 1, 9 do
+	-- Leader + number: jump to tab on current page
+	for i = 1, 10 do
 		vim.keymap.set("n", "<leader>" .. i, function()
 			if vim.g.vscode then
 				require("vscode").call("workbench.action.openEditorAtIndex" .. i)
@@ -57,14 +57,6 @@ function keybindings()
 			end
 		end, { desc = "Go to tab " .. i .. " on current page" })
 	end
-
-	vim.keymap.set("n", "<leader>0", function()
-		if vim.g.vscode then
-			require("vscode").call("workbench.action.lastEditorInGroup")
-		else
-			_G.jump_to_last_tab_on_page()
-		end
-	end, { desc = "Last tab on current page" })
 
 	-- Tabline page navigation (Tab/S-Tab in normal mode)
 	vim.keymap.set("n", "<Tab>", function()
