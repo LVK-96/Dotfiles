@@ -1,6 +1,6 @@
 git:
   pagers:
-    - pager: delta --dark --paging=never --line-numbers
+    - pager: delta --paging=never --line-numbers
   merging:
     externalTool: "nvim"
 

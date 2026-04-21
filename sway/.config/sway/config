@@ -83,6 +83,12 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+set $main_output DP-6
+set $side_output DP-8
+set $laptop_output eDP-1
+
+output $side_output transform 270
+
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -104,6 +110,20 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Match the i3 workspace split when both externals are connected.
+# If only one external is connected, keep all workspaces external.
+# If no externals are connected, put all workspaces on the laptop.
+workspace $ws1 output $main_output $side_output $laptop_output
+workspace $ws2 output $main_output $side_output $laptop_output
+workspace $ws3 output $main_output $side_output $laptop_output
+workspace $ws4 output $main_output $side_output $laptop_output
+workspace $ws5 output $main_output $side_output $laptop_output
+workspace $ws6 output $side_output $main_output $laptop_output
+workspace $ws7 output $side_output $main_output $laptop_output
+workspace $ws8 output $side_output $main_output $laptop_output
+workspace $ws9 output $side_output $main_output $laptop_output
+workspace $ws10 output $side_output $main_output $laptop_output
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r reload

@@ -3,8 +3,6 @@ return {
 	{
 		"ishan9299/nvim-solarized-lua",
 		enabled = not vim.g.vscode,
-		lazy = false,
-		priority = 1000,
 		config = function()
 			vim.o.background = "light"
 			vim.cmd.colorscheme("solarized")
@@ -12,8 +10,6 @@ return {
 	},
 	-- {
 	-- 	"miikanissi/modus-themes.nvim",
-	-- 	lazy = false,
-	-- 	priority = 1000,
 	-- 	config = function()
 	-- 		vim.o.background = "dark" -- or "light"
 	-- 		vim.cmd.colorscheme("modus_vivendi")
@@ -23,7 +19,6 @@ return {
 	--Statusline
 	{
 		"nvim-mini/mini.statusline",
-		version = false,
 		config = function()
 			local statusline = require("mini.statusline")
 			statusline.setup({
@@ -62,7 +57,6 @@ return {
 		"stevearc/oil.nvim",
 		enabled = not vim.g.vscode,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		cmd = { "Oil" },
 		keys = { { "-", "<CMD>Oil<CR>", desc = "Open Parent Directory" } },
 		win_options = { signcolumn = "yes:2" },
 		config = function()
@@ -140,7 +134,6 @@ return {
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
-		cmd = { "NvimTreeToggle", "NvimTreeFocus" },
 		keys = {
 			{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Toggle file tree" },
 		},
@@ -167,7 +160,6 @@ return {
 	},
 	{
 		"ibhagwan/fzf-lua",
-		event = "LspAttach",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		keys = {
 			-- Normal Mode
@@ -390,14 +382,6 @@ return {
 	{
 		"christoomey/vim-tmux-navigator",
 		enabled = not vim.g.vscode,
-		cmd = {
-			"TmuxNavigateLeft",
-			"TmuxNavigateDown",
-			"TmuxNavigateUp",
-			"TmuxNavigateRight",
-			"TmuxNavigatePrevious",
-			"TmuxNavigatorProcessList",
-		},
 		keys = {
 			{ "<C-a>h", "<cmd>TmuxNavigateLeft<cr>" },
 			{ "<C-a>j", "<cmd>TmuxNavigateDown<cr>" },
@@ -415,7 +399,6 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		enabled = not vim.g.vscode,
-		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			-- Mimic vim-gitgutter symbols
 			signs = {
@@ -460,28 +443,21 @@ return {
 	{
 		"tpope/vim-fugitive",
 		enabled = not vim.g.vscode,
-		cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse" },
 		keys = {
 			{ "<leader>gs", vim.cmd.Git, desc = "Git Status" },
 			{ "<leader>gb", "<cmd>Git blame<CR>", desc = "Git Blame" },
 			{ "<leader>glg", "<cmd>Git log --oneline --decorate --graph<CR>", desc = "Git Log (Simple)" },
 		},
 	},
-	"sindrets/diffview.nvim",
-	-- This ensures the plugin only loads when one of these commands is run
-	cmd = {
-		"DiffviewOpen",
-		"DiffviewClose",
-		"DiffviewToggleFiles",
-		"DiffviewFocusFiles",
-		"DiffviewRefresh",
-	},
-	opts = {
-		enhanced_diff_hl = true,
-		use_icons = true,
-		view = {
-			merge_tool = {
-				layout = "diff3_mixed",
+	{
+		"sindrets/diffview.nvim",
+		opts = {
+			enhanced_diff_hl = true,
+			use_icons = true,
+			view = {
+				merge_tool = {
+					layout = "diff3_mixed",
+				},
 			},
 		},
 	},
@@ -490,7 +466,6 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		enabled = not vim.g.vscode,
-		event = { "BufReadPost", "BufNewFile" },
 		build = ":TSUpdate",
 		config = function()
 			-- This tries to load the module. If it fails (because it's not installed yet),
@@ -540,12 +515,10 @@ return {
 	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
 		config = true,
 	},
 	{
 		"andymass/vim-matchup",
-		event = "BufReadPost",
 		config = function()
 			-- Use treesitter's engine for matching (faster than regex)
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -553,7 +526,6 @@ return {
 	},
 	{
 		"folke/which-key.nvim",
-		event = "VeryLazy",
 		init = function()
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300 -- Show popup after 300ms
@@ -565,8 +537,6 @@ return {
 	{
 		"mrcjkb/rustaceanvim",
 		enabled = not vim.g.vscode,
-		version = "^8", -- Recommended
-		lazy = false, -- This plugin is already lazy
 		config = function()
 			vim.g.rustaceanvim = {
 				server = {
@@ -613,14 +583,11 @@ return {
 		"scalameta/nvim-metals",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"mfussenegger/nvim-dap",
 		},
-		ft = { "scala", "sbt", "java" },
 		config = function()
 			local metals = require("metals")
 			local metals_config = metals.bare_config()
 			metals_config.on_attach = function(client, bufnr)
-				metals.setup_dap()
 				if client:supports_method("textDocument/inlayHint") then
 					pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
 				end
@@ -636,21 +603,10 @@ return {
 			})
 		end,
 	},
-
-	-- LSP
-	{
-		"williamboman/mason.nvim",
-		enabled = not vim.g.vscode,
-		cmd = "Mason",
-		config = true, -- Runs require("mason").setup()
-	},
-
 	-- AI
 	{
 		"zbirenbaum/copilot.lua",
 		enabled = not vim.g.vscode,
-		cmd = "Copilot",
-		event = "InsertEnter",
 		config = function()
 			require("copilot").setup({
 				suggestion = {
@@ -810,7 +766,6 @@ return {
 	{
 		"folke/sidekick.nvim",
 		enabled = os.getenv("NVIM_AI") == "sidekick",
-		event = "VeryLazy",
 		dependencies = {
 			{
 				"folke/snacks.nvim",
@@ -822,7 +777,6 @@ return {
 				},
 			},
 		},
-		cmd = { "Sidekick" },
 		opts = {
 			nes = { enabled = false },
 			cli = {

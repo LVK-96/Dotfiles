@@ -30,7 +30,7 @@ vim.g.loaded_node_provider = 0
 -- Load per project .nvimrc files, asks for confirmation
 vim.o.exrc = true
 
-require("config.lazy")
+require("config.pack")
 require("config.keybindings")
 require("config.sane_defaults")
 require("config.syntax")
