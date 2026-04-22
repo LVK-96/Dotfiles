@@ -83,9 +83,11 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-set $main_output DP-6
-set $side_output DP-8
-set $laptop_output eDP-1
+# Match physical displays by their EDID identity instead of connector names
+# like DP-6/DP-7, which can change after reconnecting docks/cables.
+set $main_output "Lenovo Group Limited LEN T27q-20 VNA7RW75"
+set $side_output "Dell Inc. DELL U2414H 9TG464983G9L"
+set $laptop_output "LG Display 0x06AA Unknown"
 
 output $side_output transform 270
 

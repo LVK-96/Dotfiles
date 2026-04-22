@@ -152,10 +152,10 @@ update_manager() {
       run_privileged npm update -g
       ;;
     pnpm)
-      run_cmd pnpm update -g
+      run_privileged pnpm update -g
       ;;
     bun)
-      run_cmd bun upgrade
+      run_privileged bun upgrade
       ;;
     mise)
       run_cmd mise self-update || true

@@ -49,7 +49,8 @@ function keybindings()
 	-- Tabline navigation (respects pagination)
 	-- Leader + number: jump to tab on current page
 	for i = 1, 10 do
-		vim.keymap.set("n", "<leader>" .. i, function()
+		number_key = i % 10
+		vim.keymap.set("n", "<leader>" .. number_key, function()
 			if vim.g.vscode then
 				require("vscode").call("workbench.action.openEditorAtIndex" .. i)
 			else

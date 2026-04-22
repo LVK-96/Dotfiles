@@ -1,0 +1,19 @@
+profile docked {
+    output "Dell Inc. DELL U2414H 9TG464983G9L" enable mode preferred position 0,0 transform 270
+    output "Lenovo Group Limited LEN T27q-20 VNA7RW75" enable mode preferred position 1080,292
+    output "LG Display 0x06AA Unknown" disable
+}
+
+profile main-laptop {
+    output "Lenovo Group Limited LEN T27q-20 VNA7RW75" enable mode preferred position 0,0
+    output "LG Display 0x06AA Unknown" enable mode preferred position 2560,0 scale 2
+}
+
+profile side-laptop {
+    output "Dell Inc. DELL U2414H 9TG464983G9L" enable mode preferred position 0,0 transform 270
+    output "LG Display 0x06AA Unknown" enable mode preferred position 1080,0 scale 2
+}
+
+profile mobile {
+    output "LG Display 0x06AA Unknown" enable mode preferred position 0,0 scale 2
+}
