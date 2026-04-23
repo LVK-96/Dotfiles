@@ -5,7 +5,7 @@ set $lock ~/.config/sway/lock.sh
 set $screenshot ~/.config/sway/screenshot.sh
 set $nightlight ~/.config/sway/wlsunset-toggle.sh
 
-font pango:Fira Code Nerd Font 8
+font pango:JetBrainsMono Nerd Font 8
 xwayland enable
 
 floating_modifier $mod
