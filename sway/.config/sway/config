@@ -171,6 +171,22 @@ for_window [app_id="pavucontrol"] {
     resize set 800px 600px
 }
 for_window [app_id="qalculate"] floating enable
+# Firefox PiP reports stable browser identifiers, so match both Wayland and
+# XWayland variants explicitly.
+for_window [app_id="firefox" title="(?i)^picture(?:-in-| in )picture$"] {
+    floating enable
+    resize set 800px 450px
+}
+for_window [class="(?i)^firefox$" title="(?i)^picture(?:-in-| in )picture$"] {
+    floating enable
+    resize set 800px 450px
+}
+# Brave PiP currently exposes an empty app_id in Sway, so title match is the
+# only reliable criteria available here.
+for_window [title="(?i)^picture in picture$"] {
+    floating enable
+    resize set 800px 450px
+}
 
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_RUNTIME_DIR XDG_CURRENT_DESKTOP XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS
 exec_always --no-startup-id ~/.config/sway/autostart.sh
