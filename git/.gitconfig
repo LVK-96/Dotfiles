@@ -24,3 +24,12 @@
 
 [mergetool "nvimdiff"]
     layout = "LOCAL,BASE,REMOTE / MERGED"
+
+[diff]
+    tool = nvim_difftool
+
+[difftool]
+    prompt = false
+
+[difftool "nvim_difftool"]
+    cmd = nvim -c \"packadd nvim.difftool\" -d \"$LOCAL\" \"$REMOTE\"

@@ -33,8 +33,6 @@ if regular_nvim then
 	add(gh("tpope/vim-fugitive"))
 end
 
-add(gh("sindrets/diffview.nvim"))
-
 if regular_nvim then
 	add(gh("nvim-treesitter/nvim-treesitter"))
 end

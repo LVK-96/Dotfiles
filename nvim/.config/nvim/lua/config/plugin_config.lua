@@ -376,20 +376,6 @@ local function setup_fugitive()
 	vim.keymap.set("n", "<leader>glg", "<cmd>Git log --oneline --decorate --graph<CR>", { desc = "Git Log (Simple)" })
 end
 
-local function setup_diffview()
-	safe("diffview.nvim", function()
-		require("diffview").setup({
-			enhanced_diff_hl = true,
-			use_icons = true,
-			view = {
-				merge_tool = {
-					layout = "diff3_mixed",
-				},
-			},
-		})
-	end)
-end
-
 local function setup_treesitter()
 	if not regular_nvim then
 		return
@@ -644,7 +630,6 @@ function M.setup()
 	setup_tmux_navigator()
 	setup_gitsigns()
 	setup_fugitive()
-	setup_diffview()
 	setup_treesitter()
 	setup_enhancements()
 	setup_rustaceanvim()
