@@ -8,6 +8,7 @@ function sane_defaults()
 	vim.opt.smartindent = true
 
 	-- UI Config
+	vim.opt.shortmess:append("I")
 	if not vim.g.vscode then
 		vim.opt.number = true
 		vim.opt.relativenumber = true

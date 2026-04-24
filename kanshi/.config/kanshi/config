@@ -1,6 +1,6 @@
 profile docked {
     output "Dell Inc. DELL U2414H 9TG464983G9L" enable mode preferred position 0,0 transform 270
-    output "Lenovo Group Limited LEN T27q-20 VNA7RW75" enable mode preferred position 1080,292
+    output "Lenovo Group Limited LEN T27q-20 VNA7RW75" enable mode preferred position 1080,156
     output "LG Display 0x06AA Unknown" disable
 }
 
