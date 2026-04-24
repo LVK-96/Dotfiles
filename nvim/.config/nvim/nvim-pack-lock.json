@@ -4,8 +4,12 @@
       "rev": "adff470bca742b7658228ed144589250ecb3dc0a",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
+    "diffview.nvim": {
+      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
+      "src": "https://github.com/sindrets/diffview.nvim"
+    },
     "fzf-lua": {
-      "rev": "58f52b7df97aa3104db8a6763f4523e3e14e4b9b",
+      "rev": "ffa44ee9470743a7697d28df3a1a216fdfe2b09d",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
@@ -54,7 +58,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "rustaceanvim": {
-      "rev": "d909c237135c95b2b3dbb132dbcd8e3ca9a913c8",
+      "rev": "07f0900627f1bb2fc9ee8b5e39bb96fe40c2e0a1",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "sidekick.nvim": {

@@ -122,13 +122,13 @@ end
 
 local function setup_nvim_tree()
 	vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file tree" })
-
 	safe("nvim-tree.lua", function()
 		require("nvim-tree").setup({
 			view = {
 				side = "left",
 				width = 35,
 				preserve_window_proportions = true,
+				relativenumber = true,
 			},
 			git = { enable = true },
 			diagnostics = { enable = true },
@@ -139,6 +139,22 @@ local function setup_nvim_tree()
 			},
 			filters = {
 				dotfiles = false,
+			},
+			renderer = {
+				icons = {
+					git_placement = "signcolumn",
+					glyphs = {
+						git = {
+							unstaged = "M",
+							staged = "S",
+							unmerged = "U",
+							renamed = "R",
+							untracked = "?",
+							deleted = "D",
+							ignored = "I",
+						},
+					},
+				},
 			},
 		})
 	end)
