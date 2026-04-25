@@ -48,3 +48,9 @@ Thumbs.db
 .ssh/
 
 package-lock.json
+
+*.orig
+
+.codex
+
+alacritty/.config/alacritty/themes
