@@ -22,10 +22,6 @@ client.focused          #268bd2 #268bd2 #fdf6e3 #268bd2 #268bd2
 client.focused_inactive #93a1a1 #93a1a1 #fdf6e3 #93a1a1 #93a1a1
 client.urgent           #dc322f #dc322f #fdf6e3 #dc322f #dc322f
 
-gaps inner 8
-gaps outer 4
-smart_gaps on
-
 floating_modifier $mod
 default_border pixel 2
 default_floating_border pixel 2
