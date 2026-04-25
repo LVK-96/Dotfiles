@@ -1,4 +1,5 @@
 # Existing ignores
+.worktrees/
 fish/.config/fish/conf.d/local.fish
 opencode/.config/opencode/antigravity-accounts.json
 opencode/.config/opencode/node_modules
