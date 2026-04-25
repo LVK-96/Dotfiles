@@ -1,123 +1,148 @@
-{
-  "layer": "top",
-  "position": "top",
-  "height": 28,
-  "spacing": 8,
-  "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": ["sway/window"],
-  "modules-right": [
-    "network",
-    "custom/sep",
-    "bluetooth",
-    "custom/sep",
-    "battery",
-    "power-profiles-daemon",
-    "custom/sep",
-    "pulseaudio",
-    "custom/sep",
-    "clock"
-  ],
-  "custom/sep": {
-    "format": "│",
-    "tooltip": false
-  },
-  "sway/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": false
-  },
-  "sway/window": {
-    "max-length": 80
-  },
-  "network": {
-    "format-wifi": "{icon}",
-    "format-ethernet": "󰈀",
-    "format-disconnected": "󰖪",
-    "format-icons": [
-      "󰤯",  // no signal
-      "󰤟",  // weak
-      "󰤢",  // ok
-      "󰤥",  // good
-      "󰤨"   // excellent
+// Rendered at startup by launch.sh so the main bar follows workspace 1.
+[
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 8,
+    "output": "__WAYBAR_MAIN_OUTPUT__",
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": [
+      "network",
+      "custom/sep",
+      "bluetooth",
+      "custom/sep",
+      "battery",
+      "power-profiles-daemon",
+      "custom/sep",
+      "pulseaudio",
+      "custom/sep",
+      "clock"
     ],
-    "tooltip-format-wifi": "{essid} ({ipaddr})",
-    "tooltip-format-ethernet": "{ifname} ({ipaddr})",
-    "tooltip-format-disconnected": "Disconnected",
-    "on-click": "networkmanager_dmenu -dmenu rofi"
-  },
-  "bluetooth": {
-    "format": "{icon}",
-    "format-icons": {
-      "disabled": "󰂲",
-      "off": "󰂲",
-      "on": "󰂯",
-      "connected": "󰂱"
+    "custom/sep": {
+      "format": "│",
+      "tooltip": false
     },
-    "tooltip-format": "{controller_alias} ({controller_address})",
-    "tooltip-format-connected": "{controller_alias} ({controller_address})\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}",
-    "on-click": "rofi-bluetooth"
-  },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}",
-    "format-icons": {
-      "performance": "perf",
-      "balanced":    "bal ",
-      "power-saver": "save"
-    }
-  },
-  "battery": {
-    "interval": 30,
-    "states": {
-      "warning": 50,
-      "critical": 25
+    "sway/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": false
     },
-    "tooltip-format": "BAT {capacity}%\n{timeTo}",
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰂄 {capacity}%+",
-    "format-plugged": "󰂄",
-    "format-icons": [
-      "󰁺",  // 0–10%
-      "󰁻",
-      "󰁼",
-      "󰁽",
-      "󰁾",
-      "󰁿",
-      "󰂀",
-      "󰂁",
-      "󰂂",
-      "󰁹"   // 100%
-    ]
-  },
-  "pulseaudio": {
-    "format": "{icon}",
-    "format-muted": "󰝟",
-    "format-icons": {
-      "default": ["󰕿", "󰖀", "󰕾"]
+    "sway/window": {
+      "max-length": 80
     },
-    "tooltip-format": "{desc} {volume}%",
-    "on-click": "pavucontrol",
-    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-    "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
-    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-  },
-  "clock": {
-    "format": "{:%d-%m-%Y %H:%M} ",
-    "format-alt": "{:%a %d %b %H:%M} ",
-    "tooltip-format": "<tt>{calendar}</tt>",
-    "calendar": {
-      "mode": "month",
-      "mode-mon-col": 3,
-      "weeks-pos": "left",
-      "on-scroll": 1,
-      "iso8601": true,
-      "format": {
-        "months": "<span color='#d8dee9'><b>{}</b></span>",
-        "weekdays": "<span color='#b8c0cc'><b>{}</b></span>",
-        "days": "<span color='#d8dee9'>{}</span>",
-        "weeks": "<span color='#4c7899'><b>W{}</b></span>",
-        "today": "<span color='#ffffff' background='#4c7899'><b>{}</b></span>"
+    "network": {
+      "format-wifi": "{icon}",
+      "format-ethernet": "󰈀",
+      "format-disconnected": "󰖪",
+      "format-icons": [
+        "󰤯",  // no signal
+        "󰤟",  // weak
+        "󰤢",  // ok
+        "󰤥",  // good
+        "󰤨"   // excellent
+      ],
+      "tooltip-format-wifi": "{essid} ({ipaddr})",
+      "tooltip-format-ethernet": "{ifname} ({ipaddr})",
+      "tooltip-format-disconnected": "Disconnected",
+      "on-click": "networkmanager_dmenu -dmenu rofi"
+    },
+    "bluetooth": {
+      "format": "{icon}",
+      "format-icons": {
+        "disabled": "󰂲",
+        "off": "󰂲",
+        "on": "󰂯",
+        "connected": "󰂱"
+      },
+      "tooltip-format": "{controller_alias} ({controller_address})",
+      "tooltip-format-connected": "{controller_alias} ({controller_address})\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}",
+      "on-click": "rofi-bluetooth"
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}",
+      "format-icons": {
+        "performance": "perf",
+        "balanced":    "bal ",
+        "power-saver": "save"
+      }
+    },
+    "battery": {
+      "interval": 30,
+      "states": {
+        "warning": 50,
+        "critical": 25
+      },
+      "tooltip-format": "BAT {capacity}%\n{timeTo}",
+      "format": "{icon} {capacity}%",
+      "format-charging": "󰂄 {capacity}%+",
+      "format-plugged": "󰂄",
+      "format-icons": [
+        "󰁺",  // 0–10%
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"   // 100%
+      ]
+    },
+    "pulseaudio": {
+      "format": "{icon}",
+      "format-muted": "󰝟",
+      "format-icons": {
+        "default": ["󰕿", "󰖀", "󰕾"]
+      },
+      "tooltip-format": "{desc} {volume}%",
+      "on-click": "pavucontrol",
+      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+      "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+      "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    },
+    "clock": {
+      "format": "{:%d-%m-%Y    %H:%M} ",
+      "format-alt": "{:%a %d %b    %H:%M} ",
+      "tooltip-format": "<tt>{calendar}</tt>",
+      "calendar": {
+        "mode": "month",
+        "mode-mon-col": 3,
+        "weeks-pos": "left",
+        "on-scroll": 1,
+        "iso8601": true,
+        "format": {
+          "months": "<span color='#d8dee9'><b>{}</b></span>",
+          "weekdays": "<span color='#b8c0cc'><b>{}</b></span>",
+          "days": "<span color='#d8dee9'>{}</span>",
+          "weeks": "<span color='#4c7899'><b>W{}</b></span>",
+          "today": "<span color='#ffffff' background='#4c7899'><b>{}</b></span>"
+        }
       }
     }
+  },
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 8,
+    "output": ["!__WAYBAR_MAIN_OUTPUT__", "*"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": [],
+    "custom/sep": {
+      "format": "│",
+      "tooltip": false
+    },
+    "sway/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": false
+    },
+    "sway/window": {
+      "max-length": 80
+    }
   }
-}
+]

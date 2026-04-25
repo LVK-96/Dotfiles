@@ -4,8 +4,8 @@ import = [
 ]
 
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style="Retina"}
-size = 12
+normal = { family = "AdwaitaMono Nerd Font"}
+size = 13
 
 [env]
 term = "xterm-256color"
