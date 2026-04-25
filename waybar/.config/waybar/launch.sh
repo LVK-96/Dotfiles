@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -eu
 
 config_dir="$HOME/.config/waybar"
@@ -18,16 +18,36 @@ focused_output() {
         head -n1
 }
 
+wait_for_sway_ipc() {
+    i=0
+    while [ "$i" -lt 40 ]; do
+        if swaymsg -t get_workspaces >/dev/null 2>&1; then
+            return 0
+        fi
+        i=$((i + 1))
+        sleep 0.25
+    done
+    return 1
+}
+
+wait_for_workspace_output() {
+    i=0
+    while [ "$i" -lt 40 ]; do
+        main_output="$(workspace_output || true)"
+        if [ -n "$main_output" ] && [ "$main_output" != "null" ]; then
+            printf '%s\n' "$main_output"
+            return 0
+        fi
+        i=$((i + 1))
+        sleep 0.25
+    done
+    return 1
+}
+
 main_output=""
-i=0
-while [ "$i" -lt 40 ]; do
-    main_output="$(workspace_output || true)"
-    if [ -n "$main_output" ] && [ "$main_output" != "null" ]; then
-        break
-    fi
-    i=$((i + 1))
-    sleep 0.25
-done
+if wait_for_sway_ipc; then
+    main_output="$(wait_for_workspace_output || true)"
+fi
 
 if [ -z "$main_output" ] || [ "$main_output" = "null" ]; then
     main_output="$(focused_output || true)"
@@ -38,15 +58,8 @@ if [ -z "$main_output" ] || [ "$main_output" = "null" ]; then
     exec waybar -c "$template" -s "$style"
 fi
 
-python3 - "$template" "$rendered_config" "$main_output" <<'PY'
-from pathlib import Path
-import sys
-
-template, rendered, main_output = sys.argv[1:]
-Path(rendered).write_text(
-    Path(template).read_text().replace("__WAYBAR_MAIN_OUTPUT__", main_output),
-    encoding="utf-8",
-)
-PY
+template_content="$(<"$template")"
+rendered_content="${template_content//__WAYBAR_MAIN_OUTPUT__/$main_output}"
+printf '%s\n' "$rendered_content" > "$rendered_config"
 
 exec waybar -c "$rendered_config" -s "$style"
