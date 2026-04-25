@@ -1,5 +1,6 @@
 ---
 name: implementer
+model: openai-codex/gpt-5.4-mini
 description: General-purpose implementation agent for making focused code changes
 tools: read, write, edit, bash
 ---

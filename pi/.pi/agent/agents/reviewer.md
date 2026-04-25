@@ -1,5 +1,6 @@
 ---
 name: reviewer
+model: openai-codex/gpt-5.5
 description: Focused code review agent for correctness, scope, and maintainability
 tools: read, bash
 ---

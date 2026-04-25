@@ -1,5 +1,6 @@
 ---
 name: spec-reviewer
+model: openai-codex/gpt-5.5
 description: Reviews delegated changes strictly for compliance with the provided spec or task text
 tools: read, bash
 ---
