@@ -105,7 +105,7 @@
       "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
     },
     "clock": {
-      "format": "{:%d-%m-%Y    %H:%M} ",
+      "format": "{:%d-%m-%Y  %H:%M} ",
       "format-alt": "{:%a %d %b    %H:%M} ",
       "tooltip-format": "<tt>{calendar}</tt>",
       "calendar": {

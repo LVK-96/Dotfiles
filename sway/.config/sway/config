@@ -1,5 +1,5 @@
 set $mod Mod4
-set $terminal alacritty
+set $terminal ghostty
 set $menu rofi -show combi -combi-modes "drun,window,run"
 set $lock ~/.config/sway/lock.sh
 set $screenshot ~/.config/sway/screenshot.sh

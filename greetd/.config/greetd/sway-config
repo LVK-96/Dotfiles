@@ -3,10 +3,25 @@
 
 output * bg #000000 solid_color
 
-exec "gtkgreet -l -c 'dbus-run-session sway --unsupported-gpu'; swaymsg exit"
+# Match physical displays by EDID identity instead of connector names like
+# DP-6/DP-7, which can change after reconnecting docks/cables.
+set $main_output "Lenovo Group Limited LEN T27q-20 VNA7RW75"
+set $side_output "Dell Inc. DELL U2414H 9TG464983G9L"
+set $laptop_output "LG Display 0x06AA Unknown"
 
-bindsym Mod4+Shift+e exec swaynag \
-    -t warning \
-    -m 'Power menu' \
-    -b 'Poweroff' 'systemctl poweroff' \
-    -b 'Reboot' 'systemctl reboot'
+# Greeter layout mirrors the normal Sway dock layout: vertical Dell on the
+# left, preferred Lenovo as the main display, laptop panel to the right when
+# it is present. Rules for disconnected outputs are ignored by Sway.
+output $side_output mode 1920x1080 position 0 0 transform 270 scale 1
+output $main_output mode 2560x1440 position 1080 156 scale 1
+output $laptop_output position 3640 0 scale 1
+
+exec "env GTK_THEME=Adwaita:dark gtkgreet -l -c 'sway --unsupported-gpu'; swaymsg exit"
+
+input type:keyboard {
+    repeat_delay 200
+    repeat_rate 75
+    xkb_layout "us"
+    xkb_options "ctrl:nocaps"
+    xkb_variant "altgr-intl"
+}
