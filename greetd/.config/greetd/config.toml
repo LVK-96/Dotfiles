@@ -2,5 +2,5 @@
 vt = 2
 
 [default_session]
-command = "cage -s -- gtkgreet -c sway"
+command = "sway --unsupported-gpu --config /etc/greetd/sway-config"
 user = "greeter"

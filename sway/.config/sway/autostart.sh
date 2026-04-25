@@ -10,7 +10,9 @@ if command -v kanshi >/dev/null 2>&1; then
     kanshi >/dev/null 2>&1 &
 fi
 
-"$HOME/.config/sway/startup-workspaces.sh"
+if [ -x "$HOME/.config/sway/startup-workspaces.sh" ]; then
+    "$HOME/.config/sway/startup-workspaces.sh"
+fi
 
 pkill -x mako >/dev/null 2>&1 || true
 mako >/dev/null 2>&1 &

@@ -8,9 +8,10 @@ import unittest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 GREETD_CONFIG_PATH = REPO_ROOT / "greetd" / ".config" / "greetd" / "config.toml"
-INSTALLER_PATH = REPO_ROOT / "utils" / "install-greetd-cage-gtkgreet.sh"
+INSTALLER_PATH = REPO_ROOT / "greetd" / "install-greetd-cage-gtkgreet.sh"
 README_PATH = REPO_ROOT / "greetd" / "README.md"
-EXPECTED_GREETER_COMMAND = "cage -s -- gtkgreet -c sway"
+GREETD_SWAY_CONFIG_PATH = REPO_ROOT / "greetd" / ".config" / "greetd" / "sway-config"
+EXPECTED_GREETER_COMMAND = "sway --unsupported-gpu --config /etc/greetd/sway-config"
 
 
 class GreetdCageGtkgreetTests(unittest.TestCase):
@@ -72,9 +73,21 @@ class GreetdCageGtkgreetTests(unittest.TestCase):
                 log_path.read_text().splitlines(),
                 [
                     f"install -Dm644 {GREETD_CONFIG_PATH} /etc/greetd/config.toml",
+                    f"install -Dm644 {GREETD_SWAY_CONFIG_PATH} /etc/greetd/sway-config",
                     "systemctl enable --now greetd.service",
                 ],
             )
+
+    def test_greetd_sway_config_runs_gtkgreet_and_starts_sway(self):
+        self.assertTrue(
+            GREETD_SWAY_CONFIG_PATH.is_file(),
+            f"missing planned greetd Sway config: {GREETD_SWAY_CONFIG_PATH}",
+        )
+
+        config = GREETD_SWAY_CONFIG_PATH.read_text()
+
+        self.assertIn("gtkgreet -l -c 'dbus-run-session sway --unsupported-gpu'", config)
+        self.assertIn("swaymsg exit", config)
 
     def test_readme_describes_install_and_rollback(self):
         self.assertTrue(
@@ -84,7 +97,7 @@ class GreetdCageGtkgreetTests(unittest.TestCase):
 
         readme = README_PATH.read_text()
 
-        self.assertIn("./utils/install-greetd-cage-gtkgreet.sh", readme)
+        self.assertIn("./greetd/install-greetd-cage-gtkgreet.sh", readme)
         self.assertIn("systemctl enable --now greetd.service", readme)
         self.assertIn("systemctl disable --now ly@tty2.service", readme)
         self.assertIn("systemctl disable --now ly-console-selector.service", readme)

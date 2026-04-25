@@ -12,7 +12,8 @@ fi
 
 printf 'Installing greetd config from %s\n' "$source_dir"
 "${sudo_cmd[@]}" install -Dm644 "$source_dir/config.toml" /etc/greetd/config.toml
+"${sudo_cmd[@]}" install -Dm644 "$source_dir/sway-config" /etc/greetd/sway-config
 printf 'Enabling greetd.service\n'
 "${sudo_cmd[@]}" systemctl enable --now greetd.service
 
-printf 'greetd cage + gtkgreet setup installed.\n'
+printf 'greetd sway + gtkgreet setup installed.\n'
