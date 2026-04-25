@@ -23,8 +23,10 @@ case "${1:-toggle}" in
         ;;
     toggle)
         if pgrep -x wlsunset >/dev/null 2>&1; then
+            notify-send 'wlsunset' 'Stopping wlsunset'
             stop
         else
+            notify-send 'wlsunset' 'Starting wlsunset'
             start
         fi
         ;;
