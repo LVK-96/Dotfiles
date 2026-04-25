@@ -1,7 +1,7 @@
 {
   "plugins": {
     "copilot.lua": {
-      "rev": "adff470bca742b7658228ed144589250ecb3dc0a",
+      "rev": "3b95c93d804077dd409d62a6da53a8c92ac8f415",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "diffview.nvim": {
@@ -21,7 +21,7 @@
       "src": "https://github.com/nvim-mini/mini.statusline"
     },
     "nvim-metals": {
-      "rev": "3c6ef5114fd46127c517e58d7e8e4dfc1f78dac3",
+      "rev": "b914d3b963582109371d0949424c3cc6758d99b8",
       "src": "https://github.com/scalameta/nvim-metals"
     },
     "nvim-solarized-lua": {
@@ -58,7 +58,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "rustaceanvim": {
-      "rev": "07f0900627f1bb2fc9ee8b5e39bb96fe40c2e0a1",
+      "rev": "514dcaee2a51eb25b06fdf7abb4b4d9d9bf043fb",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "sidekick.nvim": {
