@@ -101,8 +101,6 @@ set $main_output "Lenovo Group Limited LEN T27q-20 VNA7RW75"
 set $side_output "Dell Inc. DELL U2414H 9TG464983G9L"
 set $laptop_output "LG Display 0x06AA Unknown"
 
-output $side_output transform 270
-
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3

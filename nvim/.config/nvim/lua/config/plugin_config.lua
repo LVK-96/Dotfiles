@@ -532,23 +532,13 @@ local function setup_copilot()
 		})
 	end)
 
-	vim.keymap.set("i", "<Tab>", function()
-		if vim.fn.pumvisible() == 1 then
-			return "<C-n>"
-		end
-
+	vim.keymap.set("i", "<C-l>", function()
 		local suggestion = require("copilot.suggestion")
 		if suggestion.is_visible() then
 			suggestion.accept()
 			return ""
 		end
-
-		return "<Tab>"
-	end, {
-		expr = true,
-		replace_keycodes = true,
-		desc = "Copilot / PUM / Indent",
-	})
+	end)
 end
 
 local function setup_sidekick()

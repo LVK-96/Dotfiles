@@ -12,7 +12,7 @@ set $laptop_output "LG Display 0x06AA Unknown"
 # Greeter layout mirrors the normal Sway dock layout: vertical Dell on the
 # left, preferred Lenovo as the main display, laptop panel to the right when
 # it is present. Rules for disconnected outputs are ignored by Sway.
-output $side_output mode 1920x1080 position 0 0 transform 270 scale 1
+output $side_output mode 1920x1080 position 0 0 transform 90 scale 1
 output $main_output mode 2560x1440 position 1080 156 scale 1
 output $laptop_output position 3640 0 scale 1
 
