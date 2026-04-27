@@ -601,7 +601,7 @@ local function setup_sidekick()
 		local rel = vim.fn.fnamemodify(file, ":.")
 		local line = vim.api.nvim_win_get_cursor(0)[1]
 		local ref = string.format("@%s:%d-%d", rel, line, line)
-		require("snacks").input({ prompt = "Ask AI about '" .. word .. "': " }, function(input)
+	    require("snacks").input({ prompt = "'" .. word .. "': " }, function(input)
 			if not input then
 				return
 			end
@@ -609,7 +609,7 @@ local function setup_sidekick()
 		end)
 	end, { desc = "AI: Ask (Word)" })
 	vim.keymap.set("n", "<leader>af", function()
-		require("snacks").input({ prompt = "Instruction for this file: " }, function(input)
+		require("snacks").input({ prompt = "file: " }, function(input)
 			if not input then
 				return
 			end
