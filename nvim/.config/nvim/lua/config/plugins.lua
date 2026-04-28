@@ -20,11 +20,9 @@ add(gh("nvim-mini/mini.statusline"))
 add(gh("nvim-tree/nvim-web-devicons"))
 
 if regular_nvim then
-	add(gh("stevearc/oil.nvim"))
-	add(gh("refractalize/oil-git-status.nvim"))
+	add(gh("A7Lavinraj/fyler.nvim"))
 end
 
-add(gh("nvim-tree/nvim-tree.lua"))
 add(gh("ibhagwan/fzf-lua"))
 
 if regular_nvim then

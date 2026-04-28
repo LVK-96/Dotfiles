@@ -60,104 +60,41 @@ local function setup_theme()
 	end)
 end
 
-local function setup_oil()
+local function setup_fyler()
 	if not regular_nvim then
 		return
 	end
 
-	vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open Parent Directory" })
-
-	safe("oil.nvim", function()
-		require("oil").setup({
-			win_options = {
-				signcolumn = "yes",
-				number = true,
-				relativenumber = true,
-				cursorline = true,
+	safe("fyler.nvim", function()
+		require("fyler").setup({
+			integrations = {
+				icon = "nvim_web_devicons",
 			},
-			view_options = {
-				show_hidden = true,
-				natural_order = true,
-				is_always_hidden = function(name)
-					return name == ".." or name == ".git"
-				end,
-			},
-			cleanup_delay_ms = 2000,
-			keymaps = {
-				["g?"] = "actions.show_help",
-				["<CR>"] = "actions.select",
-				["<C-s>"] = "actions.select_vsplit",
-				["<C-h>"] = "actions.select_split",
-				["-"] = "actions.parent",
-				["_"] = "actions.open_cwd",
-			},
-			skip_confirm_for_simple_edits = true,
-		})
-
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "OilActionsPost",
-			callback = function(args)
-				if args.data.err then
-					return
-				end
-				for _, action in ipairs(args.data.actions) do
-					if action.type == "delete" then
-						local _, path = require("oil.util").parse_url(action.url)
-						local buf = vim.fn.bufnr(path)
-						if buf ~= -1 and vim.api.nvim_buf_is_valid(buf) then
-							vim.api.nvim_buf_delete(buf, { force = true })
-						end
-					end
-				end
-			end,
-		})
-
-		vim.api.nvim_create_user_command("Ex", "Oil", {})
-	end)
-
-	safe("oil-git-status.nvim", function()
-		require("oil-git-status").setup()
-	end)
-end
-
-local function setup_nvim_tree()
-	vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file tree" })
-	safe("nvim-tree.lua", function()
-		require("nvim-tree").setup({
-			view = {
-				side = "left",
-				width = 35,
-				preserve_window_proportions = true,
-				relativenumber = true,
-			},
-			git = { enable = true },
-			diagnostics = { enable = true },
-			filesystem_watchers = { enable = true },
-			update_focused_file = {
-				enable = true,
-				update_root = false,
-			},
-			filters = {
-				dotfiles = false,
-			},
-			renderer = {
-				icons = {
-					git_placement = "signcolumn",
-					glyphs = {
-						git = {
-							unstaged = "M",
-							staged = "S",
-							unmerged = "U",
-							renamed = "R",
-							untracked = "?",
-							deleted = "D",
-							ignored = "I",
+			views = {
+				finder = {
+					default_explorer = true,
+					close_on_select = false,
+					win = {
+						kind = "split_left_most",
+						win_opts = {
+							signcolumn = "yes",
+							number = true,
+							relativenumber = true,
+							cursorline = true,
 						},
 					},
 				},
 			},
 		})
 	end)
+
+	vim.keymap.set("n", "<leader>e", function()
+		require("fyler").toggle({ kind = "split_left_most" })
+	end, { desc = "Toggle file tree" })
+
+	vim.keymap.set("n", "-", function()
+		require("fyler").open({ kind = "replace" })
+	end, { desc = "Open file explorer" })
 end
 
 local function setup_fzf_lua()
@@ -601,7 +538,7 @@ local function setup_sidekick()
 		local rel = vim.fn.fnamemodify(file, ":.")
 		local line = vim.api.nvim_win_get_cursor(0)[1]
 		local ref = string.format("@%s:%d-%d", rel, line, line)
-	    require("snacks").input({ prompt = "'" .. word .. "': " }, function(input)
+		require("snacks").input({ prompt = "'" .. word .. "': " }, function(input)
 			if not input then
 				return
 			end
@@ -630,8 +567,7 @@ end
 function M.setup()
 	setup_theme()
 	setup_statusline()
-	setup_oil()
-	setup_nvim_tree()
+	setup_fyler()
 	setup_fzf_lua()
 	setup_tmux_navigator()
 	setup_gitsigns()
