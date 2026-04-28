@@ -24,6 +24,7 @@ if regular_nvim then
 end
 
 add(gh("ibhagwan/fzf-lua"))
+add(gh("elanmed/fzf-lua-frecency.nvim"))
 
 if regular_nvim then
 	add(gh("christoomey/vim-tmux-navigator"))

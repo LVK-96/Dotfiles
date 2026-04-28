@@ -75,13 +75,21 @@ local function setup_fyler()
 					default_explorer = true,
 					close_on_select = false,
 					win = {
-						kind = "split_left_most",
+						kind = "replace",
 						win_opts = {
 							signcolumn = "yes",
 							number = true,
 							relativenumber = true,
 							cursorline = true,
 						},
+					},
+					columns_order = { "link", "git", "diagnostic" },
+					columns = {
+						git = { enabled = true },
+						diagnostics = { enabled = true },
+						link = { enabled = true },
+						permissions = { enabled = false },
+						size = { enabled = false },
 					},
 				},
 			},
@@ -93,8 +101,12 @@ local function setup_fyler()
 	end, { desc = "Toggle file tree" })
 
 	vim.keymap.set("n", "-", function()
-		require("fyler").open({ kind = "replace" })
+		require("fyler").open({ kind = "float" })
 	end, { desc = "Open file explorer" })
+
+	vim.api.nvim_create_user_command("Ex", function()
+		require("fyler").open({ kind = "replace" })
+	end, { desc = "Open fyler float", force = true })
 end
 
 local function setup_fzf_lua()
@@ -104,6 +116,9 @@ local function setup_fzf_lua()
 	vim.keymap.set("n", "<leader>F", function()
 		require("fzf-lua").git_files({ multi = true })
 	end, { desc = "Find Git Files" })
+	vim.keymap.set("n", "<leader>fr", function()
+		require("fzf-lua-frecency").frecency({ cwd_only = true })
+	end, { desc = "Find Frecent Files" })
 	vim.keymap.set("n", "<leader>gg", function()
 		require("fzf-lua").live_grep({ multi = true })
 	end, { desc = "Live Grep" })
@@ -143,7 +158,7 @@ local function setup_fzf_lua()
 		end
 
 		local git_root = get_git_root()
-		require("fzf-lua").setup({
+		local fzf_opts = {
 			fzf_colors = true,
 			files = {
 				cwd = git_root,
@@ -158,9 +173,28 @@ local function setup_fzf_lua()
 				cwd = git_root,
 				rg_opts = "--hidden --smart-case --column --line-number --no-heading --color=never --glob '!.git/*'",
 			},
-		})
-		require("fzf-lua").register_ui_select()
+		}
 
+		if vim.fn.executable("sk") ~= 1 then
+			error("skim (sk) is not installed or not on PATH")
+		end
+
+		fzf_opts.fzf_bin = "sk"
+
+		fzf_opts.fzf_opts = {
+			["--algo"] = "arinae",
+			["--typos"] = true,
+		}
+
+		require("fzf-lua").setup(fzf_opts)
+		require("fzf-lua").register_ui_select()
+	end)
+
+	safe("fzf-lua-frecency.nvim", function()
+		require("fzf-lua-frecency").setup()
+	end)
+
+	safe("fzf-lua-lsp", function()
 		local lsp_group = vim.api.nvim_create_augroup("FzfLspConfig", { clear = true })
 		local inlay_group = vim.api.nvim_create_augroup("FzfLspInlayHints", { clear = false })
 

@@ -16,6 +16,10 @@
       "rev": "2e29d5f233defe3c5587df0e4dd29af2bd95a5a7",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "fzf-lua-frecency.nvim": {
+      "rev": "5726403e132fe8699d670c7ef8d59dbed887b4e6",
+      "src": "https://github.com/elanmed/fzf-lua-frecency.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "6d808f99bd63303646794406e270bd553ad7792e",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
