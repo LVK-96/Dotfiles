@@ -49,6 +49,18 @@ local function setup_statusline()
 	end)
 end
 
+local diff_highlights = {
+	line_insert = "#e5e3b6",
+	line_delete = "#f8d9c8",
+	char_insert = "#d9dda3",
+	char_delete = "#f0c0ad",
+}
+
+local function setup_diff_highlights()
+	vim.api.nvim_set_hl(0, "DiffAdd", { bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "DiffDelete", { bg = diff_highlights.line_delete })
+end
+
 local function setup_theme()
 	if not regular_nvim then
 		return
@@ -57,6 +69,12 @@ local function setup_theme()
 	safe("nvim-solarized-lua", function()
 		vim.o.background = "light"
 		vim.cmd.colorscheme("solarized")
+		setup_diff_highlights()
+
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			group = vim.api.nvim_create_augroup("UserDiffHighlights", { clear = true }),
+			callback = setup_diff_highlights,
+		})
 	end)
 end
 
@@ -363,6 +381,20 @@ local function setup_fugitive()
 	vim.keymap.set("n", "<leader>glg", "<cmd>Git log --oneline --decorate --graph<CR>", { desc = "Git Log (Simple)" })
 end
 
+local function setup_codediff()
+	safe("codediff.nvim", function()
+		require("codediff").setup({
+			highlights = {
+				line_insert = "DiffAdd",
+				line_delete = "DiffDelete",
+				char_insert = diff_highlights.char_insert,
+				char_delete = diff_highlights.char_delete,
+			},
+			close_on_open_in_prev_tab = false,
+		})
+	end)
+end
+
 local function setup_treesitter()
 	if not regular_nvim then
 		return
@@ -606,6 +638,7 @@ function M.setup()
 	setup_tmux_navigator()
 	setup_gitsigns()
 	setup_fugitive()
+	setup_codediff()
 	setup_treesitter()
 	setup_enhancements()
 	setup_rustaceanvim()

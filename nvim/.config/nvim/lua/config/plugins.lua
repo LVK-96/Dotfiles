@@ -11,32 +11,32 @@ end
 
 local regular_nvim = not vim.g.vscode
 if regular_nvim then
-    -- Themes and UI
+	-- Themes and UI
 	add(gh("ishan9299/nvim-solarized-lua"))
-    add(gh("nvim-mini/mini.statusline"))
-    add(gh("nvim-tree/nvim-web-devicons"))
+	add(gh("nvim-mini/mini.statusline"))
+	add(gh("nvim-tree/nvim-web-devicons"))
 
-    -- Navigation
+	-- Navigation
 	add(gh("A7Lavinraj/fyler.nvim"))
-    add(gh("ibhagwan/fzf-lua"))
-    add(gh("elanmed/fzf-lua-frecency.nvim"))
+	add(gh("ibhagwan/fzf-lua"))
+	add(gh("elanmed/fzf-lua-frecency.nvim"))
 	add(gh("christoomey/vim-tmux-navigator"))
-    add(gh("folke/which-key.nvim"))
-    add(gh("folke/snacks.nvim"))
+	add(gh("folke/which-key.nvim"))
+	add(gh("folke/snacks.nvim"))
 
-    -- Git
+	-- Git
 	add(gh("tpope/vim-fugitive"))
 	add(gh("lewis6991/gitsigns.nvim"))
-    add(gh("esmuellert/codediff.nvim"))
+	add(gh("esmuellert/codediff.nvim"))
 
-    -- Languages and syntax
+	-- Languages and syntax
 	add(gh("nvim-treesitter/nvim-treesitter"))
 	add(gh("mrcjkb/rustaceanvim"))
-    add(gh("scalameta/nvim-metals"))
+	add(gh("scalameta/nvim-metals"))
 
-    -- AI
+	-- AI
 	add(gh("zbirenbaum/copilot.lua"))
-    add(gh("folke/sidekick.nvim"))
+	add(gh("folke/sidekick.nvim"))
 end
 
 add({

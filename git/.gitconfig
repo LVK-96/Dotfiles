@@ -20,17 +20,23 @@
     syntax-theme = Solarized (light)
 
 [merge]
-    tool = nvimdiff
+	tool = codediff
     conflictStyle = zdiff3
 
 [mergetool "nvimdiff"]
     layout = "LOCAL,BASE,REMOTE / MERGED"
 
+[mergetool "codediff"]
+	cmd = nvim \"$MERGED\" -c \"CodeDiff merge \\\"$MERGED\\\"\"
+
 [diff]
-    tool = nvim_difftool
+	tool = codediff
 
 [difftool]
     prompt = false
 
 [difftool "nvim_difftool"]
     cmd = nvim -c \"packadd nvim.difftool\" -d \"$LOCAL\" \"$REMOTE\"
+
+[difftool "codediff"]
+	cmd = $HOME/Dotfiles/git/codediff \"$LOCAL\" \"$REMOTE\"
