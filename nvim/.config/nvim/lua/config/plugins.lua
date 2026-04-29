@@ -10,30 +10,33 @@ local function add(spec)
 end
 
 local regular_nvim = not vim.g.vscode
-local ai_plugin = os.getenv("NVIM_AI")
-
 if regular_nvim then
+    -- Themes and UI
 	add(gh("ishan9299/nvim-solarized-lua"))
-end
+    add(gh("nvim-mini/mini.statusline"))
+    add(gh("nvim-tree/nvim-web-devicons"))
 
-add(gh("nvim-mini/mini.statusline"))
-add(gh("nvim-tree/nvim-web-devicons"))
-
-if regular_nvim then
+    -- Navigation
 	add(gh("A7Lavinraj/fyler.nvim"))
-end
-
-add(gh("ibhagwan/fzf-lua"))
-add(gh("elanmed/fzf-lua-frecency.nvim"))
-
-if regular_nvim then
+    add(gh("ibhagwan/fzf-lua"))
+    add(gh("elanmed/fzf-lua-frecency.nvim"))
 	add(gh("christoomey/vim-tmux-navigator"))
-	add(gh("lewis6991/gitsigns.nvim"))
-	add(gh("tpope/vim-fugitive"))
-end
+    add(gh("folke/which-key.nvim"))
+    add(gh("folke/snacks.nvim"))
 
-if regular_nvim then
+    -- Git
+	add(gh("tpope/vim-fugitive"))
+	add(gh("lewis6991/gitsigns.nvim"))
+    add(gh("esmuellert/codediff.nvim"))
+
+    -- Languages and syntax
 	add(gh("nvim-treesitter/nvim-treesitter"))
+	add(gh("mrcjkb/rustaceanvim"))
+    add(gh("scalameta/nvim-metals"))
+
+    -- AI
+	add(gh("zbirenbaum/copilot.lua"))
+    add(gh("folke/sidekick.nvim"))
 end
 
 add({
@@ -41,21 +44,6 @@ add({
 	version = vim.version.range("*"),
 })
 add(gh("andymass/vim-matchup"))
-add(gh("folke/which-key.nvim"))
-
-if regular_nvim then
-	add(gh("mrcjkb/rustaceanvim"))
-end
-
 add(gh("nvim-lua/plenary.nvim"))
-add(gh("scalameta/nvim-metals"))
-
-if regular_nvim then
-	add(gh("zbirenbaum/copilot.lua"))
-end
-
-add(gh("folke/snacks.nvim"))
-
-add(gh("folke/sidekick.nvim"))
 
 return plugins
