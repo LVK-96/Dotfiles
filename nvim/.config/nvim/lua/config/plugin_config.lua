@@ -330,7 +330,17 @@ local function setup_mini_modules()
 
 	for _, module in ipairs(mini_modules) do
 		safe("mini." .. module, function()
-			require("mini." .. module).setup({})
+			local mini_module = require("mini." .. module)
+			mini_module.setup({})
+
+			if module == "pairs" then
+				vim.api.nvim_create_autocmd("FileType", {
+					pattern = { "verilog", "systemverilog" },
+					callback = function(ev)
+						vim.keymap.set("i", "'", "'", { buffer = ev.buf })
+					end,
+				})
+			end
 		end)
 	end
 
@@ -360,6 +370,11 @@ local function setup_navigation_extras()
 	safe("todo-comments.nvim", function()
 		require("todo-comments").setup({
 			signs = false,
+			highlight = {
+				before = "", -- "fg" or "bg" or empty
+				keyword = "wide_fg",
+				after = "empty", -- "fg" or "bg" or empty
+			},
 		})
 	end)
 
@@ -504,7 +519,7 @@ local function setup_gitsigns()
 					return "<Ignore>"
 				end, { expr = true })
 				map("n", "<leader>hp", gs.preview_hunk)
-	            map("n", "<leader>gb", "<cmd>Gitsigns blame<CR>", { desc = "Git Blame" })
+				map("n", "<leader>gb", "<cmd>Gitsigns blame<CR>", { desc = "Git Blame" })
 			end,
 		})
 	end)
@@ -557,7 +572,7 @@ local function setup_neogit()
 	safe("neogit", function()
 		require("neogit").setup({
 			diff_viewer = "codediff",
-            treesitter_diff_highlight = true,
+			treesitter_diff_highlight = true,
 			integrations = {
 				telescope = false,
 				diffview = false,
