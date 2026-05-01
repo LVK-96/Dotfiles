@@ -22,7 +22,7 @@ case "$mode" in
         ;;
 esac
 
-wl-copy < "$file"
+printf '%s\n' "$file" | wl-copy
 
 if command -v notify-send >/dev/null 2>&1; then
     notify-send "Screenshot saved" "$file"
