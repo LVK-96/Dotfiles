@@ -1,6 +1,6 @@
 ---
 name: code-quality-reviewer
-model: openai-codex/gpt-5.5
+model: openai-codex/gpt-5.5:high
 description: Reviews delegated changes for correctness, maintainability, and code quality
 tools: read, bash
 ---
