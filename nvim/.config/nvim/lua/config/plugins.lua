@@ -13,19 +13,26 @@ local regular_nvim = not vim.g.vscode
 if regular_nvim then
 	-- Themes and UI
 	add(gh("ishan9299/nvim-solarized-lua"))
-	add(gh("nvim-mini/mini.statusline"))
 	add(gh("nvim-tree/nvim-web-devicons"))
+	add(gh("nvim-mini/mini.statusline"))
 
 	-- Navigation
 	add(gh("A7Lavinraj/fyler.nvim"))
 	add(gh("ibhagwan/fzf-lua"))
 	add(gh("elanmed/fzf-lua-frecency.nvim"))
 	add(gh("christoomey/vim-tmux-navigator"))
+	add(gh("MagicDuck/grug-far.nvim"))
 	add(gh("folke/which-key.nvim"))
 	add(gh("folke/snacks.nvim"))
+	add(gh("folke/todo-comments.nvim"))
+	add(gh("folke/trouble.nvim"))
+	add(gh("folke/flash.nvim"))
+	add(gh("saghen/blink.lib"))
+	add(gh("saghen/blink.cmp"))
 
 	-- Git
 	add(gh("tpope/vim-fugitive"))
+	add(gh("neogitorg/neogit"))
 	add(gh("lewis6991/gitsigns.nvim"))
 	add(gh("esmuellert/codediff.nvim"))
 
@@ -39,10 +46,14 @@ if regular_nvim then
 	add(gh("folke/sidekick.nvim"))
 end
 
-add({
-	src = gh("kylechui/nvim-surround"),
-	version = vim.version.range("*"),
-})
+add(gh("nvim-mini/mini.ai"))
+add(gh("nvim-mini/mini.align"))
+add(gh("nvim-mini/mini.comment"))
+add(gh("nvim-mini/mini.move"))
+add(gh("nvim-mini/mini.operators"))
+add(gh("nvim-mini/mini.pairs"))
+add(gh("nvim-mini/mini.snippets"))
+add(gh("nvim-mini/mini.splitjoin"))
 add(gh("andymass/vim-matchup"))
 add(gh("nvim-lua/plenary.nvim"))
 

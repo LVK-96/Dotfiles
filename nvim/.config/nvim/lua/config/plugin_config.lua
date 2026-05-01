@@ -57,8 +57,11 @@ local diff_highlights = {
 }
 
 local function setup_diff_highlights()
-	vim.api.nvim_set_hl(0, "DiffAdd", { bg = diff_highlights.line_insert })
-	vim.api.nvim_set_hl(0, "DiffDelete", { bg = diff_highlights.line_delete })
+	local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = true })
+	local fallback_fg = normal and normal.fg or nil
+
+	vim.api.nvim_set_hl(0, "DiffAdd", { fg = fallback_fg, bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "DiffDelete", { fg = fallback_fg, bg = diff_highlights.line_delete })
 end
 
 local function setup_theme()
@@ -92,6 +95,9 @@ local function setup_fyler()
 				finder = {
 					default_explorer = true,
 					close_on_select = false,
+					mappings = {
+						["-"] = "GotoParent",
+					},
 					win = {
 						kind = "replace",
 						win_opts = {
@@ -311,6 +317,138 @@ local function setup_fzf_lua()
 	end)
 end
 
+local function setup_mini_modules()
+	local mini_modules = {
+		"ai",
+		"align",
+		"comment",
+		"move",
+		"operators",
+		"pairs",
+		"splitjoin",
+	}
+
+	for _, module in ipairs(mini_modules) do
+		safe("mini." .. module, function()
+			require("mini." .. module).setup({})
+		end)
+	end
+
+	safe("mini.snippets", function()
+		local snippets = require("mini.snippets")
+		snippets.setup({
+			snippets = {
+				snippets.gen_loader.from_lang(),
+			},
+		})
+	end)
+end
+
+local function setup_navigation_extras()
+	if not regular_nvim then
+		return
+	end
+
+	safe("grug-far.nvim", function()
+		require("grug-far").setup({})
+	end)
+
+	vim.keymap.set({ "n", "x" }, "<leader>sr", function()
+		require("grug-far").open()
+	end, { desc = "Search and Replace" })
+
+	safe("todo-comments.nvim", function()
+		require("todo-comments").setup({
+			signs = false,
+		})
+	end)
+
+	vim.keymap.set("n", "]t", function()
+		require("todo-comments").jump_next()
+	end, { desc = "Next todo comment" })
+	vim.keymap.set("n", "[t", function()
+		require("todo-comments").jump_prev()
+	end, { desc = "Previous todo comment" })
+	vim.keymap.set("n", "<leader>xt", "<cmd>Trouble todo toggle<CR>", { desc = "Todos (Trouble)" })
+
+	safe("trouble.nvim", function()
+		require("trouble").setup({})
+	end)
+
+	vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Diagnostics (Trouble)" })
+	vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>", {
+		desc = "Buffer Diagnostics (Trouble)",
+	})
+	vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist toggle<CR>", { desc = "Location List (Trouble)" })
+	vim.keymap.set("n", "<leader>xq", "<cmd>Trouble qflist toggle<CR>", { desc = "Quickfix List (Trouble)" })
+
+	safe("flash.nvim", function()
+		require("flash").setup({})
+	end)
+
+	vim.keymap.set({ "n", "x", "o" }, "s", function()
+		require("flash").jump()
+	end, { desc = "Flash" })
+	vim.keymap.set({ "n", "x", "o" }, "S", function()
+		require("flash").treesitter()
+	end, { desc = "Flash Treesitter" })
+	vim.keymap.set("o", "r", function()
+		require("flash").remote()
+	end, { desc = "Remote Flash" })
+	vim.keymap.set({ "o", "x" }, "R", function()
+		require("flash").treesitter_search()
+	end, { desc = "Treesitter Search" })
+	vim.keymap.set("c", "<C-s>", function()
+		require("flash").toggle()
+	end, { desc = "Toggle Flash Search" })
+end
+
+local function setup_blink_cmp()
+	if not regular_nvim then
+		return
+	end
+
+	safe("blink.cmp", function()
+		local blink = require("blink.cmp")
+		local build_ok, build_err = pcall(function()
+			blink.build():wait(60000)
+		end)
+		if not build_ok then
+			vim.schedule(function()
+				vim.notify(
+					"blink.cmp native build failed, continuing without native fuzzy: " .. tostring(build_err),
+					vim.log.levels.WARN
+				)
+			end)
+		end
+
+		blink.setup({
+			keymap = {
+				preset = "none",
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<CR>"] = { "accept", "fallback" },
+				["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-e>"] = { "hide", "fallback" },
+			},
+			completion = {
+				documentation = {
+					auto_show = false,
+				},
+			},
+			snippets = {
+				preset = "mini_snippets",
+			},
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+			fuzzy = {
+				implementation = "prefer_rust_with_warning",
+			},
+		})
+	end)
+end
+
 local function setup_tmux_navigator()
 	if not regular_nvim then
 		return
@@ -333,7 +471,7 @@ local function setup_gitsigns()
 			signs = {
 				add = { text = "+" },
 				change = { text = "~" },
-				delete = { text = "_" },
+				delete = { text = "-" },
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
 				untracked = { text = "┆" },
@@ -366,6 +504,7 @@ local function setup_gitsigns()
 					return "<Ignore>"
 				end, { expr = true })
 				map("n", "<leader>hp", gs.preview_hunk)
+	            map("n", "<leader>gb", "<cmd>Gitsigns blame<CR>", { desc = "Git Blame" })
 			end,
 		})
 	end)
@@ -376,9 +515,18 @@ local function setup_fugitive()
 		return
 	end
 
-	vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git Status" })
 	vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<CR>", { desc = "Git Blame" })
 	vim.keymap.set("n", "<leader>glg", "<cmd>Git log --oneline --decorate --graph<CR>", { desc = "Git Log (Simple)" })
+end
+
+local function apply_codediff_highlights()
+	local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = true })
+	local normal_fg = normal and normal.fg or nil
+
+	vim.api.nvim_set_hl(0, "CodeDiffLineInsert", { fg = normal_fg, bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "CodeDiffLineDelete", { fg = normal_fg, bg = diff_highlights.line_delete })
+	vim.api.nvim_set_hl(0, "CodeDiffCharInsert", { fg = normal_fg, bg = diff_highlights.char_insert })
+	vim.api.nvim_set_hl(0, "CodeDiffCharDelete", { fg = normal_fg, bg = diff_highlights.char_delete })
 end
 
 local function setup_codediff()
@@ -392,7 +540,37 @@ local function setup_codediff()
 			},
 			close_on_open_in_prev_tab = false,
 		})
+
+		apply_codediff_highlights()
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			group = vim.api.nvim_create_augroup("UserCodeDiffHighlights", { clear = true }),
+			callback = apply_codediff_highlights,
+		})
 	end)
+end
+
+local function setup_neogit()
+	if not regular_nvim then
+		return
+	end
+
+	safe("neogit", function()
+		require("neogit").setup({
+			diff_viewer = "codediff",
+            treesitter_diff_highlight = true,
+			integrations = {
+				telescope = false,
+				diffview = false,
+				codediff = true,
+				fzf_lua = true,
+				mini_pick = false,
+				snacks = true,
+			},
+		})
+	end)
+
+	vim.keymap.set("n", "<leader>gs", "<cmd>Neogit<CR>", { desc = "Neogit Status" })
+	vim.keymap.set("n", "<leader>gn", "<cmd>Neogit<CR>", { desc = "Neogit Status" })
 end
 
 local function setup_treesitter()
@@ -440,10 +618,6 @@ local function setup_treesitter()
 end
 
 local function setup_enhancements()
-	safe("nvim-surround", function()
-		require("nvim-surround").setup({})
-	end)
-
 	vim.g.matchup_matchparen_offscreen = { method = "popup" }
 
 	safe("which-key.nvim", function()
@@ -635,10 +809,14 @@ function M.setup()
 	setup_statusline()
 	setup_fyler()
 	setup_fzf_lua()
+	setup_mini_modules()
+	setup_navigation_extras()
+	setup_blink_cmp()
 	setup_tmux_navigator()
 	setup_gitsigns()
 	setup_fugitive()
 	setup_codediff()
+	setup_neogit()
 	setup_treesitter()
 	setup_enhancements()
 	setup_rustaceanvim()

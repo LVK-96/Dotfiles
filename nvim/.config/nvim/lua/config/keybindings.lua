@@ -76,8 +76,8 @@ function keybindings()
 		end
 	end, { desc = "Close buffer" })
 
-	if not vim.g.vscode then
-		-- Tab completion keymaps
+	if not vim.g.vscode and not package.loaded["blink.cmp"] then
+		-- Built-in completion keymaps. Blink owns these when it is loaded.
 		-- plugins.lua has the normal Tab since it needs to handle LSP + Copilot
 		-- Shift+Tab to go up
 		vim.keymap.set("i", "<S-Tab>", function()

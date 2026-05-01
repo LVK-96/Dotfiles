@@ -99,11 +99,17 @@ function statusline()
 	})
 end
 
+local function is_tabline_buffer(buf_id)
+	return vim.api.nvim_buf_is_valid(buf_id) and vim.bo[buf_id].buflisted and vim.bo[buf_id].filetype ~= "grug-far"
+end
+
+local function tabline_buffers()
+	return vim.tbl_filter(is_tabline_buffer, vim.api.nvim_list_bufs())
+end
+
 -- Handle mouse clicks on tabs
 function MyTabClick(minwid, clicks, btn, modifiers)
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 	if buffers[minwid] then
 		vim.api.nvim_set_current_buf(buffers[minwid])
 	end
@@ -117,6 +123,52 @@ _G.tabline_manual_page = _G.tabline_manual_page or false -- Track if user manual
 local MIN_CHARS_PER_TAB = 4
 -- Characters for page indicator: " [N/M] " (page counter with brackets and spaces)
 local PAGE_INDICATOR_CHARS = 8
+
+local function get_buffer_icon(buf_id)
+	local path = vim.api.nvim_buf_get_name(buf_id)
+	if path == "" then
+		return ""
+	end
+
+	local ok, devicons = pcall(require, "nvim-web-devicons")
+	if not ok then
+		return ""
+	end
+
+	local filename = vim.fn.fnamemodify(path, ":t")
+	local extension = vim.fn.fnamemodify(path, ":e")
+	local icon = devicons.get_icon(filename, extension, { default = true })
+	local _, icon_color = devicons.get_icon_color(filename, extension, { default = true })
+	if not icon or icon == "" then
+		return "", ""
+	end
+
+	return icon, icon_color or ""
+end
+
+local function get_tabline_icon_hl(icon_color, base_hl)
+	if icon_color == "" then
+		return nil
+	end
+
+	local ok, base = pcall(vim.api.nvim_get_hl, 0, { name = base_hl, link = false })
+	if not ok then
+		return nil
+	end
+
+	local visual_bg = base.reverse and base.fg or base.bg
+	local visual_cterm_bg = base.reverse and base.ctermfg or base.ctermbg
+
+	local group = "UserTabLineIcon" .. base_hl:gsub("%W", "") .. icon_color:gsub("%W", "")
+	vim.api.nvim_set_hl(0, group, {
+		fg = icon_color,
+		bg = visual_bg,
+		ctermbg = visual_cterm_bg,
+		reverse = false,
+		nocombine = true,
+	})
+	return group
+end
 
 -- Calculate the display width of a string (handles Unicode)
 local function str_width(str)
@@ -146,9 +198,7 @@ end
 
 -- Helper function to get current tabs per page calculation
 function _G.get_tabs_per_page()
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 	local buf_data = prepare_buffer_data(buffers)
 	local available_width = vim.o.columns
 	local show_indicator = #buffers > 1
@@ -157,9 +207,7 @@ end
 
 -- Helper function to jump to Nth tab on current page (1-indexed)
 function _G.jump_to_tab_on_page(page_relative_index)
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 
 	local tabs_per_page = _G.get_tabs_per_page()
 	local current_page = _G.tabline_page or 0
@@ -173,9 +221,7 @@ end
 
 -- Helper function to jump to last tab on current page
 function _G.jump_to_last_tab_on_page()
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 
 	local tabs_per_page = _G.get_tabs_per_page()
 	local current_page = _G.tabline_page or 0
@@ -190,9 +236,7 @@ end
 
 -- Navigate to next/previous tabline page (circular)
 function _G.tabline_next_page()
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 	local buf_data = prepare_buffer_data(buffers)
 	local available_width = vim.o.columns
 	local show_indicator = #buffers > 1
@@ -209,9 +253,7 @@ function _G.tabline_next_page()
 end
 
 function _G.tabline_prev_page()
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 	local buf_data = prepare_buffer_data(buffers)
 	local available_width = vim.o.columns
 	local show_indicator = #buffers > 1
@@ -257,6 +299,11 @@ function prepare_buffer_data(buffers)
 			name = parent .. "/" .. name
 		end
 
+		local icon, icon_color = get_buffer_icon(buf_id)
+		if icon ~= "" then
+			name = name .. " " .. icon
+		end
+
 		-- Add modification indicator
 		if vim.bo[buf_id].modified then
 			name = name .. " +"
@@ -267,6 +314,8 @@ function prepare_buffer_data(buffers)
 		table.insert(buf_data, {
 			buf_id = buf_id,
 			display_name = name,
+			icon = icon,
+			icon_color = icon_color,
 			is_selected = (buf_id == vim.api.nvim_get_current_buf()),
 		})
 	end
@@ -279,9 +328,7 @@ function my_tabline()
 	local available_width = vim.o.columns
 
 	-- Get list of all listed buffers
-	local buffers = vim.tbl_filter(function(b)
-		return vim.bo[b].buflisted and vim.api.nvim_buf_is_valid(b)
-	end, vim.api.nvim_list_bufs())
+	local buffers = tabline_buffers()
 
 	-- Prepare buffer display data
 	local buf_data = prepare_buffer_data(buffers)
@@ -318,17 +365,33 @@ function my_tabline()
 		local display_index = i - start_idx + 1
 
 		-- Color logic: Select vs Inactive
-		if data.is_selected then
-			s = s .. "%#TabLineSel#"
-		else
-			s = s .. "%#TabLine#"
-		end
+		local base_hl = data.is_selected and "TabLineSel" or "TabLine"
+		s = s .. "%#" .. base_hl .. "#"
 
 		-- Make the tab clickable with mouse
 		s = s .. "%" .. i .. "@v:lua.MyTabClick@"
 
+		local display_name = data.display_name
+		if data.icon ~= "" then
+			local icon_hl = get_tabline_icon_hl(data.icon_color, base_hl)
+			local icon_start = icon_hl and display_name:find(data.icon, 1, true)
+			if icon_start then
+				local before_icon = display_name:sub(1, icon_start - 1)
+				local after_icon = display_name:sub(icon_start + #data.icon)
+				display_name = before_icon
+					.. "%#"
+					.. icon_hl
+					.. "#"
+					.. data.icon
+					.. "%#"
+					.. base_hl
+					.. "#"
+					.. after_icon
+			end
+		end
+
 		-- THE FORMATTING: " N name "
-		s = s .. " " .. display_index .. " " .. data.display_name .. " "
+		s = s .. " " .. display_index .. " " .. display_name .. " "
 		-- Reset highlight
 		s = s .. "%*"
 	end
