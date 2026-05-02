@@ -1,3 +1,5 @@
+local M = {}
+
 local function strip_whitespace_on_buffer_write()
 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		pattern = { "*" },
@@ -21,9 +23,11 @@ local function highlight_yank()
 	})
 end
 
-function misc()
+function M.setup()
 	highlight_yank()
-	if not vim.g.vscode then
+	if not require("config.vscode").enabled() then
 		strip_whitespace_on_buffer_write()
 	end
 end
+
+return M

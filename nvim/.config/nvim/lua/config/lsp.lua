@@ -1,4 +1,6 @@
-function lsp()
+local M = {}
+
+function M.setup()
 	local function enable_if_executable(name, config)
 		vim.lsp.config(name, config)
 
@@ -63,3 +65,5 @@ function lsp()
 		end,
 	})
 end
+
+return M

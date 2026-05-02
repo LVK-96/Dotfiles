@@ -1,11 +1,11 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "404ab55beb8b63d4c4be4bfd4e528441745b000a",
+      "rev": "80f5dd3f11049f1c3a87557718d4e55556a0e3f5",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "blink.lib": {
-      "rev": "796121278a414eb0b487d115786c603a764ac82a",
+      "rev": "f29d8bac6549bc1e7d699c83f680823d7def98bd",
       "src": "https://github.com/saghen/blink.lib"
     },
     "codediff.nvim": {
@@ -101,7 +101,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "rustaceanvim": {
-      "rev": "040ee98d5911046a8b83d5fe181af968f137eddb",
+      "rev": "ae5bced54e93149385916efad2fc9d24cdecdc56",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "sidekick.nvim": {
@@ -135,6 +135,10 @@
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
+    },
+    "zellij-nav.nvim": {
+      "rev": "91cc2a642d8927ebde50ced5bf71ba470a0fc116",
+      "src": "https://github.com/swaits/zellij-nav.nvim"
     }
   }
 }

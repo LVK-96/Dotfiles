@@ -1,30 +1,27 @@
-function keybindings()
-	local opts = { silent = true }
+local M = {}
 
-	-- 1. Insert Mode -> Normal Mode
-	-- (Standard "Exit Insert")
+function M.setup()
+	local vscode = require("config.vscode")
+	local numbered_tabline = require("config.numbered_tabline")
+
+	-- Insert Mode -> Normal Mode.
 	vim.keymap.set("i", "<C-q>", "<Esc>", { desc = "Exit Insert Mode" })
 
-	-- 2. Visual/Select Mode -> Normal Mode
-	-- (Cancels selection)
+	-- Visual/Select Mode -> Normal Mode.
 	vim.keymap.set("v", "<C-q>", "<Esc>", { desc = "Exit Visual Mode" })
 
-	-- 3. Command Mode -> Normal Mode
-	-- (Closes the : command line if you change your mind)
+	-- Command Mode -> Normal Mode.
 	vim.keymap.set("c", "<C-q>", "<C-c>", { desc = "Exit Command Mode" })
 
-	-- 4. Terminal Mode -> Normal Mode
-	-- (This goes inside an Autocmd to ensure it attaches to every terminal)
+	-- Terminal Mode -> Normal Mode.
 	vim.api.nvim_create_autocmd("TermOpen", {
 		desc = "Universal Exit Binding for Terminals",
 		callback = function()
-			-- Map terminal exit chords buffer-locally for each terminal.
 			local opts = { buffer = 0, nowait = true }
 
 			vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], opts)
 			vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], opts)
 
-			-- KEEP your navigation chords here too!
 			vim.keymap.set("t", "<C-a>h", [[<C-\><C-n><cmd>TmuxNavigateLeft<cr>]], opts)
 			vim.keymap.set("t", "<C-a>j", [[<C-\><C-n><cmd>TmuxNavigateDown<cr>]], opts)
 			vim.keymap.set("t", "<C-a>k", [[<C-\><C-n><cmd>TmuxNavigateUp<cr>]], opts)
@@ -32,64 +29,61 @@ function keybindings()
 		end,
 	})
 
-	-- Clear search highlighting
 	vim.keymap.set("n", "<leader>l", function()
-		-- 1. Clear search highlighting
 		vim.cmd.nohlsearch()
 
-		-- 2. Update diffs (if the current window is in diff mode)
 		if vim.wo.diff then
 			vim.cmd.diffupdate()
 		end
 
-		-- 3. Redraw the screen (Equivalent to <C-L>)
 		vim.cmd("redraw!")
 	end, { desc = "Clear highlights, update diffs & redraw" })
 
-	-- Tabline navigation (respects pagination)
-	-- Leader + number: jump to tab on current page
 	for i = 1, 10 do
-		number_key = i % 10
+		local number_key = i % 10
 		vim.keymap.set("n", "<leader>" .. number_key, function()
-			if vim.g.vscode then
-				require("vscode").call("workbench.action.openEditorAtIndex" .. i)
+			if vscode.enabled() then
+				vscode.open_editor_at_index(i)
 			else
-				_G.jump_to_tab_on_page(i)
+				numbered_tabline.jump_to_page_index(i)
 			end
 		end, { desc = "Go to tab " .. i .. " on current page" })
 	end
 
-	-- Tabline page navigation (Tab/S-Tab in normal mode)
 	vim.keymap.set("n", "<Tab>", function()
-		_G.tabline_next_page()
+		if vscode.enabled() then
+			vscode.next_editor()
+		else
+			numbered_tabline.next_page()
+		end
 	end, { desc = "Next tabline page" })
 
 	vim.keymap.set("n", "<S-Tab>", function()
-		_G.tabline_prev_page()
+		if vscode.enabled() then
+			vscode.previous_editor()
+		else
+			numbered_tabline.prev_page()
+		end
 	end, { desc = "Previous tabline page" })
 
 	vim.keymap.set("n", "<C-X>", function()
-		if vim.g.vscode then
-			require("vscode").call("workbench.action.closeActiveEditor")
+		if vscode.enabled() then
+			vscode.close_active_editor()
 		else
 			require("snacks").bufdelete()
 		end
 	end, { desc = "Close buffer" })
 
-	if not vim.g.vscode and not package.loaded["blink.cmp"] then
-		-- Built-in completion keymaps. Blink owns these when it is loaded.
-		-- plugins.lua has the normal Tab since it needs to handle LSP + Copilot
-		-- Shift+Tab to go up
+	if not vscode.enabled() and not package.loaded["blink.cmp"] then
 		vim.keymap.set("i", "<S-Tab>", function()
 			return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
 		end, { expr = true })
-		-- If menu is open, confirm selection. If not, just insert a newline.
+
 		vim.keymap.set("i", "<CR>", function()
 			return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
 		end, { expr = true })
 	end
 
-	-- LSP rename with prompt + autosave of files changed by the rename edit.
 	vim.keymap.set("n", "<leader>cr", function()
 		local current_name = vim.fn.expand("<cword>")
 		vim.ui.input({ prompt = "Rename to: ", default = current_name }, function(new_name)
@@ -159,16 +153,16 @@ function keybindings()
 		end)
 	end, { desc = "LSP Rename" })
 
-	-- Toggle inlay hints
 	vim.keymap.set("n", "<leader>ih", function()
 		local bufnr = vim.api.nvim_get_current_buf()
 		local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
 		vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
 	end, { desc = "Toggle inlay hints" })
 
-	-- Resize splits with arrow keys
 	vim.keymap.set("n", "<leader><Up>", "<cmd>resize -5<CR>", { silent = true })
 	vim.keymap.set("n", "<leader><Down>", "<cmd>resize +5<CR>", { silent = true })
 	vim.keymap.set("n", "<leader><Left>", "<cmd>vertical resize -5<CR>", { silent = true })
 	vim.keymap.set("n", "<leader><Right>", "<cmd>vertical resize +5<CR>", { silent = true })
 end
+
+return M

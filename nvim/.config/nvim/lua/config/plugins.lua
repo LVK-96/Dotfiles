@@ -9,7 +9,7 @@ local function add(spec)
 	plugins[#plugins + 1] = spec
 end
 
-local regular_nvim = not vim.g.vscode
+local regular_nvim = not require("config.vscode").enabled()
 if regular_nvim then
 	-- Themes and UI
 	add(gh("ishan9299/nvim-solarized-lua"))

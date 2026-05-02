@@ -86,6 +86,4 @@ function M.setup()
 	setup_commands()
 end
 
-M.setup()
-
 return M

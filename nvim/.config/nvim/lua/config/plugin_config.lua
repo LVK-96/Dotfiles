@@ -1,6 +1,6 @@
 local M = {}
 
-local regular_nvim = not vim.g.vscode
+local regular_nvim = not require("config.vscode").enabled()
 
 local function notify_error(message)
 	vim.schedule(function()
@@ -220,7 +220,7 @@ local function setup_fzf_lua()
 			if root and root ~= "" then
 				return root
 			end
-			return vim.loop.cwd()
+			return vim.uv.cwd()
 		end
 
 		local git_root = get_git_root()
@@ -864,25 +864,31 @@ function M.init()
 end
 
 function M.setup()
-	setup_theme()
-	setup_statusline()
-	setup_fyler()
-	setup_fzf_lua()
+	if regular_nvim then
+		setup_theme()
+		setup_statusline()
+		setup_fyler()
+		setup_fzf_lua()
+	end
+
 	setup_mini_modules()
-	setup_navigation_extras()
-	setup_blink_cmp()
-	setup_tmux_navigator()
-	setup_gitsigns()
-	setup_fugitive()
-	setup_codediff()
-	setup_neogit_diff_matches()
-	setup_neogit()
-	setup_treesitter()
-	setup_enhancements()
-	setup_rustaceanvim()
-	setup_metals()
-	setup_copilot()
-	setup_sidekick()
+
+	if regular_nvim then
+		setup_navigation_extras()
+		setup_blink_cmp()
+		setup_tmux_navigator()
+		setup_gitsigns()
+		setup_fugitive()
+		setup_codediff()
+		setup_neogit_diff_matches()
+		setup_neogit()
+		setup_treesitter()
+		setup_enhancements()
+		setup_rustaceanvim()
+		setup_metals()
+		setup_copilot()
+		setup_sidekick()
+	end
 end
 
 return M

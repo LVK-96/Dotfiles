@@ -1,4 +1,8 @@
-function sane_defaults()
+local M = {}
+
+function M.setup()
+	local vscode = require("config.vscode")
+
 	-- Indentation
 	vim.opt.tabstop = 4
 	vim.opt.shiftwidth = 4
@@ -9,7 +13,7 @@ function sane_defaults()
 
 	-- UI Config
 	vim.opt.shortmess:append("I")
-	if not vim.g.vscode then
+	if not vscode.enabled() then
 		vim.opt.number = true
 		vim.opt.relativenumber = true
 		vim.opt.scrolloff = 10
@@ -46,3 +50,5 @@ function sane_defaults()
 	-- Formatting
 	vim.opt.formatoptions:append("j") -- Remove comment leader when joining lines
 end
+
+return M
