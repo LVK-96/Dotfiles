@@ -64,6 +64,44 @@ local function setup_diff_highlights()
 	vim.api.nvim_set_hl(0, "DiffDelete", { fg = fallback_fg, bg = diff_highlights.line_delete })
 end
 
+local function setup_neogit_highlights()
+	local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = true })
+	local normal_fg = normal and normal.fg or nil
+	local delete_fg = "#9f2d20"
+	local add_fg = "#00856f"
+
+	vim.api.nvim_set_hl(0, "NeogitDiffAdd", { fg = add_fg, bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "NeogitDiffAddHighlight", { fg = add_fg, bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "NeogitDiffAddCursor", { fg = add_fg, bg = diff_highlights.line_insert })
+	vim.api.nvim_set_hl(0, "NeogitDiffDelete", { fg = delete_fg, bg = diff_highlights.line_delete })
+	vim.api.nvim_set_hl(0, "NeogitDiffDeleteHighlight", { fg = delete_fg, bg = diff_highlights.line_delete })
+	vim.api.nvim_set_hl(0, "NeogitDiffDeleteCursor", { fg = delete_fg, bg = diff_highlights.line_delete })
+	vim.api.nvim_set_hl(0, "NeogitDiffAddInline", { fg = normal_fg, bg = diff_highlights.char_insert, bold = true })
+	vim.api.nvim_set_hl(0, "NeogitDiffDeleteInline", { fg = normal_fg, bg = diff_highlights.char_delete, bold = true })
+	vim.api.nvim_set_hl(0, "NeogitChangeDeleted", { fg = delete_fg, bold = true, italic = true })
+	vim.api.nvim_set_hl(0, "NeogitChangeDstaged", { fg = delete_fg, bold = true, italic = true })
+	vim.api.nvim_set_hl(0, "NeogitChangeDunstaged", { fg = delete_fg, bold = true, italic = true })
+	vim.api.nvim_set_hl(0, "NeogitChangeDuntracked", { fg = delete_fg, bold = true, italic = true })
+end
+
+local function add_neogit_diff_matches()
+	if not vim.bo.filetype:match("^Neogit") or vim.w.user_neogit_diff_matches then
+		return
+	end
+
+	vim.w.user_neogit_diff_matches = {
+		vim.fn.matchadd("NeogitDiffDelete", [[^-.*]], 300),
+		vim.fn.matchadd("NeogitDiffAdd", [[^+.*]], 300),
+	}
+end
+
+local function setup_neogit_diff_matches()
+	vim.api.nvim_create_autocmd({ "FileType", "WinEnter" }, {
+		group = vim.api.nvim_create_augroup("UserNeogitDiffMatches", { clear = true }),
+		callback = add_neogit_diff_matches,
+	})
+end
+
 local function setup_theme()
 	if not regular_nvim then
 		return
@@ -73,10 +111,14 @@ local function setup_theme()
 		vim.o.background = "light"
 		vim.cmd.colorscheme("solarized")
 		setup_diff_highlights()
+		setup_neogit_highlights()
 
 		vim.api.nvim_create_autocmd("ColorScheme", {
 			group = vim.api.nvim_create_augroup("UserDiffHighlights", { clear = true }),
-			callback = setup_diff_highlights,
+			callback = function()
+				setup_diff_highlights()
+				setup_neogit_highlights()
+			end,
 		})
 	end)
 end
@@ -570,6 +612,8 @@ local function setup_neogit()
 	end
 
 	safe("neogit", function()
+		setup_neogit_highlights()
+
 		require("neogit").setup({
 			diff_viewer = "codediff",
 			treesitter_diff_highlight = true,
@@ -831,6 +875,7 @@ function M.setup()
 	setup_gitsigns()
 	setup_fugitive()
 	setup_codediff()
+	setup_neogit_diff_matches()
 	setup_neogit()
 	setup_treesitter()
 	setup_enhancements()
