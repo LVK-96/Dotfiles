@@ -1,48 +1,47 @@
 local M = {}
 
-local util = require("config.plugins.util")
+local lazy = require("config.plugins.lazy")
 
-local function setup_treesitter()
-	util.safe("nvim-treesitter", function()
-		local status_ok = pcall(require, "nvim-treesitter.configs")
-		if not status_ok then
-			return
-		end
+local treesitter_filetypes = {
+	"bash",
+	"c",
+	"cpp",
+	"css",
+	"html",
+	"javascript",
+	"json",
+	"lua",
+	"markdown",
+	"python",
+	"rust",
+	"toml",
+	"typescript",
+	"yaml",
+}
 
-		require("nvim-treesitter.configs").setup({
-			sync_install = false,
-			auto_install = true,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = {
-				enable = true,
-			},
-			matchup = {
-				enable = true,
-			},
-			ensure_installed = {
-				"bash",
-				"c",
-				"cpp",
-				"css",
-				"html",
-				"javascript",
-				"json",
-				"lua",
-				"markdown",
-				"python",
-				"rust",
-				"toml",
-				"typescript",
-				"yaml",
-			},
-		})
-	end)
+local function configure_treesitter()
+	local ok, treesitter = pcall(require, "nvim-treesitter")
+	if not ok then
+		return
+	end
+
+	treesitter.setup({
+		install_dir = vim.fn.stdpath("data") .. "/site",
+	})
+
+	vim.api.nvim_create_autocmd("FileType", {
+		group = vim.api.nvim_create_augroup("UserTreesitterStart", { clear = true }),
+		pattern = treesitter_filetypes,
+		callback = function()
+			pcall(vim.treesitter.start)
+			pcall(function()
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end)
+		end,
+	})
 end
 
-local function setup_rustaceanvim()
+local function configure_rustaceanvim()
 	vim.g.rustaceanvim = {
 		server = {
 			settings = {
@@ -83,29 +82,33 @@ local function setup_rustaceanvim()
 	}
 end
 
-local function setup_metals()
-	util.safe("nvim-metals", function()
-		local metals = require("metals")
-		local metals_config = metals.bare_config()
-		metals_config.on_attach = function(client, bufnr)
-			if client:supports_method("textDocument/inlayHint") then
-				pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
-			end
+local function configure_metals()
+	local metals = require("metals")
+	local metals_config = metals.bare_config()
+	metals_config.on_attach = function(client, bufnr)
+		if client:supports_method("textDocument/inlayHint") then
+			pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
 		end
+	end
 
-		local group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = { "scala", "sbt", "java" },
-			callback = function()
-				metals.initialize_or_attach(metals_config)
-			end,
-			group = group,
-		})
-	end)
+	metals.initialize_or_attach(metals_config)
+end
+
+local function setup_rustaceanvim()
+	configure_rustaceanvim()
+	lazy.on_event("FileType", "rustaceanvim", nil, {
+		pattern = { "rust" },
+	})
+end
+
+local function setup_metals()
+	lazy.on_event("FileType", "nvim-metals", configure_metals, {
+		pattern = { "scala", "sbt", "java" },
+	})
 end
 
 function M.setup()
-	setup_treesitter()
+	configure_treesitter()
 	setup_rustaceanvim()
 	setup_metals()
 end

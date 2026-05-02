@@ -31,7 +31,6 @@ if regular_nvim then
 	add(gh("saghen/blink.cmp"))
 
 	-- Git
-	add(gh("tpope/vim-fugitive"))
 	add(gh("neogitorg/neogit"))
 	add(gh("lewis6991/gitsigns.nvim"))
 	add(gh("esmuellert/codediff.nvim"))

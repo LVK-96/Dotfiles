@@ -53,6 +53,15 @@ local function setup_theme()
 	end)
 end
 
+local function setup_snacks()
+	util.safe("snacks.nvim", function()
+		require("snacks").setup({
+			input = { enabled = true },
+			picker = { enabled = true },
+		})
+	end)
+end
+
 local function setup_enhancements()
 	vim.g.matchup_matchparen_offscreen = { method = "popup" }
 
@@ -64,6 +73,7 @@ end
 function M.setup()
 	setup_theme()
 	setup_statusline()
+	setup_snacks()
 	setup_enhancements()
 end
 
