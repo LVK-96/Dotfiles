@@ -19,11 +19,16 @@ output $laptop_output position 3640 0 scale 1
 
 # Start gtkgreet as a normal Wayland window instead of a layer-shell surface.
 # gtkgreet's layer-shell mode pins itself to GDK monitor 0, which can be the
-# left/side display. A normal window lets Sway place it on the greeter
-# workspace, whose output preference falls back when the main monitor is absent.
+# left/side display. Since this Sway instance exists only for the greeter, make
+# every normal window borderless/fullscreen so gtkgreet cannot show a titlebar.
+default_border none
+default_floating_border none
+hide_edge_borders both
+
 workspace $greeter_workspace output $main_output $side_output $laptop_output
-assign [app_id="wtf.kl.gtkgreet"] workspace $greeter_workspace
-for_window [app_id="wtf.kl.gtkgreet"] fullscreen enable, focus
+assign [app_id=".*"] workspace $greeter_workspace
+for_window [app_id=".*"] border none, fullscreen enable, focus
+for_window [title=".*"] border none, fullscreen enable, focus
 
 exec "swaymsg workspace $greeter_workspace; env GTK_THEME=Adwaita:dark gtkgreet -c 'sway --unsupported-gpu'; swaymsg exit"
 
