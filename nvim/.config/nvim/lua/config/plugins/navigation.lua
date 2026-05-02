@@ -34,9 +34,50 @@ local function configure_fyler()
 			},
 		},
 	})
+
+	pcall(vim.api.nvim_del_augroup_by_name, "UserFylerDirectoryAutoload")
+end
+
+local function open_directory_buffer_with_fyler(bufnr)
+	vim.schedule(function()
+		if not vim.api.nvim_buf_is_valid(bufnr) or vim.api.nvim_get_current_buf() ~= bufnr then
+			return
+		end
+
+		local dirname = vim.api.nvim_buf_get_name(bufnr)
+		if dirname == "" or vim.fn.isdirectory(dirname) ~= 1 or vim.bo[bufnr].filetype == "fyler" then
+			return
+		end
+
+		lazy.run("fyler.nvim", configure_fyler, function()
+			if vim.api.nvim_buf_is_valid(bufnr) then
+				vim.api.nvim_buf_delete(bufnr, { force = true })
+			end
+			require("fyler").open({ dir = dirname })
+		end)
+	end)
+end
+
+local function setup_fyler_directory_autoload()
+	vim.api.nvim_create_autocmd("BufEnter", {
+		group = vim.api.nvim_create_augroup("UserFylerDirectoryAutoload", { clear = true }),
+		callback = function(args)
+			open_directory_buffer_with_fyler(args.buf)
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("VimEnter", {
+		group = vim.api.nvim_create_augroup("UserFylerStartupDirectory", { clear = true }),
+		once = true,
+		callback = function()
+			open_directory_buffer_with_fyler(vim.api.nvim_get_current_buf())
+		end,
+	})
 end
 
 local function setup_fyler()
+	setup_fyler_directory_autoload()
+
 	lazy.map("n", "<leader>e", "fyler.nvim", configure_fyler, function()
 		require("fyler").toggle({ kind = "split_left_most" })
 	end, { desc = "Toggle file tree" })

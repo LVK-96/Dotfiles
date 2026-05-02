@@ -8,8 +8,6 @@ function M.setup()
 		extension = {
 			bcf = "bcf",
 			jsx = "typescript.tsx",
-			n = "cpp",
-			p = "cpp",
 			sbt = "scala",
 			sv = "systemverilog",
 			sva = "systemverilog",
