@@ -17,12 +17,15 @@ output $side_output mode 1920x1080 position 0 0 transform 90 scale 1
 output $main_output mode 2560x1440 position 1080 156 scale 1
 output $laptop_output position 3640 0 scale 1
 
-# Start gtkgreet from a workspace that is explicitly preferred on the main
-# output. Without this, Sway may keep startup focus on the first/leftmost
-# output and the login form opens there.
+# Start gtkgreet as a normal Wayland window instead of a layer-shell surface.
+# gtkgreet's layer-shell mode pins itself to GDK monitor 0, which can be the
+# left/side display. A normal window lets Sway place it on the greeter
+# workspace, whose output preference falls back when the main monitor is absent.
 workspace $greeter_workspace output $main_output $side_output $laptop_output
+assign [app_id="wtf.kl.gtkgreet"] workspace $greeter_workspace
+for_window [app_id="wtf.kl.gtkgreet"] fullscreen enable, focus
 
-exec "swaymsg workspace $greeter_workspace; env GTK_THEME=Adwaita:dark gtkgreet -l -c 'sway --unsupported-gpu'; swaymsg exit"
+exec "swaymsg workspace $greeter_workspace; env GTK_THEME=Adwaita:dark gtkgreet -c 'sway --unsupported-gpu'; swaymsg exit"
 
 input type:keyboard {
     repeat_delay 200
