@@ -1,17 +1,21 @@
 {
   "lastChangelogVersion": "0.72.1",
-  "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5.3-codex",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "theme": "alabaster-dark",
   "enabledModels": [
-    "google-antigravity/claude-opus-4-6-thinking",
-    "google-antigravity/gemini-3.1-pro-high",
     "openai-codex/gpt-5.5",
     "openai-codex/gpt-5.4-mini",
     "openai-codex/gpt-5.3-codex-spark",
     "github-copilot/gpt-5-mini",
-    "github-copilot/gpt-5.3-codex"
+    "github-copilot/gpt-5.2-codex",
+    "opencode-go/qwen3.6-plus",
+    "opencode-go/minimax-m2.7",
+    "opencode-go/mimo-v2.5-pro",
+    "opencode-go/kimi-k2.6",
+    "opencode-go/glm-5.1",
+    "opencode-go/deepseek-v4-pro"
   ],
   "autocompleteMaxVisible": 7,
   "steeringMode": "all",
