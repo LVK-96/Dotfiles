@@ -1,6 +1,6 @@
 [general]
 import = [
-    "solarized_light.toml"
+    "themes/themes/alabaster_dark.toml"
 ]
 
 [font]

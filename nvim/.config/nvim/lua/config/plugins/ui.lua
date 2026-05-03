@@ -37,19 +37,9 @@ local function setup_statusline()
 end
 
 local function setup_theme()
-	util.safe("nvim-solarized-lua", function()
-		vim.o.background = "light"
-		vim.cmd.colorscheme("solarized")
-		util.setup_diff_highlights()
-		util.setup_neogit_highlights()
-
-		vim.api.nvim_create_autocmd("ColorScheme", {
-			group = vim.api.nvim_create_augroup("UserDiffHighlights", { clear = true }),
-			callback = function()
-				util.setup_diff_highlights()
-				util.setup_neogit_highlights()
-			end,
-		})
+	util.safe("alabaster.nvim", function()
+		vim.o.background = "dark"
+		vim.cmd.colorscheme("alabaster")
 	end)
 end
 

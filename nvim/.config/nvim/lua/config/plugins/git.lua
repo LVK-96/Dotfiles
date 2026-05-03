@@ -68,38 +68,14 @@ local function setup_gitsigns()
 	lazy.on_event({ "BufReadPre", "BufNewFile" }, "gitsigns.nvim", configure_gitsigns)
 end
 
-local function apply_codediff_highlights()
-	local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = true })
-	local normal_fg = normal and normal.fg or nil
-	local diff_highlights = util.diff_highlights
-
-	vim.api.nvim_set_hl(0, "CodeDiffLineInsert", { fg = normal_fg, bg = diff_highlights.line_insert })
-	vim.api.nvim_set_hl(0, "CodeDiffLineDelete", { fg = normal_fg, bg = diff_highlights.line_delete })
-	vim.api.nvim_set_hl(0, "CodeDiffCharInsert", { fg = normal_fg, bg = diff_highlights.char_insert })
-	vim.api.nvim_set_hl(0, "CodeDiffCharDelete", { fg = normal_fg, bg = diff_highlights.char_delete })
-end
-
 local function configure_codediff()
 	require("codediff").setup({
-		highlights = {
-			line_insert = "DiffAdd",
-			line_delete = "DiffDelete",
-			char_insert = util.diff_highlights.char_insert,
-			char_delete = util.diff_highlights.char_delete,
-		},
 		close_on_open_in_prev_tab = false,
-	})
-
-	apply_codediff_highlights()
-	vim.api.nvim_create_autocmd("ColorScheme", {
-		group = vim.api.nvim_create_augroup("UserCodeDiffHighlights", { clear = true }),
-		callback = apply_codediff_highlights,
 	})
 end
 
 local function configure_neogit()
 	lazy.setup_once("codediff.nvim", configure_codediff)
-	util.setup_neogit_highlights()
 
 	require("neogit").setup({
 		diff_viewer = "codediff",

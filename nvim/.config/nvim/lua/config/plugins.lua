@@ -12,7 +12,7 @@ end
 local regular_nvim = not require("config.vscode").enabled()
 if regular_nvim then
 	-- Themes and UI
-	add(gh("ishan9299/nvim-solarized-lua"))
+	add(gh("dchinmay2/alabaster.nvim"))
 	add(gh("nvim-tree/nvim-web-devicons"))
 	add(gh("nvim-mini/mini.statusline"))
 

@@ -15,12 +15,12 @@ exec_always {
     gsettings set org.gnome.desktop.interface font-name 'Adwaita Sans 11'
     gsettings set org.gnome.desktop.interface document-font-name 'Adwaita Sans 11'
     gsettings set org.gnome.desktop.interface monospace-font-name 'AdwaitaMono Nerd Font 11'
-    gsettings set org.gnome.desktop.interface color-scheme 'default'
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
-client.focused          #268bd2 #268bd2 #fdf6e3 #268bd2 #268bd2
-client.focused_inactive #93a1a1 #93a1a1 #fdf6e3 #93a1a1 #93a1a1
-client.urgent           #dc322f #dc322f #fdf6e3 #dc322f #dc322f
+client.focused          #71aed7 #71aed7 #0e1415 #71aed7 #71aed7
+client.focused_inactive #333333 #333333 #cecece #333333 #333333
+client.urgent           #d2322d #d2322d #0e1415 #d2322d #d2322d
 
 floating_modifier $mod
 default_border pixel 2

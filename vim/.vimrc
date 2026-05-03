@@ -15,7 +15,8 @@ set sidescrolloff=8
 set nocursorline
 set signcolumn=yes
 set laststatus=2
-set termguicolors
+" Let the terminal emulator control the palette
+set notermguicolors
 set ignorecase
 set smartcase
 set hlsearch
@@ -86,7 +87,7 @@ set tabline=%!MyTabLine()
 set statusline=%f\ %m\ %r\ %h\ %w\ %=\ (%Y)\ [%l/%L,\ %c]
 
 set background=dark
-silent! colorscheme industry
+colorscheme default
 
 " Return back to where we were last time
 autocmd BufReadPost *

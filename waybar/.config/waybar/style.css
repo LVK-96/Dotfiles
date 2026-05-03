@@ -1,26 +1,26 @@
 * {
   border: none;
   border-radius: 0;
-  font-family: "monospace";
+  font-family: "AdwaitaMono Nerd Font";
   font-size: 14px;
   min-height: 0;
   font-weight: bold;
 }
 
 window#waybar {
-  background: rgba(16, 18, 22, 0.92);
-  color: #d8dee9;
+  background: rgba(14, 20, 21, 0.92);
+  color: #cecece;
 }
 
 #workspaces button {
   padding: 0 8px;
-  color: #d8dee9;
+  color: #cecece;
   background: transparent;
 }
 
 #workspaces button.focused {
-  background: #4c7899;
-  color: #ffffff;
+  background: #71aed7;
+  color: #0e1415;
 }
 
 #window,
@@ -35,34 +35,34 @@ window#waybar {
 }
 
 #window {
-  color: #b8c0cc;
+  color: #7d7d7d;
   font-weight: bold;
 }
 
 #mode {
-  background: #a64b4b;
-  color: #ffffff;
+  background: #d2322d;
+  color: #0e1415;
 }
 
 #battery:not(.warning):not(.critical) {
-  color: #4cff4c; /* green */
+  color: #6abf40; /* green */
 }
 
 #bluetooth.connected {
-  color: #00ccff; /* light blue */
+  color: #178F79; /* cyan */
 }
 
 #battery.warning {
-  color: #ffcc00; /* yellow/orange */
+  color: #cd974b; /* yellow/orange */
 }
 
 #battery.critical,
 #network.disconnected,
 #bluetooth.disabled,
 #bluetooth.off {
-  color: #ff5252; /* red */
+  color: #d2322d; /* red */
 }
 
 #custom-sep {
-  color: rgba(216, 222, 233, 0.25);
+  color: rgba(206, 206, 206, 0.15);
 }

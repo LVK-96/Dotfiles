@@ -115,11 +115,11 @@
         "on-scroll": 1,
         "iso8601": true,
         "format": {
-          "months": "<span color='#d8dee9'><b>{}</b></span>",
-          "weekdays": "<span color='#b8c0cc'><b>{}</b></span>",
-          "days": "<span color='#d8dee9'>{}</span>",
-          "weeks": "<span color='#4c7899'><b>W{}</b></span>",
-          "today": "<span color='#ffffff' background='#4c7899'><b>{}</b></span>"
+          "months": "<span color='#cecece'><b>{}</b></span>",
+          "weekdays": "<span color='#7d7d7d'><b>{}</b></span>",
+          "days": "<span color='#cecece'>{}</span>",
+          "weeks": "<span color='#71aed7'><b>W{}</b></span>",
+          "today": "<span color='#0e1415' background='#71aed7'><b>{}</b></span>"
         }
       }
     }

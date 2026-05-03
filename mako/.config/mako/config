@@ -1,8 +1,8 @@
-font=JetBrainsMono Nerd Font 10
-background-color=#101216dd
-text-color=#e6edf3ff
-border-color=#4c7899ff
-progress-color=over #4c7899ff
+font=AdwaitaMono Nerd Font 10
+background-color=#0e1415dd
+text-color=#cececeff
+border-color=#71aed7ff
+progress-color=over #71aed7ff
 
 default-timeout=5000
 ignore-timeout=0
