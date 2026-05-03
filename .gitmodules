@@ -1,6 +1,9 @@
-[submodule "agents/.agents/skills/pi-skills"]
-	path = agents/.agents/skills/pi-skills
+[submodule "agents/.agents/skills-repo/pi-skills"]
+	path = agents/.agents/skills-repo/pi-skills
 	url = https://github.com/badlogic/pi-skills.git
-[submodule "agents/.agents/skills/pocock-skills"]
-	path = agents/.agents/skills/pocock-skills
+[submodule "agents/.agents/skills-repo/pocock-skills"]
+	path = agents/.agents/skills-repo/pocock-skills
 	url = https://github.com/mattpocock/skills.git
+[submodule "agents/.agents/skills-repo/anthropics"]
+	path = agents/.agents/skills-repo/anthropics
+	url = https://github.com/anthropics/skills

@@ -29,7 +29,7 @@
       "src": "https://github.com/A7Lavinraj/fyler.nvim"
     },
     "fzf-lua": {
-      "rev": "9b382a9afdb5ce91b66802d405991eb765e88d16",
+      "rev": "64590411e6cf3d603d1e1bdad3a3d051f2f5a91a",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-frecency.nvim": {
@@ -123,6 +123,10 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "vim-colors-paramount": {
+      "rev": "a5601d36fb6932e8d1a6f8b37b179a99b1456798",
+      "src": "https://github.com/owickstrom/vim-colors-paramount"
     },
     "vim-matchup": {
       "rev": "dccb2d12ef2a703d2f076b3cda36a3339449d1eb",
