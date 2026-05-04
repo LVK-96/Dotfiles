@@ -38,7 +38,7 @@ if command -v playerctl >/dev/null 2>&1; then
     else
       icon_media=""
     fi
-    tooltip="${tooltip}\n${icon_media} ${artist} — ${title}"
+    tooltip="${tooltip}"$'\n'"${icon_media} ${artist} — ${title}"
   fi
 fi
 
