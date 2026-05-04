@@ -55,5 +55,6 @@ add(gh("nvim-mini/mini.snippets"))
 add(gh("nvim-mini/mini.splitjoin"))
 add(gh("andymass/vim-matchup"))
 add(gh("nvim-lua/plenary.nvim"))
+add(gh("NMAC427/guess-indent.nvim"))
 
 return plugins

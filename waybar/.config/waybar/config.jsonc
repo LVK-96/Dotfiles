@@ -16,7 +16,7 @@
       "battery",
       "power-profiles-daemon",
       "custom/sep",
-      "pulseaudio",
+      "custom/audio",
       "custom/sep",
       "clock"
     ],
@@ -30,6 +30,17 @@
     },
     "sway/window": {
       "max-length": 80
+    },
+    "custom/audio": {
+      "exec": "~/.config/waybar/scripts/volume-media.sh",
+      "interval": 1,
+      "return-type": "json",
+      "tooltip": true,
+      "on-click": "~/.config/waybar/scripts/audio-click.sh",
+      "on-click-middle": "pavucontrol",
+      "on-click-right": "~/.config/waybar/scripts/volume-mute.sh",
+      "on-scroll-up": "~/.config/waybar/scripts/volume-scroll.sh up",
+      "on-scroll-down": "~/.config/waybar/scripts/volume-scroll.sh down"
     },
     "network": {
       "format-wifi": "{icon}",
@@ -92,18 +103,6 @@
         "󰁹"   // 100%
       ]
     },
-    "pulseaudio": {
-      "format": "{icon}",
-      "format-muted": "󰝟",
-      "format-icons": {
-        "default": ["󰕿", "󰖀", "󰕾"]
-      },
-      "tooltip-format": "{desc} {volume}%",
-      "on-click": "pavucontrol",
-      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-      "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
-      "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-    },
     "clock": {
       "format": "{:%d-%m-%Y  %H:%M} ",
       "format-alt": "{:%a %d %b    %H:%M} ",
@@ -121,7 +120,8 @@
           "weeks": "<span color='#71aed7'><b>W{}</b></span>",
           "today": "<span color='#0e1415' background='#71aed7'><b>{}</b></span>"
         }
-      }
+      },
+      "on-click-right": "evolution -c calendar"
     }
   },
   {

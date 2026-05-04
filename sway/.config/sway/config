@@ -1,5 +1,5 @@
 set $mod Mod4
-set $terminal ghostty
+set $terminal alacritty
 set $menu rofi -show combi -combi-modes "drun,window,run"
 set $lock ~/.config/sway/lock.sh
 set $screenshot ~/.config/sway/screenshot.sh
@@ -174,27 +174,26 @@ bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindsym XF86MonBrightnessUp exec brightnessctl set +10%
 bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
-for_window [app_id="pavucontrol"] {
-    floating enable
-    resize set 800px 600px
-}
-for_window [app_id="qalculate"] floating enable
+set $float_1920_1200 floating enable; resize set 1920px 1200px
+set $float_1000_600  floating enable; resize set 1000px 600px
+set $float_800_600  floating enable; resize set 800px 600px
+set $float_800_450  floating enable; resize set 800px 450px
+
+for_window [app_id="pavucontrol"] $float_800_600
+for_window [app_id="qalculate"] $float_800_600
+for_window [app_id="pcmanfm"] $float_1920_1200
+for_window [app_id="pcmanfm-qt"] $float_1920_1200
+for_window [class="(?i)^(pcmanfm|pcmanfm-qt)$"] $float_1920_1200
+for_window [app_id="org.gnome.Evolution"] $float_1920_1200
+for_window [class="(?i)^evolution$"] $float_1920_1200
+
 # Firefox PiP reports stable browser identifiers, so match both Wayland and
 # XWayland variants explicitly.
-for_window [app_id="firefox" title="(?i)^picture(?:-in-| in )picture$"] {
-    floating enable
-    resize set 800px 450px
-}
-for_window [class="(?i)^firefox$" title="(?i)^picture(?:-in-| in )picture$"] {
-    floating enable
-    resize set 800px 450px
-}
+for_window [app_id="firefox" title="(?i)^picture(?:-in-| in )picture$"] $float_800_450
+for_window [class="(?i)^firefox$" title="(?i)^picture(?:-in-| in )picture$"] $float_800_450
 # Brave PiP currently exposes an empty app_id in Sway, so title match is the
 # only reliable criteria available here.
-for_window [title="(?i)^picture in picture$"] {
-    floating enable
-    resize set 800px 450px
-}
+for_window [title="(?i)^picture in picture$"] $float_800_450
 
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_RUNTIME_DIR XDG_CURRENT_DESKTOP XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS
 exec_always --no-startup-id ~/.config/sway/autostart.sh

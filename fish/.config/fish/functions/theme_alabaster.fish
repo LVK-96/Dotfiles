@@ -18,7 +18,7 @@ function theme_alabaster
     set -g fish_color_search_match --background=yellow
     set -g fish_color_operator cyan
     set -g fish_color_escape red
-    set -g fish_color_autosuggestion brblack
+    set -g fish_color_autosuggestion brblue
 
     # Prompt colors
     set -g fish_color_user blue
@@ -30,7 +30,7 @@ function theme_alabaster
     # Pager
     set -g fish_pager_color_progress cyan
     set -g fish_pager_color_prefix normal --bold
-    set -g fish_pager_color_completion normal
+    set -g fish_pager_color_completion brwhite
     set -g fish_pager_color_description brblack
     set -g fish_pager_color_selected_background black
 end

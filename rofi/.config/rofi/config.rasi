@@ -16,4 +16,4 @@ configuration {
     terminal: "alacritty";
 }
 
-@theme "/usr/share/rofi/themes/Paper.rasi"
+@theme "themes/alabaster_dark.rasi"
